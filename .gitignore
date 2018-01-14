@@ -3,3 +3,6 @@
 *.a
 *.dx86cl
 .DS_Store
+*.dump
+*.bytes
+*.xcuserstate
