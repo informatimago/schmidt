@@ -19,7 +19,7 @@ and sets off-line.
 
 
 ::
-   
+
     entry ::= directory | program-file .
     directory ::= name { entry } .
     program-file ::= name { program } .
