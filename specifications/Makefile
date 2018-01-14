@@ -3,6 +3,7 @@
 PDFS= specifications.pdf
 all:documents
 documents:$(PDFS)
+	open $(PDFS)
 include ../tools/common.make
 
 .PHONY::  questions tbd

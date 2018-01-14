@@ -1,0 +1,5 @@
+*~
+*.o
+*.a
+*.dx86cl
+.DS_Store

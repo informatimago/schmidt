@@ -46,14 +46,22 @@ default list.
 
 
 - Edit the list of default categories:
+
    - select the default list of categories.
+
    - select a category in the default list.
+
    - edit its name.
 
+
 - Edit the list of categories of a Set:
+
    - select a Set.
+
    - select the list of categories.
+
    - select a category in the default list.
+
    - edit its name.
 
 
@@ -69,6 +77,43 @@ manual synchronization.
 
 - Configure MIDI: select the MIDI bus and the Send and Receive MIDI Channels.
 
-- Listen for Sysex messages to automatically initiate the reception of banks.
+- Listen for Sysex messages to automatically initiate the reception of
+  banks.  When received a bank Sysex, store it in a new Bank, and
+  store the bank in a new Set.  The banks are numbered, so we can fill
+  the Set. A new Set is created if a bank of the same kind and number
+  is sent again.  The bank and sets are automatically given a default
+  name containing a time stamp.
 
 - Listen for program changes and NPRN messages to automatically update the current program.
+
+- Send a Bank:
+
+  - select a Bank,
+
+  - activate the sending process (click on the send button).
+
+- Send a Set:
+
+  - select a Set,
+
+  - activate the sending process (click on the send button): this will
+    send each bank in the set in turn, waiting for user confirmation
+    between the sending of two banks (so the user may save the bank on
+    the Schmidt synthesizer, in the right place).
+
+
+
+Sets and Banks are stored each their own hierarchical directory structure.
+
+- Select the Set directory structure.  There is a selected directory.
+
+  - Select another directory (by touching it, or typing an arrow, or name prefix).
+
+  - Rename the selected directory.
+
+  - Move a sub-directory to another directory.
+
+
+
+
+

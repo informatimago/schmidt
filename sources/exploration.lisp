@@ -101,6 +101,22 @@
     (dump-block (subseq sysex end))))
 
 
+(defmacro with-output-to-file (path-and-option &body body)
+  (let ((path   (if (atom path-and-option)
+                    path-and-option
+                    (first path-and-option)))
+        (append (if (atom path-and-option)
+                    nil
+                    (member :append (rest path-and-option)))))
+    `(with-open-file (*standard-output* ,path
+                                        :direction :output
+                                        :if-does-not-exist :create
+                                        :if-exists ,(if append
+                                                        :append
+                                                        :supersede))
+       ,@body)))
+
+
 (defun dump-syxes ()
   (loop
     :with destination-directory := (append (pathname-directory (user-homedir-pathname))
@@ -145,6 +161,11 @@
 (dump-syxes)
 
 (print-bank (sysex-data *sysex*))
+
+(progn
+  (with-output-to-file "a"  (dump-block (program *bank* 8)) (terpri))
+  (with-output-to-file "b"  (dump-block (program *bank* 9)) (terpri))
+  (with-output-to-file "c"  (dump-block (program *bank* 10)) (terpri)))
 
 (with-open-file (*standard-output* "~/works/synth/schmidt/schmidt.out"
                                    :direction :output
