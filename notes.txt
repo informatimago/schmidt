@@ -1,0 +1,43 @@
+Schimdt_Manual_E_121_Web.pdf Errata
+========================================
+
+- In the MIDI parameter sections, several occurences of the mapping for
+  oscillators contain a typo "Osz2" for "Osz3":
+
+    00: Osz1
+    01: Osz2
+    10: Osz2
+    11: Osz4
+
+- Everywhere, the second unit shall be written in lower case, for example: 2ms…21s
+
+- Several occurences of "Dacay2" --> "Decay 2"
+
+- page 110: Apparently, the DF2 section header is missing; the
+  parameters from the bottom of this page from Velocity 126, and top
+  of page 111 seem to be related to DF2.
+
+
+- Glide/bend Pitch Bend ranges are not disjoint!  1…28 should probably be 15…28.
+
+- Missing a section explaining the format of the SysEx messages, such as:
+
+    !!! ADD SysEx DOC HERE !!!
+
+
+
+Feature requests
+========================================
+
+MIDI Implementation
+----------------------------------------
+
+It would be useful to provide several sysex message to be able to
+command program and bank reading and writing (dumping and
+reception/saving), so that a librarian software may be implemented.
+
+- The MIDI sysex messages to request programs (single, multi) and banks dumps are not specified.
+- The MIDI sysex messages to command writing a program or a bank are not specified.
+- The format of the MIDI sysex bank dumps message is not specified.
+
+
