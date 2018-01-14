@@ -1,0 +1,74 @@
+.. comment: -*- mode:rst; coding:utf-8 -*-
+
+
+Specifications MIDI Librarian
+############################################################
+
+
+
+The `MIDI Librarian` application lets the user edit sets and banks of
+programs, to save sysex files (.syx) containing programs, banks or
+sets, and when possible, to communicate with the MIDI synthesizer to
+transfer programs, banks or sets, either in batch or during
+interactive use.
+
+Additionnal entities may be edited, to help organizing programs, banks
+and sets off-line.
+
+
+
+
+::
+   
+    entry ::= directory | program-file .
+    directory ::= name { entry } .
+    program-file ::= name { program } .
+    program ::= name category data .
+    bank ::= number 256* program .
+    set  :=  8* bank . -- unique bank numbers.y
+
+    category ::= name color .
+    categories ::= 64* category . -- unique colors.
+
+
+
+
+
+Functionalities
+------------------------------------------------------------
+
+
+
+For the Schmidt Synthesizer, the `categories` are names given to the
+predefined set of colors (0…63).  `Categories` are lists of 64 names.
+Each `Set` has it own list of `Categories`, initialized with the
+default list.
+
+
+- Edit the list of default categories:
+   - select the default list of categories.
+   - select a category in the default list.
+   - edit its name.
+
+- Edit the list of categories of a Set:
+   - select a Set.
+   - select the list of categories.
+   - select a category in the default list.
+   - edit its name.
+
+
+
+
+Currently, we can only transfer single banks or multi banks manually.
+Sending or receiving a whole set requires 16 manual operations (8
+single banks, and 8 multi banks).
+
+Therefore we will provide the basic functionality of sending and
+receiving banks.  Sending a Set will involve sending the 16 banks with
+manual synchronization.
+
+- Configure MIDI: select the MIDI bus and the Send and Receive MIDI Channels.
+
+- Listen for Sysex messages to automatically initiate the reception of banks.
+
+- Listen for program changes and NPRN messages to automatically update the current program.

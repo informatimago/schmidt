@@ -1,0 +1,51 @@
+This file is part of UML library.
+
+UML is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+UML is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with UML.  If not, see <http://www.gnu.org/licenses/>.
+
+README
+======
+
+To test the functionalities write:
+
+CL-USER> (uml:define-use-case "Administrator Logs In"
+	                      :primary-actor "`Administrator`_"
+			      :goal-in-context "`Administrator`_ is Logged In"
+			      :scope "Administrative scope."
+			      :level "N/A."
+			      :brief-description "The `Administrator`_ enters the password or uses a cryptographic authentication methods to log in the system."
+			      :conditions (:pre ("Access to the `User Interface`_" "`Administrator`_ is not logged in")
+					   :post ("`Administrator`_ is logged in"))
+			      :flows (:basic ("`Administrator`_ enters password or uses a cryptographic authentication")
+				      :alternate ("`Administrator`_ enters a wrong password/cryptographic authentication")
+				      :exception ("N/A")))
+
+(:PRIMARY-ACTOR "`Administrator`_" :GOAL-IN-CONTEXT
+ "`Administrator`_ is Logged In" :SCOPE "Administrative scope." :LEVEL "N/A."
+ :BRIEF-DESCRIPTION
+ "The `Administrator`_ enters the password or uses a cryptographic authentication methods to log in the system."
+ :CONDITIONS
+ (:PRE ("Access to the `User Interface`_" "`Administrator`_ is not logged in")
+  :POST ("`Administrator`_ is logged in"))
+ :FLOWS
+ (:BASIC
+  ("`Administrator`_ enters password or uses a cryptographic authentication")
+  :ALTERNATE
+  ("`Administrator`_ enters a wrong password/cryptographic authentication")
+  :EXCEPTION ("N/A")))
+CL-USER> (uml:create-use-case-file :file-pathname #p"u-test.txt"
+				   :use-case-name "Administrator Logs In")
+NIL
+CL-USER>
+
+Then open the file u-test.txt and see the result!

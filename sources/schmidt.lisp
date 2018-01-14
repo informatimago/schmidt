@@ -88,6 +88,13 @@
 
 #|
 
+Single Set =  8 Single Banks
+Single Bank = 128 Single Presets
+
+Multi Set = 8 Multi Banks
+Multi Bank = 32 Multi Presets
+
+
 Schmidt Synthesizer SysEx Headers
 ########################################
 

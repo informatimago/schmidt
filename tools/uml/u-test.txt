@@ -1,0 +1,57 @@
+.. comment: -*- mode:rst; coding:utf-8; electric-indent-mode:nil; tab-always-indent:t -*-
+
+Use Case: Administrator Logs In
+================================================================================
+
+Primary Actor
+--------------------------------------------------------------------------------
+
+`Administrator`_
+
+Basic Flow
+--------------------------------------------------------------------------------
+
+#. `Administrator`_ enters password or uses a cryptographic authentication. 
+
+Alternate Flow
+--------------------------------------------------------------------------------
+
+#. `Administrator`_ enters a wrong password/cryptographic authentication. 
+
+Exception Flow
+--------------------------------------------------------------------------------
+
+#. N/A. 
+
+Brief Description
+--------------------------------------------------------------------------------
+
+The `Administrator`_ enters the password or uses a cryptographic authentication methods to log in the system.
+
+Precondition
+--------------------------------------------------------------------------------
+
+- Access to the `User Interface`_;
+
+ - `Administrator`_ is not logged in. 
+
+Postcondition
+--------------------------------------------------------------------------------
+
+- `Administrator`_ is logged in. 
+
+Goal in Context
+--------------------------------------------------------------------------------
+
+`Administrator`_ is Logged In
+
+Level
+--------------------------------------------------------------------------------
+
+N/A.
+
+Scope
+--------------------------------------------------------------------------------
+
+Administrative scope.
+
