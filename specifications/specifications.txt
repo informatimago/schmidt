@@ -103,17 +103,78 @@ manual synchronization.
 
 
 
-Sets and Banks are stored each their own hierarchical directory structure.
+Sets and Banks are stored each in their own hierarchical directory
+tree.  Programs are usually stored in banks, but they can also be
+stored stand-alone in their own hierarchical directory tree.
 
-- Select the Set directory structure.  There is a selected directory.
+Manipulation of a directory tree:
 
-  - Select another directory (by touching it, or typing an arrow, or name prefix).
+- create directory
+- rename directory
+- move directories and items in the tree
+- delete an empty directory
+- delete recursively a filled directory (!)
+- create an item in a directory
+- delete an item from a directory
+- rename an item from a directory
+- select one or more items in the directory tree (for further manipulations, like opening, etc).
 
-  - Rename the selected directory.
 
-  - Move a sub-directory to another directory.
+Manipulation of Banks
+
+- open a bank : the list of programs in the bank is shown.
+
+- close an opened bank.
+
+Banks can be selected from the bank directory tree (from any "open"
+directory), from the desktop, or from open Sets.
+
+- move (or make copies) from one to eight selected banks, to the
+  directory tree, the desktop or to an existing open set.
+
+- create a new set and fill it with (copies of) the selected banks.
+
+- send from one to eight selected banks to a Schmidt synthesizer
+  (represented as an icon on the desktop).
 
 
+Manipulation of Sets
 
+- open a set :  the list of banks in the set is shown.
+
+- close an opened set.
+
+Sets can be selected from the set directory tree (from any "open"
+directory), or from the desktop.
+
+- move (or make copies) of the selected sets to the directory tree or
+  the desktop.
+
+- send one selected set to a Schmidt synthesizer
+  (represented as an icon on the desktop).
+
+
+Manipulation of Programs
+
+- open a program : shows the parameters of the program.
+- close an opened program.
+- rename a program
+- set the category/color of selected programs.
+
+Programs can be selected from the program directory tree (from any "open"
+directory), from the desktop, or from an open bank.
+
+- move (or make copies) of the selected programs to the directory
+  tree, the desktop, or an open bank.
+
+- send one selected program to a Schmidt synthesizer (currently, this
+  only configures the current program of the synthesizer sending NPRN
+  messages).
+
+
+Manipulation of the Synthesizer icon
+
+- opening the Synthesizer icon will show the current program
+  parameters, updated as PC, BC and NPRN messages are received.
 
 
