@@ -5,9 +5,9 @@
 ;;;;SYSTEM:             Common-Lisp
 ;;;;USER-INTERFACE:     NONE
 ;;;;DESCRIPTION
-;;;;    
+;;;;
 ;;;;    Implements encoding and decoding of Schmidt Synthesizer bank MIDI SysExs.
-;;;;    
+;;;;
 ;;;;AUTHORS
 ;;;;    <PJB> Pascal J. Bourguignon <pjb@informatimago.com>
 ;;;;MODIFICATIONS
@@ -18,19 +18,19 @@
 ;;;;
 ;;;;LEGAL
 ;;;;    AGPL3
-;;;;    
+;;;;
 ;;;;    Copyright Pascal J. Bourguignon 2018 - 2018
-;;;;    
+;;;;
 ;;;;    This program is free software: you can redistribute it and/or modify
 ;;;;    it under the terms of the GNU Affero General Public License as published by
 ;;;;    the Free Software Foundation, either version 3 of the License, or
 ;;;;    (at your option) any later version.
-;;;;    
+;;;;
 ;;;;    This program is distributed in the hope that it will be useful,
 ;;;;    but WITHOUT ANY WARRANTY; without even the implied warranty of
 ;;;;    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 ;;;;    GNU Affero General Public License for more details.
-;;;;    
+;;;;
 ;;;;    You should have received a copy of the GNU Affero General Public License
 ;;;;    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 ;;;;**************************************************************************
@@ -40,22 +40,22 @@
 ;; ###################
 ;; MIDI IMPLEMENTATION
 ;; ###################
-;; 
-;; 
+;;
+;;
 ;; MIDI CONTROLLER ASSIGNMENTS
 ;; ****************************************
-;; 
+;;
 ;; CC#
 ;; Parameter       Send/Receive        Explanation             Comment
-;; 
+;;
 ;; 0/32            S/R                 Bank-Select MSB/LSB     Single/Multi:
 ;;                                                             MSB=0
 ;;                                                             LSB=0...7
-;; 
-;; 
+;;
+;;
 ;; 1/33            S/R                 Mod-Wheel MSB/LSB       LSB only sent when
 ;;                                                             Snd-CC14Bit: On
-;;                                                             
+;;
 ;; 6/38            S/R
 ;; 7/39            S/R
 ;; 64              S/R
@@ -73,11 +73,11 @@
 ;; 121             R
 ;; 122             R
 ;; 123             R
-;; 
+;;
 ;; Please note:
-;; 
+;;
 ;; NRPN:
-;; 
+;;
 ;; 1.) NRPN-Nr MSB (CC#99)
 ;; 2.) NRPN-Nr LSB (CC#98)
 ;; 3.) Data-Entry MSB (CC#38)
@@ -108,7 +108,7 @@ MIDI Sysex Format
         77
         33
         07              bank number 00 - 07 (for bank 1 to 8).
-        00 00 
+        00 00
 
     Single Bank Data:
 
@@ -357,32 +357,32 @@ character codes are in the order of the characters as they are scanned
 when entering the program name in the Schmidt Synthesizer display.
 
       0: space
-      1: A     27: a     53: 0     79: ; 
-      2: B     28: b     54: 1     80: < 
-      3: C     29: c     55: 2     81: = 
-      4: D     30: d     56: 3     82: > 
-      5: E     31: e     57: 4     83: ? 
-      6: F     32: f     58: 5     84: @ 
-      7: G     33: g     59: 6     85: [ 
-      8: H     34: h     60: 7     86: \ 
-      9: I     35: i     61: 8     87: ] 
-     10: J     36: j     62: 9     88: ^ 
-     11: K     37: k     63: !     89: _ 
-     12: L     38: l     64: "     90: ` 
-     13: M     39: m     65: #     91: { 
-     14: N     40: n     66: $     92: | 
-     15: O     41: o     67: %     93: } 
-     16: P     42: p     68: &     94: ~ 
-     17: Q     43: q     69: ' 
-     18: R     44: r     70: ( 
-     19: S     45: s     71: ) 
-     20: T     46: t     72: * 
-     21: U     47: u     73: + 
-     22: V     48: v     74: , 
-     23: W     49: w     75: - 
-     24: X     50: x     76: . 
-     25: Y     51: y     77: / 
-     26: Z     52: z     78: : 
+      1: A     27: a     53: 0     79: ;
+      2: B     28: b     54: 1     80: <
+      3: C     29: c     55: 2     81: =
+      4: D     30: d     56: 3     82: >
+      5: E     31: e     57: 4     83: ?
+      6: F     32: f     58: 5     84: @
+      7: G     33: g     59: 6     85: [
+      8: H     34: h     60: 7     86: \
+      9: I     35: i     61: 8     87: ]
+     10: J     36: j     62: 9     88: ^
+     11: K     37: k     63: !     89: _
+     12: L     38: l     64: "     90: `
+     13: M     39: m     65: #     91: {
+     14: N     40: n     66: $     92: |
+     15: O     41: o     67: %     93: }
+     16: P     42: p     68: &     94: ~
+     17: Q     43: q     69: '
+     18: R     44: r     70: (
+     19: S     45: s     71: )
+     20: T     46: t     72: *
+     21: U     47: u     73: +
+     22: V     48: v     74: ,
+     23: W     49: w     75: -
+     24: X     50: x     76: .
+     25: Y     51: y     77: /
+     26: Z     52: z     78: :
 
 
 The other parameters are either continuous parameters (potentiometers)
@@ -484,7 +484,7 @@ reverse-engineered.
 
 
     ;; OSZ 1
-          
+
     (:restriction (OSZ 1)
      :parameter "Vibrato Wave"
      :nrpn 206
@@ -734,9 +734,9 @@ reverse-engineered.
      :data-format byte
      :explanation ((byte "Value" ((range 0 255)))))
 
-          
+
     ;; OSZ 2
-          
+
     (:restriction (OSZ 2)
      :parameter "Vibrato Wave"
      :nrpn #.(+ 1 206)
@@ -900,9 +900,9 @@ reverse-engineered.
      :data-format byte
      :explanation ((byte "Value" ((range 0 255)))))
 
-          
+
     ;; OSZ 3
-          
+
     (:restriction (OSZ 3)
      :parameter "Vibrato Wave"
      :nrpn #.(+ 2 206)
@@ -1120,7 +1120,7 @@ reverse-engineered.
      :type pot
      :data-format byte
      :explanation ((byte "Value" ((range 0 255 "Mode:LFO : 0,025Hz…20Hz; Mode:Attack/Decay : 20s…25ms")))))
-          
+
     (:restriction (OSZ 3)
      :parameter "PWM Center"
      :nrpn 161
@@ -1145,10 +1145,10 @@ reverse-engineered.
      :data-format byte
      :explanation ((byte "Value" ((range 0 255)))))
 
-          
-          
+
+
     ;; OSZ 4
-          
+
     (:restriction (OSZ 4)
      :parameter "Vibrato Wave"
      :nrpn #.(+ 3 206)
@@ -1454,7 +1454,7 @@ reverse-engineered.
                      (#b1011 "Midi-Clock /1.")
                      (#b1100 "Midi-Clock *2")
                      (#b1101 "Midi-Clock *2.")))))
-          
+
     ;; DF 1/2
 
     (:restriction (DF 1/2)
@@ -1601,7 +1601,7 @@ reverse-engineered.
      :type Pot
      :data-format byte
      :explanation ((byte "Value" ((range 0 255)))))
-          
+
     (:restriction (VCF 1)
      :parameter "Attack"
      :nrpn 40
@@ -1714,7 +1714,7 @@ reverse-engineered.
                       "Fade-Time(Ramp=Fade): 60ms…10s; CLK-Rate(Ramp=CLK): 60Hz…0,15Hz")))))
 
 
-          
+
 
     ;; VCF 2
 
@@ -1806,7 +1806,7 @@ reverse-engineered.
      :type Pot
      :data-format byte
      :explanation ((byte "Value" ((range 0 255)))))
-          
+
     (:restriction (VCF 2)
      :parameter "Attack"
      :nrpn 44
@@ -1919,7 +1919,7 @@ reverse-engineered.
                     ((range 0 255
                       "Fade-Time(Ramp=Fade): 60ms…10s; CLK-Rate(Ramp=CLK): 60Hz…0,15Hz")))))
 
-          
+
     (:restriction (VCF 2)
      :Parameter "ENV-Trigger-Repeat-Rate"
      :nrpn 68
@@ -1929,7 +1929,7 @@ reverse-engineered.
      :explanation ((byte "Value" ((range 0 255 "200Hz…0,4Hz")))))
 
     ;; DF 1
-          
+
     (:restriction (DF 1)
      :parameter "Input Level A"
      :nrpn 92
@@ -2688,7 +2688,7 @@ reverse-engineered.
   (aref bank (1- (length bank))))
 
 (defun bank-compute-checksum (bank)
-  (loop 
+  (loop
     :for i :below (1- (length bank))
     :for sum := (aref bank i) :then (logand #xff (+ (aref bank i) sum))
     :finally (return sum)))
@@ -2727,7 +2727,7 @@ reverse-engineered.
                                   :for i :from 0
                                   :for j :from 7 :downto 0
                                   :for b := (ldb (byte 1 7) (aref bytes (+ s i)))
-                                  :for val := (dpb b (byte 1 j) 0) :then (dpb b (byte 1 j) val) 
+                                  :for val := (dpb b (byte 1 j) 0) :then (dpb b (byte 1 j) val)
                                   :finally (return (schmidt-code-char val)))))))
 
 (defun (setf program-name) (new-name program)
