@@ -146,7 +146,7 @@ The program parameters are numbered as documented for the NPRN MIDI
 messages sent and received when modifying the parameters of the
 current program.  Here is the list of documented parameters:
 
-    Number of parameters: 200
+    Number of parameters: 203
       1: (vcf 1) ENV Depth
       2: (vcf 2) ENV Depth
       3: (vcf 1) Cutoff
@@ -155,6 +155,9 @@ current program.  Here is the list of documented parameters:
       6: (df 2) Cutoff
       7: (osz 3) Main Pitch
       8: (osz 4) Main Tune
+     11 - 26: Program Name.
+     29: (special) Preset LED Color
+     30: (special) Preset Screen Color
      31: (vcf 1/2) VCF12 LFO-Sync-Mode
      32: (master-env/vca) Sound Volume
      33: (master-env/vca) Attack
@@ -394,9 +397,9 @@ when entering the program name in the Schmidt Synthesizer display.
 
 The other parameters are either continuous parameters (potentiometers)
 encoded on an octet, or switch parameters encoded in bitfields packed
-into octets (*).
+into octets (*, and C for the color bytes).
 
-    _WWWWWWWWH_NNNNNNNNNNNNNNNN____*********************************
+    _WWWWWWWWH_NNNNNNNNNNNNNNNN__CC*********************************
     ****************************************************************
     ****************_***********************************************
     ********************************________________________________
@@ -2652,7 +2655,60 @@ reverse-engineered.
                       (0 "Off")))
                    (F "Indiv.Filter Glide"
                     ((1 "On")
-                     (0 "Off")))))))
+                     (0 "Off")))))
+
+
+    ;; Color
+
+    (:restriction (special)
+     :parameter "Preset LED Color"
+     :nrpn 29
+     :direction S/R ; ???? Is it sent upon modification of the current program?
+     :type Switch
+     :data-format PXCCCCCC
+     :explanation ((P "Preset Color"
+                     ((1 "Specific color")
+                      (0 "Default Color")))
+                   (CCCCCC "LED Color"
+                    ((0 "Red")
+                     (6 "Yellow")
+                     (12 "Green")
+                     (17 "Cyan")
+                     (23 "Blue")
+                     (29 "Magenta")
+                     (34 "Light-Red")
+                     (40 "Light-Yellow")
+                     (46 "Light-Green")
+                     (52 "Light-Cyan")
+                     (58 "Light-Blue")
+                     (63 "Light-Magenta")))))
+
+    (:restriction (special)
+     :parameter "Preset Screen Color"
+     :nrpn 30
+     :direction S/R ; ???? Is it sent upon modification of the current program?
+     :type Switch
+     :data-format XXCCCCCC
+     :explanation ((CCCCCC "Screen Color"
+                    ((0 "Red")
+                     (6 "Yellow")
+                     (12 "Green")
+                     (17 "Cyan")
+                     (23 "Blue")
+                     (29 "Magenta")
+                     (34 "Light-Red")
+                     (40 "Light-Yellow")
+                     (46 "Light-Green")
+                     (52 "Light-Cyan")
+                     (58 "Light-Blue")
+                     (63 "Light-Magenta")))))
+
+
+    ))
+
+
+
+
 
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -2711,16 +2767,16 @@ reverse-engineered.
 
 
 (defun program (bank index)
-  (check-type bank        (vector 32768))
+  (check-type bank        (vector * 32768))
   (check-type index       (integer 0 127))
   (subseq bank (* 256 index) (* 256 (1+ index))))
 
 (defun (setf program) (new-program bank index)
-  (check-type new-program (vector 256))
-  (check-type bank        (vector 32768))
+  (check-type new-program (vector * 256))
+  (check-type bank        (vector * 32768))
   (check-type index       (integer 0 127))
   (replace bank new-program :start1 (* 256 index))
-  (update-bank-checksum banke)
+  (update-bank-checksum bank)
   new-program)
 
 
@@ -2749,6 +2805,22 @@ reverse-engineered.
                           (dpb (ldb (byte 1 k) b) (byte 1 7) (aref new-name j)))))
     (replace program new-name :start1 11 :end1 27 :start2 0)
     new-name))
+
+(defun program-colors (program)
+  (let ((preset-specific-colors  (plusp (ldb (byte 1 7) (aref program 29))))
+        (led-color               (ldb (byte 6 0) (aref program 29)))
+        (screen-color            (ldb (byte 6 0) (aref program 30))))
+    (list preset-specific-colors led-color screen-color)))
+
+(defun (setf program-colors) (new-colors program)
+  (destructuring-bind (preset-specific-colors led-color screen-color) new-colors
+    (check-type led-color    (integer 0 63))
+    (check-type screen-color (integer 0 63))
+    (setf (aref program 29) (dpb (if preset-specific-colors 1 0)
+                                 (byte 1 7)
+                                 led-color)
+          (aref program 30) screen-color)
+    (list preset-specific-colors led-color screen-color)))
 
 
 ;;----------------------------------------------------------------------
