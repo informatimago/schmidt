@@ -1,5 +1,5 @@
 //
-//  Set.swift
+//  BankSet.swift
 //  SchmidtSynthesizerLibrarian
 //
 //  Created by Pascal Bourguignon on 14/01/2018.
@@ -8,7 +8,7 @@
 
 import UIKit
 
-class Set: NamedObject {
+class BankSet: NamedObject {
 
     var data:NSData?
     var banks:[Bank]=[]

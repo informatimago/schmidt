@@ -24,6 +24,7 @@ class DesktopIcon: DesktopElement {
     override func draw(_ rect: CGRect) {
         icon?.draw(at:frame.origin)
         name.draw(in:frame)
+        super.draw(rect)
     }
 
 }

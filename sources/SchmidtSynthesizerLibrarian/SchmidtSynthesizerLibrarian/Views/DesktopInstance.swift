@@ -20,7 +20,9 @@ class DesktopInstance: DesktopElement {
 
     required init?(coder:NSCoder){
         super.init(coder:coder)
-    }
+        self.backgroundColor=UIColor.white
+   }
+
 
     override func draw(_ rect: CGRect) {
         let color:UIColor=UIColor.black
@@ -29,5 +31,6 @@ class DesktopInstance: DesktopElement {
         path.stroke()
         name.draw(in:bounds.insetBy(dx:4,dy:4))
         // draw type icon
+        super.draw(rect)
     }
 }

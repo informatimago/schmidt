@@ -21,8 +21,8 @@ class DesktopWindow: DesktopElement {
     }
 
     override func draw(_ rect:CGRect) {
-        super.draw(rect) // draw contents
         drawWindowFrame()
+        super.draw(rect) // draw contents
     }
     
     func drawWindowFrame(){

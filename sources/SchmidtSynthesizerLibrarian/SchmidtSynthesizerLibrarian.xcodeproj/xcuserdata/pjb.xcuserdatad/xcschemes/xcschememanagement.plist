@@ -4,10 +4,33 @@
 <dict>
 	<key>SchemeUserState</key>
 	<dict>
+		<key>SchmidtSynthesizerLibrarian 2.xcscheme</key>
+		<dict>
+			<key>orderHint</key>
+			<integer>1</integer>
+		</dict>
 		<key>SchmidtSynthesizerLibrarian.xcscheme</key>
 		<dict>
 			<key>orderHint</key>
 			<integer>0</integer>
+		</dict>
+	</dict>
+	<key>SuppressBuildableAutocreation</key>
+	<dict>
+		<key>2AEC6D57200BD30E00793771</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>2AEC6D6F200BD30E00793771</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>2AEC6D7A200BD30E00793771</key>
+		<dict>
+			<key>primary</key>
+			<true/>
 		</dict>
 	</dict>
 </dict>

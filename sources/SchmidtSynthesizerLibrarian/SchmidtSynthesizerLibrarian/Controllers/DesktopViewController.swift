@@ -16,7 +16,7 @@ class DesktopViewController: UIViewController {
     func typeLetter(_ instance:NamedObject) -> String {
         if(instance is Program)  {return "P"}
         if(instance is Bank)     {return "B"}
-        if(instance is Set)      {return "S"}
+        if(instance is BankSet)  {return "S"}
         return "X"
     }
 
@@ -34,7 +34,7 @@ class DesktopViewController: UIViewController {
         add(instance:Program(name:"PJB Test"))
         add(instance:Program(name:"ABCDEFGHIJKLMNOPQR"))
         add(instance:Bank(name:"Pads"))
-        add(instance:Set(name:"Concert in Paris"))
+        add(instance:BankSet(name:"Concert in Paris"))
     }
 
     override func didReceiveMemoryWarning() {
@@ -48,3 +48,5 @@ class DesktopViewController: UIViewController {
 
 
 }
+
+

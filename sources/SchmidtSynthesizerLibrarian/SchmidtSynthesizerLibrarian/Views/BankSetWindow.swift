@@ -8,11 +8,11 @@
 
 import UIKit
 
-class SetWindow: DesktopWindow {
+class BankSetWindow: DesktopWindow {
 
-    var set:Set?
+    var set:BankSet?
     
-    init(frame:CGRect,name:String,set:Set){
+    init(frame:CGRect,name:String,set:BankSet){
         super.init(frame:frame,name:name)
         self.set=set
 
