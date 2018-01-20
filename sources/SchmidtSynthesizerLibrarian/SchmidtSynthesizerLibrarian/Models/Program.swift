@@ -13,7 +13,7 @@ class Program: NamedObject {
     var data:NSData?
     var category:Category?
     
-    override init(name:String){
+    required init(name:String){
         super.init(name:name)
     }
 

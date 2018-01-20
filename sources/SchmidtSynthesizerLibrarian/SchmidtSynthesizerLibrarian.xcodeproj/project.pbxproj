@@ -21,6 +21,9 @@
 		2AD1F6C5200BE68E00FEC6A4 /* BankSetWindow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2AD1F6C4200BE68E00FEC6A4 /* BankSetWindow.swift */; };
 		2AD1F6C9200BF02B00FEC6A4 /* BankWindow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2AD1F6C8200BF02B00FEC6A4 /* BankWindow.swift */; };
 		2AD1F6CC200CF4B200FEC6A4 /* DesktopViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2AD1F6CB200CF4B200FEC6A4 /* DesktopViewController.swift */; };
+		2AD1F6CE2012D30500FEC6A4 /* Directory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2AD1F6CD2012D30500FEC6A4 /* Directory.swift */; };
+		2AD1F6D02012D44100FEC6A4 /* DirectoryEntry.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2AD1F6CF2012D44100FEC6A4 /* DirectoryEntry.swift */; };
+		2AD1F6D22012D4AC00FEC6A4 /* File.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2AD1F6D12012D4AC00FEC6A4 /* File.swift */; };
 		2AEC6D5C200BD30E00793771 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2AEC6D5B200BD30E00793771 /* AppDelegate.swift */; };
 		2AEC6D5E200BD30E00793771 /* RootViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2AEC6D5D200BD30E00793771 /* RootViewController.swift */; };
 		2AEC6D60200BD30E00793771 /* DataViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2AEC6D5F200BD30E00793771 /* DataViewController.swift */; };
@@ -30,6 +33,7 @@
 		2AEC6D6A200BD30E00793771 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 2AEC6D68200BD30E00793771 /* LaunchScreen.storyboard */; };
 		2AEC6D75200BD30E00793771 /* SchmidtSynthesizerLibrarianTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2AEC6D74200BD30E00793771 /* SchmidtSynthesizerLibrarianTests.swift */; };
 		2AEC6D80200BD30E00793771 /* SchmidtSynthesizerLibrarianUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2AEC6D7F200BD30E00793771 /* SchmidtSynthesizerLibrarianUITests.swift */; };
+		2AF5F0162013A93C00B6D461 /* DirectoryWindow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2AF5F0152013A93C00B6D461 /* DirectoryWindow.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -64,6 +68,9 @@
 		2AD1F6C4200BE68E00FEC6A4 /* BankSetWindow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BankSetWindow.swift; sourceTree = "<group>"; };
 		2AD1F6C8200BF02B00FEC6A4 /* BankWindow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BankWindow.swift; sourceTree = "<group>"; };
 		2AD1F6CB200CF4B200FEC6A4 /* DesktopViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DesktopViewController.swift; sourceTree = "<group>"; };
+		2AD1F6CD2012D30500FEC6A4 /* Directory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Directory.swift; sourceTree = "<group>"; };
+		2AD1F6CF2012D44100FEC6A4 /* DirectoryEntry.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DirectoryEntry.swift; sourceTree = "<group>"; };
+		2AD1F6D12012D4AC00FEC6A4 /* File.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = File.swift; sourceTree = "<group>"; };
 		2AEC6D58200BD30E00793771 /* SchmidtSynthesizerLibrarian.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SchmidtSynthesizerLibrarian.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		2AEC6D5B200BD30E00793771 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		2AEC6D5D200BD30E00793771 /* RootViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RootViewController.swift; sourceTree = "<group>"; };
@@ -79,6 +86,7 @@
 		2AEC6D7B200BD30E00793771 /* SchmidtSynthesizerLibrarianUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SchmidtSynthesizerLibrarianUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		2AEC6D7F200BD30E00793771 /* SchmidtSynthesizerLibrarianUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SchmidtSynthesizerLibrarianUITests.swift; sourceTree = "<group>"; };
 		2AEC6D81200BD30E00793771 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		2AF5F0152013A93C00B6D461 /* DirectoryWindow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DirectoryWindow.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -115,6 +123,9 @@
 				2AD1F6BD200BE54600FEC6A4 /* Program.swift */,
 				2AD1F6BF200BE5DE00FEC6A4 /* Bank.swift */,
 				2AD1F6C2200BE63900FEC6A4 /* BankSet.swift */,
+				2AD1F6CD2012D30500FEC6A4 /* Directory.swift */,
+				2AD1F6CF2012D44100FEC6A4 /* DirectoryEntry.swift */,
+				2AD1F6D12012D4AC00FEC6A4 /* File.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -129,6 +140,7 @@
 				2AD1F6BB200BDED200FEC6A4 /* DesktopInstance.swift */,
 				2AD1F6C4200BE68E00FEC6A4 /* BankSetWindow.swift */,
 				2AD1F6C8200BF02B00FEC6A4 /* BankWindow.swift */,
+				2AF5F0152013A93C00B6D461 /* DirectoryWindow.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -335,8 +347,11 @@
 			buildActionMask = 2147483647;
 			files = (
 				2AEC6D5E200BD30E00793771 /* RootViewController.swift in Sources */,
+				2AD1F6CE2012D30500FEC6A4 /* Directory.swift in Sources */,
+				2AD1F6D02012D44100FEC6A4 /* DirectoryEntry.swift in Sources */,
 				2AD1F6AE200BD76800FEC6A4 /* Desktop.swift in Sources */,
 				2AD1F6B6200BDCE700FEC6A4 /* DesktopIcon.swift in Sources */,
+				2AF5F0162013A93C00B6D461 /* DirectoryWindow.swift in Sources */,
 				2AEC6D62200BD30E00793771 /* ModelController.swift in Sources */,
 				2AD1F6B8200BDD3400FEC6A4 /* DesktopWindow.swift in Sources */,
 				2AD1F6C3200BE63900FEC6A4 /* BankSet.swift in Sources */,
@@ -348,6 +363,7 @@
 				2AD1F6B0200BD8FC00FEC6A4 /* Category.swift in Sources */,
 				2AD1F6BE200BE54600FEC6A4 /* Program.swift in Sources */,
 				2AD1F6C9200BF02B00FEC6A4 /* BankWindow.swift in Sources */,
+				2AD1F6D22012D4AC00FEC6A4 /* File.swift in Sources */,
 				2AD1F6BA200BDE0000FEC6A4 /* DesktopView.swift in Sources */,
 				2AD1F6BC200BDED200FEC6A4 /* DesktopInstance.swift in Sources */,
 				2AD1F6C5200BE68E00FEC6A4 /* BankSetWindow.swift in Sources */,

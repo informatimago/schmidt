@@ -12,7 +12,7 @@ class NamedObject: NSObject {
   
     var name="Unnamed"
     
-    init(name:String){
+    required init(name:String){
         self.name=name
     }
 }

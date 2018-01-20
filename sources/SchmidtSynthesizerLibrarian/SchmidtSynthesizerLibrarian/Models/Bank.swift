@@ -13,7 +13,7 @@ class Bank: NamedObject {
     var data:NSData?
     var programs:[Program]=[]
     
-    override init(name:String){
+    required init(name:String){
         super.init(name:name)
     }
     

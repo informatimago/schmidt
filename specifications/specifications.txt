@@ -41,7 +41,7 @@ Functionalities
 
 For the Schmidt Synthesizer, the `categories` are names given to the
 predefined set of colors (0…63).  `Categories` are lists of 64 names.
-Each `Set` has it own list of `Categories`, initialized with the
+Each `BankSet` has it own list of `Categories`, initialized with the
 default list.
 
 
@@ -54,9 +54,9 @@ default list.
    - edit its name.
 
 
-- Edit the list of categories of a Set:
+- Edit the list of categories of a BankSet:
 
-   - select a Set.
+   - select a BankSet.
 
    - select the list of categories.
 
@@ -72,15 +72,15 @@ Sending or receiving a whole set requires 16 manual operations (8
 single banks, and 8 multi banks).
 
 Therefore we will provide the basic functionality of sending and
-receiving banks.  Sending a Set will involve sending the 16 banks with
+receiving banks.  Sending a BankSet will involve sending the 16 banks with
 manual synchronization.
 
 - Configure MIDI: select the MIDI bus and the Send and Receive MIDI Channels.
 
 - Listen for Sysex messages to automatically initiate the reception of
   banks.  When received a bank Sysex, store it in a new Bank, and
-  store the bank in a new Set.  The banks are numbered, so we can fill
-  the Set. A new Set is created if a bank of the same kind and number
+  store the bank in a new BankSet.  The banks are numbered, so we can fill
+  the BankSet. A new BankSet is created if a bank of the same kind and number
   is sent again.  The bank and sets are automatically given a default
   name containing a time stamp.
 
@@ -92,9 +92,9 @@ manual synchronization.
 
   - activate the sending process (click on the send button).
 
-- Send a Set:
+- Send a BankSet:
 
-  - select a Set,
+  - select a BankSet,
 
   - activate the sending process (click on the send button): this will
     send each bank in the set in turn, waiting for user confirmation
@@ -103,7 +103,7 @@ manual synchronization.
 
 
 
-Sets and Banks are stored each in their own hierarchical directory
+BankSets and Banks are stored each in their own hierarchical directory
 tree.  Programs are usually stored in banks, but they can also be
 stored stand-alone in their own hierarchical directory tree.
 
@@ -127,7 +127,7 @@ Manipulation of Banks
 - close an opened bank.
 
 Banks can be selected from the bank directory tree (from any "open"
-directory), from the desktop, or from open Sets.
+directory), from the desktop, or from open BankSets.
 
 - move (or make copies) from one to eight selected banks, to the
   directory tree, the desktop or to an existing open set.
@@ -138,13 +138,13 @@ directory), from the desktop, or from open Sets.
   (represented as an icon on the desktop).
 
 
-Manipulation of Sets
+Manipulation of BankSets
 
 - open a set :  the list of banks in the set is shown.
 
 - close an opened set.
 
-Sets can be selected from the set directory tree (from any "open"
+BankSets can be selected from the set directory tree (from any "open"
 directory), or from the desktop.
 
 - move (or make copies) of the selected sets to the directory tree or
@@ -176,5 +176,69 @@ Manipulation of the Synthesizer icon
 
 - opening the Synthesizer icon will show the current program
   parameters, updated as PC, BC and NPRN messages are received.
+
+
+
++----------------+----------------+----------------+----------------+----------------+----------------+
+|                | categories     | program        | bank           | bankset        | synthesizer    |
++================+================+================+================+================+================+
+| category       |      No        | Set cat/col    | Set cat/col(1) | Set cat/col(1) |      No        |
++----------------+----------------+----------------+----------------+----------------+----------------+
+| categories     |      No        |      No        |     No         |      No        |      No        |
++----------------+----------------+----------------+----------------+----------------+----------------+
+| program        |      No        |      No        | Store          |      No        | Send(NPRN)     |
++----------------+----------------+----------------+----------------+----------------+----------------+
+| bank           |      No        |      No        |     No         | Store          | Send(SysEx)    |
++----------------+----------------+----------------+----------------+----------------+----------------+
+| bankset        |      No        |      No        |     No         |      No        | Send(SysEx)(2) |
++----------------+----------------+----------------+----------------+----------------+----------------+
+| synthesizer    |      No        |      No        |     No         |      No        |      No        |
++----------------+----------------+----------------+----------------+----------------+----------------+
+
+
+
+
+User Interface
+----------------------------------------
+
+We show a Desktop with "icons", "strips" and "windows".
+
+
+- icon:
+
+    pair of image and name representing some object.
+
+- strip:
+
+    text in a box representing some object. (the box may also contain some (small) images).
+
+
+- window:
+
+    rectangular area containing further user interface elements.
+
+
+
+We use icons to represent connected synthesizers.
+We use strips to represent categories, directories, programs, banks and banksets.
+
+Some desktop elements are "hard wired" representing static (root) elements:
+
+- the default categories list.
+- the saved program directory.
+- the saved bank directory.
+- the saved bankset directory.
+- the connected synthesizer.
+
+Those elements cannot be removed from the desktop by the user (the
+synthesizer can be disconneted, and then its icon disappear, but it's
+not done directly by the user).  They can be moved and arranged by the
+user as she wishes.
+
+The saved programs, banks, and banksets can be moved on the desktop.
+In that case, the strip on the desktop is but an alias of the element;
+the element is still visible in its original place.
+
+
 
 

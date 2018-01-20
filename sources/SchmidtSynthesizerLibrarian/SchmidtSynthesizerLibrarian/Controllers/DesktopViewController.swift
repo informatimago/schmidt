@@ -12,11 +12,13 @@ class DesktopViewController: UIViewController {
 
     @IBOutlet weak var desktopView: DesktopView!
 
-
     func typeLetter(_ instance:NamedObject) -> String {
-        if(instance is Program)  {return "P"}
-        if(instance is Bank)     {return "B"}
-        if(instance is BankSet)  {return "S"}
+        if(instance is Directory<Program>)  {return "DP"}
+        if(instance is Directory<Bank>)     {return "DB"}
+        if(instance is Directory<BankSet>)  {return "DS"}
+        if(instance is Program)             {return "P"}
+        if(instance is Bank)                {return "B"}
+        if(instance is BankSet)             {return "S"}
         return "X"
     }
 
@@ -31,6 +33,11 @@ class DesktopViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        let desktop=Desktop()
+        desktopView.desktop=desktop
+        for instance in desktop.elements {
+            add(instance:instance)
+        }
         add(instance:Program(name:"PJB Test"))
         add(instance:Program(name:"ABCDEFGHIJKLMNOPQR"))
         add(instance:Bank(name:"Pads"))

@@ -10,7 +10,7 @@ import UIKit
 
 class DesktopView: UIView {
 
-    var desktop=Desktop()
+    var desktop:Desktop?
     var elements:[DesktopElement]=[]
     var selectedElements:[DesktopElement]=[]
 

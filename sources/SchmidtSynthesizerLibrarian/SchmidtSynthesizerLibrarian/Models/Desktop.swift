@@ -9,11 +9,16 @@
 import UIKit
 
 class Desktop: NSObject {
-    var categories: [Category]=[];
+    
+    var categories: [Category]=[]
+    var elements:[NamedObject]=[]
 
     override init() {
         super.init()
         categories=defaultCategories()
+        elements.append(programDirectory()!)
+        elements.append(bankDirectory()!)
+        elements.append(bankSetDirectory()!)
     }
 
     func defaultCategories() -> [Category] {
@@ -41,6 +46,40 @@ class Desktop: NSObject {
         categories.append(Category(color:60,name:"Percussion"))
         categories.append(Category(color:63,name:"User"))
         return categories
+    }
+
+    func dataDirectoryPath(name:String)->String?{
+        let path=URL(fileURLWithPath:NSHomeDirectory(),isDirectory:true).appendingPathComponent("Documents/\(name)/")
+        do{
+            try FileManager.default.createDirectory(at:path,
+                                                withIntermediateDirectories:true,
+                                                attributes:[:])
+            return path.absoluteString
+       }catch{
+            return nil
+        }
+    }
+
+    func programDirectory()->Directory<Program>? {
+        return Directory<Program>(path:dataDirectoryPath(name:"Programs")!)
+    }
+
+    func bankDirectory()->Directory<Bank>? {
+        return Directory<Bank>(path:dataDirectoryPath(name:"Banks")!)
+    }
+
+    func bankSetDirectory()->Directory<BankSet>? {
+        return Directory<BankSet>(path:dataDirectoryPath(name:"Sets")!)
+    }
+
+    func add(element:NamedObject){
+        elements.append(element)
+    }
+
+    func remove(element:NamedObject){
+        if let index=elements.index(of:element) {
+            elements.remove(at:index)
+        }
     }
 
 }
