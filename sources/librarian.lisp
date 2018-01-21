@@ -39,24 +39,92 @@
 
 
 
-(defun menu-select (items)
+(defun menu-select (items &key (cancel t))
+  "
+An item in the menu ITEMS list can be either an atom,
+or a cons containing an atom in the car, and further data.
+The atoms must be unique amongst the ITEMS.
+Only the atoms are displayed.
+The whole selected item is returned.
+"
   (with-standard-io-syntax
     (loop
       :do (loop :for index :from 1
                 :for item :in items
-                :do (format *query-io* "~3D) ~A~%" index item)
-                :finally (format *query-io* "~3D) ~A~%" 0 'cancel))
+                :do (format *query-io* "~3D) ~A~%" index (if (consp item) (car item) item))
+                :finally (when cancel (format *query-io* "~3D) ~A~%" 0 'cancel)))
           (let ((selection (let ((*read-eval* nil))
                              (read *query-io*))))
             (cond
               ((not (integerp selection))
                (format *query-io* "Invalid entry.~%"))
-              ((zerop selection)
+              ((and cancel (zerop selection))
                (return nil))
               ((<= 1 selection (length items))
                (return (values (elt items (1- selection)) (1- selection))))
               (t
-                (format *query-io* "Invalid entry.~%")))))))
+               (format *query-io* "Invalid entry.~%")))))))
+
+
+
+
+
+(defparameter *banks*             '() "A list of (bank bank-namestring bank-number).")
+(defparameter *programs*          '() "A list of (program bank-namestring bank-number program-number)")
+(defparameter *program-selection* '() "A list of (program bank-namestring bank-number program-number)")
+
+(defun sort-bank-entries (banks)
+  (sort banks
+        (lambda (a b)
+          (destructuring-bind (a.bank a.bank-namestring a.bank-number) a
+            (declare (ignore a.bank))
+            (destructuring-bind (b.bank b.bank-namestring b.bank-number) b
+              (declare (ignore b.bank))
+              (or (string< a.bank-namestring b.bank-namestring)
+                  (and (string= a.bank-namestring b.bank-namestring)
+                       (< a.bank-number b.bank-number))))))))
+
+(defun sort-program-entries (programs)
+  (sort programs
+        (lambda (a b)
+          (destructuring-bind (a.program a.bank-namestring a.bank-number a.program-number) a
+            (declare (ignore a.program))
+            (destructuring-bind (b.program b.bank-namestring b.bank-number b.program-number) b
+              (declare (ignore b.program))
+              (or (< a.bank-number b.bank-number)
+                  (and (= a.bank-number b.bank-number)
+                       (or (< a.program-number b.program-number)
+                           (and (= a.program-number b.program-number)
+                                (string< a.bank-namestring b.bank-namestring))))))))))
+
+(defun display-program-list (programs)
+  (terpri)
+  (format t "------------------------------------------------------------------------~%")
+  (loop :for (program bank-namestring bank-number program-number)
+          :in programs
+        :do (format t "~3D:~3D ~18A  ~S~%" (1+ bank-number) (1+ program-number) (program-name program) bank-namestring))
+  (format t "------------------------------------------------------------------------~%")
+  (values))
+
+(defun programs-from-bank (bank bank-namestring bank-number)
+  (loop
+    :for program-number :below (bank-program-count bank)
+    :collect (list (program bank program-number) bank-namestring bank-number program-number)))
+
+(defun list-programs-in-bank ()
+  (let ((selection (menu-select (mapcar (lambda (entry)
+                                          (destructuring-bind (bank bank-namestring bank-number) entry
+                                            (declare (ignore bank))
+                                            (cons (format nil "~3D  ~S" (1+ bank-number) bank-namestring)
+                                                  entry)))
+                                        (sort-bank-entries (copy-list *banks*))))))
+    (when selection
+      (destructuring-bind (bank bank-namestring bank-number) (rest selection)
+        (display-program-list (programs-from-bank bank bank-namestring bank-number)))))
+  (values))
+
+(defun load-programs-from-bank (bank bank-namestring bank-number)
+  (setf *programs* (programs-from-bank bank bank-namestring bank-number)))
 
 
 
@@ -82,9 +150,45 @@
                  (= #x77 (aref sysex 2))
                  (= #x33 (aref sysex 3))
                  (= #xF7 (aref sysex (1- (length sysex)))))
-            (bank-from-sysex sysex)
-            (error "Invalid Sysex file."))))))
+            (let ((bank            (bank-from-sysex sysex))
+                  (bank-number     (aref sysex 4))
+                  (bank-namestring (namestring sysex-path)))
+              (push (list bank bank-namestring bank-number) *banks*)
+              (load-programs-from-bank bank bank-namestring bank-number))
+            (error "Invalid Sysex file.")))))
+  (values))
 
+
+(defun select-programs-by-name ()
+  (let ((pattern (progn (write-string "Pattern: " *query-io*)
+                        (finish-output *query-io*)
+                        (read-line *query-io*))))
+    (display-program-list
+     (setf *program-selection*
+           (sort-program-entries
+            (remove pattern *programs*
+                    :test-not (lambda (pattern string)
+                                (search pattern string :test (function char-equal)))
+                    :key (lambda (entry)
+                           (program-name (first entry)))))))))
+
+(defun program-menu (programs)
+  (mapcar (lambda (entry)
+            (destructuring-bind (program bank-namestring bank-number program-number) entry
+              (cons (format nil "~3D:~3D ~18A  ~S" (1+ bank-number) (1+ program-number) (program-name program) bank-namestring)
+                    entry)))
+          programs))
+
+(defun select-a-program ()
+  (if (or *program-selection* *programs*)
+      (let ((selection (menu-select (program-menu (or *program-selection* *programs*)))))
+        (when selection
+          (display-program-list
+           (setf *program-selection* (list (cdr selection))))))
+      (error "No program loaded; try load-a-bank first.")))
+
+(defun display-program-selection ()
+  (display-program-list *program-selection*))
 
 ;; single program
 ;; single multi
@@ -92,18 +196,22 @@
 ;; multi bank  = 128 multi programs
 ;; set  = 8 single banks + 4 multi banks
 
+(defun quit () (throw 'quit (values)))
 
 (defun run ()
   (format t "Hello!~%")
-  '(create-a-new-bank
-    load-a-bank
-    save-bank
-    save-bank-as
-    change-bank-number
-    list-programs
-    select-a-program
-    select-a-program-range
+  (catch 'quit
+    (loop
+      (funcall (menu-select '(create-a-new-bank
+                              load-a-bank
+                              save-bank
+                              save-bank-as
+                              change-bank-number
+                              list-programs-in-bank
+                              display-program-selection
+                              select-programs-by-name
+                              select-a-program
+                              select-a-program-range
 
-
-    )
-  (values))
+                              quit)
+                            :cancel nil)))))

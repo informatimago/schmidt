@@ -2764,7 +2764,10 @@ reverse-engineered.
   (assert (= 32768 (length bank)))
   (setf (aref bank (1- (length bank))) (bank-compute-checksum bank)))
 
-
+(defun bank-program-count (bank)
+  (check-type bank vector)
+  (assert (= 32768 (length bank)))
+  128)
 
 (defun program (bank index)
   (check-type bank        (vector * 32768))
