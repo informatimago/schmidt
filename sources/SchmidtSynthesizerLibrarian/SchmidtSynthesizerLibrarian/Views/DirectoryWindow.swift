@@ -16,9 +16,14 @@ class DirectoryWindow<FileType>: DesktopWindow where FileType:NamedObject {
         self.directory=directory
         super.init(frame:frame,name:directory.name)
 
-//        var irect=CGRect(x:5,y:30,width:frame.size.width-10,height:frame.size.height-30)
-//        let scrollView=ScrollView(irect)
-//        self.addSubview(scrollView)
+        let irect=CGRect(x:5,y:30,width:frame.size.width-10,height:frame.size.height-30)
+        let scrollView=UIScrollView(frame:irect)
+        self.addSubview(scrollView)
+
+//        let trect=CGRect(x:0,y:0,width:frame.size.width-10,height:frame.size.height-30)
+//        let tree=RATreeView.init(frame:trect)
+//        scrollView.addSubview(tree)
+
 //
 //        var i=1
 //        for program in bank.programs {
