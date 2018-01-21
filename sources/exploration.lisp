@@ -8,7 +8,7 @@
 
 #|
 
-(loop for x across (histogram-bins (histogram (com.informatimago.common-lisp.cesarum.file:binary-file-contents 
+(loop for x across (histogram-bins (histogram (com.informatimago.common-lisp.cesarum.file:binary-file-contents
                                                (first (directory "*.syx"))) 257 :min-value 0 :max-value 255))
       for i from -1
       unless (zerop x)
@@ -70,7 +70,7 @@
   (check-type a (integer 0 15))
   (check-type b (integer 0 15))
   (dpb a (byte 4 4) b))
- 
+
 
 
 (defun print-bank (b)
@@ -257,7 +257,6 @@
                       (+ 256 byte)
                       byte)))
 
-00010000 00001010 00000010 111010 111000 
+00010000 00001010 00000010 111010 111000
 
 |#
-
