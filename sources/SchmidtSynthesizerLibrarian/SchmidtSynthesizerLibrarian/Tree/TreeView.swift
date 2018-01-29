@@ -9,6 +9,10 @@
 import Foundation
 import UIKit
 
+// Node and Leaf are the protocol implemented by the client data.
+// Those protocol include a view() method to obtain the UIView used to display the Node and Leaf data.
+// Those views will be embedded in NodeView to position and decorate them with the needed controls.
+
 protocol Leaf {
     func view()->UIView
 }
@@ -18,6 +22,11 @@ protocol Node {
     func leaves()->[Leaf]
     func subtrees()->[Node]
 }
+
+
+// TreeViewElement is the common interface (protocol) of the TreeViewLeaf and TreeViewSubtree classes.
+// The TreeViewElement classes will parallel the tree described by Node and Leaf, in a lazy way:
+// only the TreeViewSubtree nodes that are "open" will load the leaves and subtrees from the Node.
 
 protocol TreeViewElement {
     func isLeaf()->Bool
@@ -78,23 +87,50 @@ class TreeViewSubtree:TreeViewElement {
 
 }
 
-
-
 class TreeView:UIView {
 
-    var root:TreeViewSubtree?
-    var indent:CGFloat=20.0
+    var indent:CGFloat=32.0
+    var subtree:TreeViewSubtree?=nil
+    var nodeView:UIView?=nil
 
-    init(frame:CGRect,root:Node) {
-        self.root=TreeViewSubtree(node:root)
-        super.init(frame:frame)
-        self.frame=CGRect(origin:frame.origin,size:createSubviews(element:self.root!,x:0.0,y:0.0))
+    init(frame:CGRect,node:Node) {
+        self.subtree=TreeViewSubtree(node:node)
+        self.nodeView=node.view()
+        self.nodeView?.frame.origin=CGPoint(x:indent,y:0)
+        super.init(frame:CGRect(x:frame.origin.x,
+                                y:frame.origin.y,
+                                width:indent+self.nodeView!.frame.size.width,
+                                height:self.nodeView!.frame.size.height))
+        self.backgroundColor=UIColor.white
+        self.addSubview(nodeView!)
     }
 
     required init?(coder aDecoder: NSCoder) {
         super.init(coder:aDecoder)
     }
 
+    override func draw(_ rect:CGRect){
+        super.draw(rect)
+        let color=UIColor.black
+        let path=UIBezierPath()
+        let center=CGPoint(x:self.bounds.origin.x+indent/2,
+                           y:self.bounds.origin.y+nodeView!.frame.size.height/2)
+        if subtree!.isOpen() {
+            //   \/
+            path.move(to:CGPoint(x:center.x-5,y:center.y-4))
+            path.addLine(to:CGPoint(x:center.x,y:center.y+4))
+            path.addLine(to:CGPoint(x:center.x+5,y:center.y-4))
+        }else{
+            //    >
+            path.move(to:CGPoint(x:center.x-4,y:center.y+5))
+            path.addLine(to:CGPoint(x:center.x+4,y:center.y))
+            path.addLine(to:CGPoint(x:center.x-4,y:center.y-5))
+        }
+        color.set()
+        path.close()
+        path.stroke()
+    }
+    
     func createSubviews(element:TreeViewElement,x:CGFloat,y:CGFloat) -> CGSize {
         var subview:UIView
         if element.isLeaf() {
@@ -107,13 +143,13 @@ class TreeView:UIView {
         var newWidth=x+subview.frame.size.width
         var newHeight=y+subview.frame.size.height
         if element.isOpen() {
-            for subtree in element.subtrees() {
-                let subSize=createSubviews(element:subtree,x:x+indent,y:newHeight)
+            for subleaf in element.subleaves() {
+                let subSize=createSubviews(element:subleaf,x:x+indent,y:newHeight)
                 newWidth=max(newWidth,subSize.width)
                 newHeight=newHeight+subSize.height
             }
-            for subleaf in element.subleaves() {
-                let subSize=createSubviews(element:subleaf,x:x+indent,y:newHeight)
+            for subtree in element.subtrees() {
+                let subSize=createSubviews(element:subtree,x:x+indent,y:newHeight)
                 newWidth=max(newWidth,subSize.width)
                 newHeight=newHeight+subSize.height
             }
@@ -123,7 +159,7 @@ class TreeView:UIView {
 
 
     func switchOpening() {
-
+        print("switchOpening")
     }
 
     func openingArea()->CGRect {
@@ -135,6 +171,7 @@ class TreeView:UIView {
     }
 
     var beganInOpeningArea=false
+
     override func touchesBegan(_ touches: Set<UITouch>,with event: UIEvent?){
         if touches.count == 1 {
             beganInOpeningArea=inOpeningArea(touch:touches.first!)

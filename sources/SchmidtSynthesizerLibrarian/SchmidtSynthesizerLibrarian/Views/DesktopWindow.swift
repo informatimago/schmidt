@@ -27,10 +27,10 @@ class DesktopWindow: DesktopElement {
     
     func drawWindowFrame(){
         let color:UIColor=UIColor.black
-        let path:UIBezierPath=UIBezierPath(rect:frame)
+        let path:UIBezierPath=UIBezierPath(rect:bounds)
         color.set()
         path.stroke()
-        name.draw(in:frame)
+        name.draw(in:bounds)
     }
     
 }

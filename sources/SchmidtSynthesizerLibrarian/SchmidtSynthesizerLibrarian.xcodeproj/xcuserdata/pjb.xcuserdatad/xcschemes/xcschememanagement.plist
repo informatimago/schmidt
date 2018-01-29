@@ -9,6 +9,11 @@
 			<key>orderHint</key>
 			<integer>1</integer>
 		</dict>
+		<key>SchmidtPlayground.xcscheme</key>
+		<dict>
+			<key>orderHint</key>
+			<integer>1</integer>
+		</dict>
 		<key>SchmidtSynthesizerLibrarian.xcscheme</key>
 		<dict>
 			<key>orderHint</key>
@@ -17,6 +22,11 @@
 	</dict>
 	<key>SuppressBuildableAutocreation</key>
 	<dict>
+		<key>2A949712201E88700044784D</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
 		<key>2AEC6D57200BD30E00793771</key>
 		<dict>
 			<key>primary</key>

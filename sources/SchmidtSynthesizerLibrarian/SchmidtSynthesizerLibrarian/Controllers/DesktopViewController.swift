@@ -42,6 +42,9 @@ class DesktopViewController: UIViewController {
         add(instance:Program(name:"ABCDEFGHIJKLMNOPQR"))
         add(instance:Bank(name:"Pads"))
         add(instance:BankSet(name:"Concert in Paris"))
+
+        desktopView.add(element:DirectoryWindow<Program>(frame:CGRect(x:220,y:10,width:300,height:400),
+                                                         directory:desktop.programDirectory()!))
     }
 
     override func didReceiveMemoryWarning() {

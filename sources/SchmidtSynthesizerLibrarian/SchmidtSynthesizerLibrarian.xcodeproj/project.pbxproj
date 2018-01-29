@@ -7,35 +7,35 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		2AD1F6AE200BD76800FEC6A4 /* Desktop.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2AD1F6AD200BD76800FEC6A4 /* Desktop.swift */; };
-		2AD1F6B0200BD8FC00FEC6A4 /* Category.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2AD1F6AF200BD8FC00FEC6A4 /* Category.swift */; };
-		2AD1F6B2200BDC0A00FEC6A4 /* NamedObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2AD1F6B1200BDC0A00FEC6A4 /* NamedObject.swift */; };
-		2AD1F6B4200BDC3F00FEC6A4 /* DesktopElement.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2AD1F6B3200BDC3F00FEC6A4 /* DesktopElement.swift */; };
-		2AD1F6B6200BDCE700FEC6A4 /* DesktopIcon.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2AD1F6B5200BDCE700FEC6A4 /* DesktopIcon.swift */; };
-		2AD1F6B8200BDD3400FEC6A4 /* DesktopWindow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2AD1F6B7200BDD3400FEC6A4 /* DesktopWindow.swift */; };
-		2AD1F6BA200BDE0000FEC6A4 /* DesktopView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2AD1F6B9200BDE0000FEC6A4 /* DesktopView.swift */; };
-		2AD1F6BC200BDED200FEC6A4 /* DesktopInstance.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2AD1F6BB200BDED200FEC6A4 /* DesktopInstance.swift */; };
-		2AD1F6BE200BE54600FEC6A4 /* Program.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2AD1F6BD200BE54600FEC6A4 /* Program.swift */; };
-		2AD1F6C0200BE5DE00FEC6A4 /* Bank.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2AD1F6BF200BE5DE00FEC6A4 /* Bank.swift */; };
-		2AD1F6C3200BE63900FEC6A4 /* BankSet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2AD1F6C2200BE63900FEC6A4 /* BankSet.swift */; };
-		2AD1F6C5200BE68E00FEC6A4 /* BankSetWindow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2AD1F6C4200BE68E00FEC6A4 /* BankSetWindow.swift */; };
-		2AD1F6C9200BF02B00FEC6A4 /* BankWindow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2AD1F6C8200BF02B00FEC6A4 /* BankWindow.swift */; };
-		2AD1F6CC200CF4B200FEC6A4 /* DesktopViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2AD1F6CB200CF4B200FEC6A4 /* DesktopViewController.swift */; };
-		2AD1F6CE2012D30500FEC6A4 /* Directory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2AD1F6CD2012D30500FEC6A4 /* Directory.swift */; };
-		2AD1F6D02012D44100FEC6A4 /* DirectoryEntry.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2AD1F6CF2012D44100FEC6A4 /* DirectoryEntry.swift */; };
-		2AD1F6D22012D4AC00FEC6A4 /* File.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2AD1F6D12012D4AC00FEC6A4 /* File.swift */; };
+		2A9E0865201ED53100FE2A14 /* BankSetWindow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A9E084F201E91C300FE2A14 /* BankSetWindow.swift */; };
+		2A9E0866201ED53100FE2A14 /* BankWindow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A9E0850201E91C300FE2A14 /* BankWindow.swift */; };
+		2A9E0867201ED53100FE2A14 /* DesktopElement.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A9E0851201E91C300FE2A14 /* DesktopElement.swift */; };
+		2A9E0868201ED53100FE2A14 /* DesktopIcon.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A9E0852201E91C300FE2A14 /* DesktopIcon.swift */; };
+		2A9E0869201ED53100FE2A14 /* DesktopInstance.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A9E0853201E91C300FE2A14 /* DesktopInstance.swift */; };
+		2A9E086A201ED53100FE2A14 /* DesktopView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A9E0854201E91C300FE2A14 /* DesktopView.swift */; };
+		2A9E086B201ED53100FE2A14 /* DesktopWindow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A9E0855201E91C300FE2A14 /* DesktopWindow.swift */; };
+		2A9E086C201ED53100FE2A14 /* DirectoryWindow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A9E0856201E91C300FE2A14 /* DirectoryWindow.swift */; };
+		2A9E086D201ED53800FE2A14 /* DirectoryNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A9E085B201ED01800FE2A14 /* DirectoryNode.swift */; };
+		2A9E0877201ED53E00FE2A14 /* Bank.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A9E0845201E91C300FE2A14 /* Bank.swift */; };
+		2A9E0878201ED53E00FE2A14 /* BankSet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A9E0846201E91C300FE2A14 /* BankSet.swift */; };
+		2A9E0879201ED53E00FE2A14 /* Category.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A9E0847201E91C300FE2A14 /* Category.swift */; };
+		2A9E087A201ED53E00FE2A14 /* Desktop.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A9E0848201E91C300FE2A14 /* Desktop.swift */; };
+		2A9E087B201ED53E00FE2A14 /* Directory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A9E0849201E91C300FE2A14 /* Directory.swift */; };
+		2A9E087C201ED53E00FE2A14 /* DirectoryEntry.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A9E084A201E91C300FE2A14 /* DirectoryEntry.swift */; };
+		2A9E087D201ED53E00FE2A14 /* File.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A9E084B201E91C300FE2A14 /* File.swift */; };
+		2A9E087E201ED53E00FE2A14 /* NamedObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A9E084C201E91C300FE2A14 /* NamedObject.swift */; };
+		2A9E087F201ED53E00FE2A14 /* Program.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A9E084D201E91C300FE2A14 /* Program.swift */; };
+		2A9E0880201ED54300FE2A14 /* DataViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A9E0840201E91C300FE2A14 /* DataViewController.swift */; };
+		2A9E0881201ED54300FE2A14 /* DesktopViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A9E0841201E91C300FE2A14 /* DesktopViewController.swift */; };
+		2A9E0882201ED54300FE2A14 /* ModelController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A9E0842201E91C300FE2A14 /* ModelController.swift */; };
+		2A9E0883201ED54300FE2A14 /* RootViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A9E0843201E91C300FE2A14 /* RootViewController.swift */; };
+		2A9E0884201ED5C100FE2A14 /* TreeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A9E0858201E91C300FE2A14 /* TreeView.swift */; };
 		2AEC6D5C200BD30E00793771 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2AEC6D5B200BD30E00793771 /* AppDelegate.swift */; };
-		2AEC6D5E200BD30E00793771 /* RootViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2AEC6D5D200BD30E00793771 /* RootViewController.swift */; };
-		2AEC6D60200BD30E00793771 /* DataViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2AEC6D5F200BD30E00793771 /* DataViewController.swift */; };
-		2AEC6D62200BD30E00793771 /* ModelController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2AEC6D61200BD30E00793771 /* ModelController.swift */; };
 		2AEC6D65200BD30E00793771 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 2AEC6D63200BD30E00793771 /* Main.storyboard */; };
 		2AEC6D67200BD30E00793771 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 2AEC6D66200BD30E00793771 /* Assets.xcassets */; };
 		2AEC6D6A200BD30E00793771 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 2AEC6D68200BD30E00793771 /* LaunchScreen.storyboard */; };
 		2AEC6D75200BD30E00793771 /* SchmidtSynthesizerLibrarianTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2AEC6D74200BD30E00793771 /* SchmidtSynthesizerLibrarianTests.swift */; };
 		2AEC6D80200BD30E00793771 /* SchmidtSynthesizerLibrarianUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2AEC6D7F200BD30E00793771 /* SchmidtSynthesizerLibrarianUITests.swift */; };
-		2AF5F0162013A93C00B6D461 /* DirectoryWindow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2AF5F0152013A93C00B6D461 /* DirectoryWindow.swift */; };
-		2AF5F01A2013B21200B6D461 /* ObjectiveCFrameworks.m in Sources */ = {isa = PBXBuildFile; fileRef = 2AF5F0192013B21200B6D461 /* ObjectiveCFrameworks.m */; };
-		2AF5F09D2014CD7100B6D461 /* TreeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2AF5F09C2014CD7100B6D461 /* TreeView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -69,28 +69,31 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		2AD1F6AD200BD76800FEC6A4 /* Desktop.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Desktop.swift; sourceTree = "<group>"; };
-		2AD1F6AF200BD8FC00FEC6A4 /* Category.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Category.swift; sourceTree = "<group>"; };
-		2AD1F6B1200BDC0A00FEC6A4 /* NamedObject.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NamedObject.swift; sourceTree = "<group>"; };
-		2AD1F6B3200BDC3F00FEC6A4 /* DesktopElement.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DesktopElement.swift; sourceTree = "<group>"; };
-		2AD1F6B5200BDCE700FEC6A4 /* DesktopIcon.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DesktopIcon.swift; sourceTree = "<group>"; };
-		2AD1F6B7200BDD3400FEC6A4 /* DesktopWindow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DesktopWindow.swift; sourceTree = "<group>"; };
-		2AD1F6B9200BDE0000FEC6A4 /* DesktopView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DesktopView.swift; sourceTree = "<group>"; };
-		2AD1F6BB200BDED200FEC6A4 /* DesktopInstance.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DesktopInstance.swift; sourceTree = "<group>"; };
-		2AD1F6BD200BE54600FEC6A4 /* Program.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Program.swift; sourceTree = "<group>"; };
-		2AD1F6BF200BE5DE00FEC6A4 /* Bank.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Bank.swift; sourceTree = "<group>"; };
-		2AD1F6C2200BE63900FEC6A4 /* BankSet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BankSet.swift; sourceTree = "<group>"; };
-		2AD1F6C4200BE68E00FEC6A4 /* BankSetWindow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BankSetWindow.swift; sourceTree = "<group>"; };
-		2AD1F6C8200BF02B00FEC6A4 /* BankWindow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BankWindow.swift; sourceTree = "<group>"; };
-		2AD1F6CB200CF4B200FEC6A4 /* DesktopViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DesktopViewController.swift; sourceTree = "<group>"; };
-		2AD1F6CD2012D30500FEC6A4 /* Directory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Directory.swift; sourceTree = "<group>"; };
-		2AD1F6CF2012D44100FEC6A4 /* DirectoryEntry.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DirectoryEntry.swift; sourceTree = "<group>"; };
-		2AD1F6D12012D4AC00FEC6A4 /* File.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = File.swift; sourceTree = "<group>"; };
+		2A9E0840201E91C300FE2A14 /* DataViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataViewController.swift; sourceTree = "<group>"; };
+		2A9E0841201E91C300FE2A14 /* DesktopViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DesktopViewController.swift; sourceTree = "<group>"; };
+		2A9E0842201E91C300FE2A14 /* ModelController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModelController.swift; sourceTree = "<group>"; };
+		2A9E0843201E91C300FE2A14 /* RootViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RootViewController.swift; sourceTree = "<group>"; };
+		2A9E0845201E91C300FE2A14 /* Bank.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Bank.swift; sourceTree = "<group>"; };
+		2A9E0846201E91C300FE2A14 /* BankSet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BankSet.swift; sourceTree = "<group>"; };
+		2A9E0847201E91C300FE2A14 /* Category.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Category.swift; sourceTree = "<group>"; };
+		2A9E0848201E91C300FE2A14 /* Desktop.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Desktop.swift; sourceTree = "<group>"; };
+		2A9E0849201E91C300FE2A14 /* Directory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Directory.swift; sourceTree = "<group>"; };
+		2A9E084A201E91C300FE2A14 /* DirectoryEntry.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DirectoryEntry.swift; sourceTree = "<group>"; };
+		2A9E084B201E91C300FE2A14 /* File.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = File.swift; sourceTree = "<group>"; };
+		2A9E084C201E91C300FE2A14 /* NamedObject.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NamedObject.swift; sourceTree = "<group>"; };
+		2A9E084D201E91C300FE2A14 /* Program.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Program.swift; sourceTree = "<group>"; };
+		2A9E084F201E91C300FE2A14 /* BankSetWindow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BankSetWindow.swift; sourceTree = "<group>"; };
+		2A9E0850201E91C300FE2A14 /* BankWindow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BankWindow.swift; sourceTree = "<group>"; };
+		2A9E0851201E91C300FE2A14 /* DesktopElement.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DesktopElement.swift; sourceTree = "<group>"; };
+		2A9E0852201E91C300FE2A14 /* DesktopIcon.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DesktopIcon.swift; sourceTree = "<group>"; };
+		2A9E0853201E91C300FE2A14 /* DesktopInstance.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DesktopInstance.swift; sourceTree = "<group>"; };
+		2A9E0854201E91C300FE2A14 /* DesktopView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DesktopView.swift; sourceTree = "<group>"; };
+		2A9E0855201E91C300FE2A14 /* DesktopWindow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DesktopWindow.swift; sourceTree = "<group>"; };
+		2A9E0856201E91C300FE2A14 /* DirectoryWindow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DirectoryWindow.swift; sourceTree = "<group>"; };
+		2A9E0858201E91C300FE2A14 /* TreeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TreeView.swift; sourceTree = "<group>"; };
+		2A9E085B201ED01800FE2A14 /* DirectoryNode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DirectoryNode.swift; sourceTree = "<group>"; };
 		2AEC6D58200BD30E00793771 /* SchmidtSynthesizerLibrarian.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SchmidtSynthesizerLibrarian.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		2AEC6D5B200BD30E00793771 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		2AEC6D5D200BD30E00793771 /* RootViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RootViewController.swift; sourceTree = "<group>"; };
-		2AEC6D5F200BD30E00793771 /* DataViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataViewController.swift; sourceTree = "<group>"; };
-		2AEC6D61200BD30E00793771 /* ModelController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModelController.swift; sourceTree = "<group>"; };
 		2AEC6D64200BD30E00793771 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		2AEC6D66200BD30E00793771 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		2AEC6D69200BD30E00793771 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
@@ -101,10 +104,6 @@
 		2AEC6D7B200BD30E00793771 /* SchmidtSynthesizerLibrarianUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SchmidtSynthesizerLibrarianUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		2AEC6D7F200BD30E00793771 /* SchmidtSynthesizerLibrarianUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SchmidtSynthesizerLibrarianUITests.swift; sourceTree = "<group>"; };
 		2AEC6D81200BD30E00793771 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		2AF5F0152013A93C00B6D461 /* DirectoryWindow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DirectoryWindow.swift; sourceTree = "<group>"; };
-		2AF5F0172013B19000B6D461 /* ObjectiveCFrameworks.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ObjectiveCFrameworks.h; sourceTree = "<group>"; };
-		2AF5F0192013B21200B6D461 /* ObjectiveCFrameworks.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ObjectiveCFrameworks.m; sourceTree = "<group>"; };
-		2AF5F09C2014CD7100B6D461 /* TreeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TreeView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -132,46 +131,55 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		2AD1F6AB200BD71100FEC6A4 /* Models */ = {
+		2A9E083F201E91C300FE2A14 /* Controllers */ = {
 			isa = PBXGroup;
 			children = (
-				2AD1F6AD200BD76800FEC6A4 /* Desktop.swift */,
-				2AD1F6AF200BD8FC00FEC6A4 /* Category.swift */,
-				2AD1F6B1200BDC0A00FEC6A4 /* NamedObject.swift */,
-				2AD1F6BD200BE54600FEC6A4 /* Program.swift */,
-				2AD1F6BF200BE5DE00FEC6A4 /* Bank.swift */,
-				2AD1F6C2200BE63900FEC6A4 /* BankSet.swift */,
-				2AD1F6CD2012D30500FEC6A4 /* Directory.swift */,
-				2AD1F6CF2012D44100FEC6A4 /* DirectoryEntry.swift */,
-				2AD1F6D12012D4AC00FEC6A4 /* File.swift */,
+				2A9E0840201E91C300FE2A14 /* DataViewController.swift */,
+				2A9E0841201E91C300FE2A14 /* DesktopViewController.swift */,
+				2A9E0842201E91C300FE2A14 /* ModelController.swift */,
+				2A9E0843201E91C300FE2A14 /* RootViewController.swift */,
+			);
+			path = Controllers;
+			sourceTree = "<group>";
+		};
+		2A9E0844201E91C300FE2A14 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				2A9E0845201E91C300FE2A14 /* Bank.swift */,
+				2A9E0846201E91C300FE2A14 /* BankSet.swift */,
+				2A9E0847201E91C300FE2A14 /* Category.swift */,
+				2A9E0848201E91C300FE2A14 /* Desktop.swift */,
+				2A9E0849201E91C300FE2A14 /* Directory.swift */,
+				2A9E084A201E91C300FE2A14 /* DirectoryEntry.swift */,
+				2A9E084B201E91C300FE2A14 /* File.swift */,
+				2A9E084C201E91C300FE2A14 /* NamedObject.swift */,
+				2A9E084D201E91C300FE2A14 /* Program.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
 		};
-		2AD1F6AC200BD71E00FEC6A4 /* Views */ = {
+		2A9E084E201E91C300FE2A14 /* Views */ = {
 			isa = PBXGroup;
 			children = (
-				2AD1F6B3200BDC3F00FEC6A4 /* DesktopElement.swift */,
-				2AD1F6B5200BDCE700FEC6A4 /* DesktopIcon.swift */,
-				2AD1F6B7200BDD3400FEC6A4 /* DesktopWindow.swift */,
-				2AD1F6B9200BDE0000FEC6A4 /* DesktopView.swift */,
-				2AD1F6BB200BDED200FEC6A4 /* DesktopInstance.swift */,
-				2AD1F6C4200BE68E00FEC6A4 /* BankSetWindow.swift */,
-				2AD1F6C8200BF02B00FEC6A4 /* BankWindow.swift */,
-				2AF5F0152013A93C00B6D461 /* DirectoryWindow.swift */,
+				2A9E084F201E91C300FE2A14 /* BankSetWindow.swift */,
+				2A9E0850201E91C300FE2A14 /* BankWindow.swift */,
+				2A9E0851201E91C300FE2A14 /* DesktopElement.swift */,
+				2A9E0852201E91C300FE2A14 /* DesktopIcon.swift */,
+				2A9E0853201E91C300FE2A14 /* DesktopInstance.swift */,
+				2A9E0854201E91C300FE2A14 /* DesktopView.swift */,
+				2A9E0855201E91C300FE2A14 /* DesktopWindow.swift */,
+				2A9E0856201E91C300FE2A14 /* DirectoryWindow.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
 		};
-		2AD1F6CA200CF48400FEC6A4 /* Controllers */ = {
+		2A9E0857201E91C300FE2A14 /* Tree */ = {
 			isa = PBXGroup;
 			children = (
-				2AEC6D5D200BD30E00793771 /* RootViewController.swift */,
-				2AEC6D5F200BD30E00793771 /* DataViewController.swift */,
-				2AEC6D61200BD30E00793771 /* ModelController.swift */,
-				2AD1F6CB200CF4B200FEC6A4 /* DesktopViewController.swift */,
+				2A9E0858201E91C300FE2A14 /* TreeView.swift */,
+				2A9E085B201ED01800FE2A14 /* DirectoryNode.swift */,
 			);
-			path = Controllers;
+			path = Tree;
 			sourceTree = "<group>";
 		};
 		2AEC6D4F200BD30E00793771 = {
@@ -197,17 +205,15 @@
 		2AEC6D5A200BD30E00793771 /* SchmidtSynthesizerLibrarian */ = {
 			isa = PBXGroup;
 			children = (
-				2AF5F09A2014CD2E00B6D461 /* Tree */,
-				2AD1F6AB200BD71100FEC6A4 /* Models */,
-				2AD1F6AC200BD71E00FEC6A4 /* Views */,
-				2AD1F6CA200CF48400FEC6A4 /* Controllers */,
+				2A9E083F201E91C300FE2A14 /* Controllers */,
+				2A9E0844201E91C300FE2A14 /* Models */,
+				2A9E0857201E91C300FE2A14 /* Tree */,
+				2A9E084E201E91C300FE2A14 /* Views */,
 				2AEC6D5B200BD30E00793771 /* AppDelegate.swift */,
 				2AEC6D63200BD30E00793771 /* Main.storyboard */,
 				2AEC6D66200BD30E00793771 /* Assets.xcassets */,
 				2AEC6D68200BD30E00793771 /* LaunchScreen.storyboard */,
 				2AEC6D6B200BD30E00793771 /* Info.plist */,
-				2AF5F0172013B19000B6D461 /* ObjectiveCFrameworks.h */,
-				2AF5F0192013B21200B6D461 /* ObjectiveCFrameworks.m */,
 			);
 			path = SchmidtSynthesizerLibrarian;
 			sourceTree = "<group>";
@@ -228,14 +234,6 @@
 				2AEC6D81200BD30E00793771 /* Info.plist */,
 			);
 			path = SchmidtSynthesizerLibrarianUITests;
-			sourceTree = "<group>";
-		};
-		2AF5F09A2014CD2E00B6D461 /* Tree */ = {
-			isa = PBXGroup;
-			children = (
-				2AF5F09C2014CD7100B6D461 /* TreeView.swift */,
-			);
-			path = Tree;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -377,30 +375,30 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				2AEC6D5E200BD30E00793771 /* RootViewController.swift in Sources */,
-				2AD1F6CE2012D30500FEC6A4 /* Directory.swift in Sources */,
-				2AD1F6D02012D44100FEC6A4 /* DirectoryEntry.swift in Sources */,
-				2AD1F6AE200BD76800FEC6A4 /* Desktop.swift in Sources */,
-				2AD1F6B6200BDCE700FEC6A4 /* DesktopIcon.swift in Sources */,
-				2AF5F0162013A93C00B6D461 /* DirectoryWindow.swift in Sources */,
-				2AEC6D62200BD30E00793771 /* ModelController.swift in Sources */,
-				2AD1F6B8200BDD3400FEC6A4 /* DesktopWindow.swift in Sources */,
-				2AD1F6C3200BE63900FEC6A4 /* BankSet.swift in Sources */,
-				2AD1F6B4200BDC3F00FEC6A4 /* DesktopElement.swift in Sources */,
-				2AD1F6B2200BDC0A00FEC6A4 /* NamedObject.swift in Sources */,
-				2AEC6D60200BD30E00793771 /* DataViewController.swift in Sources */,
-				2AF5F09D2014CD7100B6D461 /* TreeView.swift in Sources */,
-				2AD1F6CC200CF4B200FEC6A4 /* DesktopViewController.swift in Sources */,
+				2A9E087A201ED53E00FE2A14 /* Desktop.swift in Sources */,
 				2AEC6D5C200BD30E00793771 /* AppDelegate.swift in Sources */,
-				2AD1F6B0200BD8FC00FEC6A4 /* Category.swift in Sources */,
-				2AD1F6BE200BE54600FEC6A4 /* Program.swift in Sources */,
-				2AD1F6C9200BF02B00FEC6A4 /* BankWindow.swift in Sources */,
-				2AD1F6D22012D4AC00FEC6A4 /* File.swift in Sources */,
-				2AD1F6BA200BDE0000FEC6A4 /* DesktopView.swift in Sources */,
-				2AD1F6BC200BDED200FEC6A4 /* DesktopInstance.swift in Sources */,
-				2AD1F6C5200BE68E00FEC6A4 /* BankSetWindow.swift in Sources */,
-				2AF5F01A2013B21200B6D461 /* ObjectiveCFrameworks.m in Sources */,
-				2AD1F6C0200BE5DE00FEC6A4 /* Bank.swift in Sources */,
+				2A9E087E201ED53E00FE2A14 /* NamedObject.swift in Sources */,
+				2A9E086A201ED53100FE2A14 /* DesktopView.swift in Sources */,
+				2A9E0869201ED53100FE2A14 /* DesktopInstance.swift in Sources */,
+				2A9E0865201ED53100FE2A14 /* BankSetWindow.swift in Sources */,
+				2A9E0881201ED54300FE2A14 /* DesktopViewController.swift in Sources */,
+				2A9E0878201ED53E00FE2A14 /* BankSet.swift in Sources */,
+				2A9E087C201ED53E00FE2A14 /* DirectoryEntry.swift in Sources */,
+				2A9E0867201ED53100FE2A14 /* DesktopElement.swift in Sources */,
+				2A9E086B201ED53100FE2A14 /* DesktopWindow.swift in Sources */,
+				2A9E0882201ED54300FE2A14 /* ModelController.swift in Sources */,
+				2A9E0884201ED5C100FE2A14 /* TreeView.swift in Sources */,
+				2A9E0883201ED54300FE2A14 /* RootViewController.swift in Sources */,
+				2A9E086C201ED53100FE2A14 /* DirectoryWindow.swift in Sources */,
+				2A9E0877201ED53E00FE2A14 /* Bank.swift in Sources */,
+				2A9E0880201ED54300FE2A14 /* DataViewController.swift in Sources */,
+				2A9E087D201ED53E00FE2A14 /* File.swift in Sources */,
+				2A9E0879201ED53E00FE2A14 /* Category.swift in Sources */,
+				2A9E086D201ED53800FE2A14 /* DirectoryNode.swift in Sources */,
+				2A9E0866201ED53100FE2A14 /* BankWindow.swift in Sources */,
+				2A9E087F201ED53E00FE2A14 /* Program.swift in Sources */,
+				2A9E0868201ED53100FE2A14 /* DesktopIcon.swift in Sources */,
+				2A9E087B201ED53E00FE2A14 /* Directory.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

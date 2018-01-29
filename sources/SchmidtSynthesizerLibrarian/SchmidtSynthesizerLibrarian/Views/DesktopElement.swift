@@ -8,6 +8,16 @@
 
 import UIKit
 
+func pointMinus(_ a:CGPoint,_ b:CGPoint) -> CGPoint{
+    return CGPoint(x:a.x-b.x,y:a.y-b.y)
+}
+
+func pointAdd(_ a:CGPoint,_ b:CGPoint) -> CGPoint{
+    return CGPoint(x:a.x+b.x,y:a.y+b.y)
+}
+
+
+
 class DesktopElement: UIView
 // ,UIDragInteractionDelegate,NSItemProviderWriting
 {
@@ -18,6 +28,7 @@ class DesktopElement: UIView
         super.init(frame:frame)
         self.name=name
         self.isUserInteractionEnabled=true
+        self.backgroundColor=UIColor.white
    }
 
     required init?(coder:NSCoder){
@@ -28,6 +39,7 @@ class DesktopElement: UIView
 
     var selected=false
     var dragging=false
+    var originalFrame=CGRect(x:0,y:0,width:0,height:0)
 
     override func draw(_ rect: CGRect) {
         if selected || dragging {
@@ -40,17 +52,10 @@ class DesktopElement: UIView
     }
 
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?){
+        originalFrame=frame
         dragging=true
         superview!.bringSubview(toFront:self)
         setNeedsDisplay()
-    }
-
-    func pointMinus(_ a:CGPoint,_ b:CGPoint) -> CGPoint{
-        return CGPoint(x:a.x-b.x,y:a.y-b.y)
-    }
-
-    func pointAdd(_ a:CGPoint,_ b:CGPoint) -> CGPoint{
-        return CGPoint(x:a.x+b.x,y:a.y+b.y)
     }
 
     override func touchesMoved(_ touches: Set<UITouch>,with event: UIEvent?){
@@ -70,6 +75,7 @@ class DesktopElement: UIView
     }
 
     override func touchesCancelled(_ touches: Set<UITouch>, with event: UIEvent?){
+        frame=originalFrame
         dragging=false
         setNeedsDisplay()
     }

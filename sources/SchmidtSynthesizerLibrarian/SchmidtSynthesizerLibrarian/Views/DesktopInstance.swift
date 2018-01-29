@@ -11,6 +11,7 @@ import UIKit
 class DesktopInstance: DesktopElement {
 
     var object:NamedObject?
+    var onDesktop=true
 
     init(frame:CGRect,name:String,object:NamedObject){
         self.object=object
@@ -33,4 +34,31 @@ class DesktopInstance: DesktopElement {
         // draw type icon
         super.draw(rect)
     }
+
+
+
+
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?){
+        super.touchesBegan(touches,with:event)
+    }
+
+    override func touchesMoved(_ touches: Set<UITouch>,with event: UIEvent?){
+        if touches.count==1 {
+            let touch=touches.first!
+            let touchLocation=touch.location(in:self)
+            if window!.frame.contains(touchLocation) {
+                let newOrigin=pointAdd(frame.origin,pointMinus(touchLocation,touch.previousLocation(in:self)))
+                frame=CGRect(origin:newOrigin,size:frame.size)
+            }
+        }
+    }
+
+    override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?){
+        if onDesktop {
+            super.touchesEnded(touches,with:event)
+        }else{
+            touchesCancelled(touches, with: event)
+        }
+    }
+
 }
