@@ -29,7 +29,8 @@ class Directory<FileType>: DirectoryEntry<FileType>  where FileType:NamedObject 
                 }
             }
             return result
-        }catch{
+        }catch let e as Error {
+            print("ERROR: \(e)")
             return []
         }
     }

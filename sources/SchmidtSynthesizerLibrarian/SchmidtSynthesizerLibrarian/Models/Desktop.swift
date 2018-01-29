@@ -54,8 +54,9 @@ class Desktop: NSObject {
             try FileManager.default.createDirectory(at:path,
                                                 withIntermediateDirectories:true,
                                                 attributes:[:])
-            return path.absoluteString
-       }catch{
+            return path.relativePath
+        }catch let e as Error{
+            print("Cannot create directory \(path): \(e)")
             return nil
         }
     }

@@ -33,7 +33,12 @@ class DesktopViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+
         let desktop=Desktop()
+        let directory=desktop.programDirectory()!
+        createTestDirectory(desktop)
+        printDirectory(directory:directory,prefix:"  ")
+
         desktopView.desktop=desktop
         for instance in desktop.elements {
             add(instance:instance)
@@ -44,9 +49,48 @@ class DesktopViewController: UIViewController {
         add(instance:BankSet(name:"Concert in Paris"))
 
         desktopView.add(element:DirectoryWindow<Program>(frame:CGRect(x:220,y:10,width:300,height:400),
-                                                         directory:desktop.programDirectory()!))
+                                                         directory:directory))
     }
 
+    func printDirectory<FileType>(directory:Directory<FileType>,prefix:String){
+        print("\(prefix) d \(directory.path)")
+        for entry in directory.files() {
+            print("\(prefix)   \(entry.path)")
+        }
+        for entry in directory.subdirectories() {
+            printDirectory(directory:entry,prefix:"\(prefix)   ")
+        }
+    }
+
+    func createTestDirectory(_ desktop:Desktop){
+        let path=desktop.dataDirectoryPath(name:"Programs")!
+        do {
+            print("*")
+            try FileManager.default.createDirectory(atPath:path,
+                                                withIntermediateDirectories:true,
+                                                attributes:[:])
+            print("*")
+            try FileManager.default.createDirectory(atPath:path.appending("Strings"),
+                                                withIntermediateDirectories:true,
+                                                attributes:[:])
+            print("*")
+            try FileManager.default.createDirectory(atPath:path.appending("Basses"),
+                                                withIntermediateDirectories:true,
+                                                attributes:[:])
+            print("*")
+            FileManager.default.createFile(atPath:path.appending("Foo.prg"),contents:nil,attributes:[:])
+            print("*")
+            FileManager.default.createFile(atPath:path.appending("Bar.prg"),contents:nil,attributes:[:])
+            print("*")
+            FileManager.default.createFile(atPath:path.appending("Strings").appending("Violin.prg"),contents:nil,attributes:[:])
+            print("*")
+            FileManager.default.createFile(atPath:path.appending("Strings").appending("Cello.prg"),contents:nil,attributes:[:])
+            print("**")
+        }catch let e as Error {
+            print("CANNOT CREATE DIRECTORIES \(path): \(e)")
+        }
+
+    }
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.

@@ -131,39 +131,48 @@ class TreeView:UIView {
         path.stroke()
     }
     
-    func createSubviews(element:TreeViewElement,x:CGFloat,y:CGFloat) -> CGSize {
-        var subview:UIView
-        if element.isLeaf() {
-            subview=element.leaf()!.view()
-        }else{
-            subview=element.node()!.view()
+    func createSubviews(x:CGFloat,y:CGFloat) -> CGSize {
+        var newWidth=x+frame.size.width
+        var newHeight=y+frame.size.height
+        for subleaf in subtree!.subleaves() {
+            let subview=subleaf.node()!.view()
+            subview.frame.origin=CGPoint(x:indent,y:newHeight)
+            addSubview(subview)
+            newWidth=max(newWidth,subview.frame.size.width)
+            newHeight=newHeight+subview.frame.size.height
         }
-        subview.frame=CGRect(origin:CGPoint(x:x,y:y),size:subview.frame.size)
-        self.addSubview(subview)
-        var newWidth=x+subview.frame.size.width
-        var newHeight=y+subview.frame.size.height
-        if element.isOpen() {
-            for subleaf in element.subleaves() {
-                let subSize=createSubviews(element:subleaf,x:x+indent,y:newHeight)
-                newWidth=max(newWidth,subSize.width)
-                newHeight=newHeight+subSize.height
-            }
-            for subtree in element.subtrees() {
-                let subSize=createSubviews(element:subtree,x:x+indent,y:newHeight)
-                newWidth=max(newWidth,subSize.width)
-                newHeight=newHeight+subSize.height
-            }
+        for subnode in subtree!.subtrees() {
+            let treeView=TreeView(frame:CGRect(x:indent,y:newHeight,width:frame.size.width,height:frame.size.height),
+                                  node:subnode.node()!)
+            addSubview(treeView)
+            newWidth=max(newWidth,treeView.frame.size.width)
+            newHeight=newHeight+treeView.frame.size.height
         }
         return CGSize(width:newWidth,height:newHeight)
     }
 
 
     func switchOpening() {
-        print("switchOpening")
+        if subtree!.isOpen(){
+            subtree!.close()
+            for subview in self.subviews {
+                if subview != nodeView {
+                    subview.removeFromSuperview()
+                }
+            }
+            self.frame=CGRect(origin:frame.origin,
+                              size:CGSize(width:frame.size.width,
+                                          height:nodeView!.frame.size.height))
+        }else{
+            subtree!.open()
+            self.frame=CGRect(origin:frame.origin,
+                              size:createSubviews(x:indent,y:nodeView!.frame.size.height))
+        }
+        setNeedsDisplay()
     }
 
     func openingArea()->CGRect {
-        return CGRect(origin:bounds.origin,size:CGSize(width:indent,height:bounds.size.height))
+        return CGRect(origin:bounds.origin,size:CGSize(width:indent,height:nodeView!.frame.size.height))
     }
 
     func inOpeningArea(touch:UITouch) -> Bool {
