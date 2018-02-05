@@ -1,0 +1,55 @@
+-*- mode:org;coding:utf-8 -*-
+
+* Issues
+** TODO [#A] Drag-and-Drop of DesktopElement                             :ui:
+** TODO [#B] Select one or more Items in the Tree                 :directory:
+** TODO [#B] Create a Directory                                   :directory:
+** TODO [#B] Rename a Directory                                   :directory:
+** TODO [#B] Move Directories and Items in the Tree               :directory:
+** TODO [#B] Delete Empty Directory                               :directory:
+** TODO [#B] Delete Recursively a Directory                       :directory:
+** TODO [#B] Create an Item in a Directory                        :directory:
+** TODO [#B] Delete an Item from a Directory                      :directory:
+** TODO [#B] Rename an Item in a Directory                        :directory:
+** TODO [#B] Open a Bank                                               :bank:
+- open a bank : the list of programs in the bank is shown.
+** TODO [#B] Close a Bank window                                       :bank:
+** TODO [#B] Move (or make copies) of Banks                            :bank:
+- move (or make copies) from one to eight selected banks, to the
+  directory tree, the desktop or to an existing open set.
+** TODO [#B] Create a new BankSet from selected Banks                  :bank:
+- create a new set and fill it with (copies of) the selected banks.
+** TODO [#B] Send Banks to the synthesizer                        :midi:bank:
+- send from one to eight selected banks to a Schmidt synthesizer
+  (represented as an icon on the desktop).
+
+** TODO [#B] Open a BankSet                                         :bankset:
+- open a set :  the list of banks in the set is shown.
+** TODO [#B] Close a BankSet window                                 :bankset:
+- close an opened set.
+** TODO [#B] Move or make copies of BankSets                        :bankset:
+- move (or make copies) of the selected sets to the directory tree or
+  the desktop.
+** TODO [#B] Send a Bankset to the synthesizer                 :midi:bankset:
+- send one selected set to a Schmidt synthesizer
+  (represented as an icon on the desktop).
+** TODO [#B] Open a program                                         :program:
+- open a program : shows the parameters of the program.
+** TODO [#B] Close a program window                                 :program:
+- close an opened program.
+** TODO [#B] Rename a program                                       :program:
+- rename a program
+** TODO [#B] Edit program parameters                                :program:
+- set the category/color of selected programs.
+** TODO [#B] Move or make copies of Programs                        :program:
+- move (or make copies) of the selected programs to the directory
+  tree, the desktop, or an open bank.
+** TODO [#B] Send one program to the synthesizer               :midi:program:
+- send one selected program to a Schmidt synthesizer (currently, this
+  only configures the current program of the synthesizer sending NPRN
+  messages).
+** TODO [#B] Show current program parameters, and update       :midi:program:
+- opening the Synthesizer icon will show the current program
+  parameters, updated as PC, BC and NPRN messages are received.
+
+
