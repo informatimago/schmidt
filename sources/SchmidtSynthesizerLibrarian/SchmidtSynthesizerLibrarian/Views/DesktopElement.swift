@@ -54,7 +54,10 @@ class DesktopElement: UIView
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?){
         originalFrame=frame
         dragging=true
-        superview!.bringSubview(toFront:self)
+
+        // superview!.bringSubview(toFront:self)
+        // TODO: create a UIView as subview of the desktop, and draw self inside it.  Drag this subview in the desktop.
+
         setNeedsDisplay()
     }
 

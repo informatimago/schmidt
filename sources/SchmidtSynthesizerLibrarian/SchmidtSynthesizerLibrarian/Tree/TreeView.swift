@@ -14,10 +14,12 @@ import UIKit
 // Those views will be embedded in NodeView to position and decorate them with the needed controls.
 
 protocol Leaf {
+    func name()->String // for debugging
     func view()->UIView
 }
 
 protocol Node {
+    func name()->String // for debugging
     func view()->UIView
     func leaves()->[Leaf]
     func subtrees()->[Node]
@@ -37,6 +39,11 @@ protocol TreeViewElement {
     func isOpen()->Bool
     func open()
     func close()
+    // for debugging:
+}
+
+extension TreeViewElement {
+    func name()->String                { return isLeaf() ? leaf()!.name() : node()!.name() }
 }
 
 class TreeViewLeaf:TreeViewElement {
@@ -110,7 +117,6 @@ class TreeView:UIView {
     }
 
     override func draw(_ rect:CGRect){
-        super.draw(rect)
         let color=UIColor.black
         let path=UIBezierPath()
         let center=CGPoint(x:self.bounds.origin.x+indent/2,
@@ -131,26 +137,34 @@ class TreeView:UIView {
         path.stroke()
     }
     
-    func createSubviews(x:CGFloat,y:CGFloat) -> CGSize {
-        var newWidth=x+frame.size.width
-        var newHeight=y+frame.size.height
+    func createSubviews(x:CGFloat,y:CGFloat) {
+        var newWidth=max(x+nodeView!.frame.width,frame.size.width)
+        var newHeight=y
         for subleaf in subtree!.subleaves() {
-            let subview=subleaf.node()!.view()
+            let subview=subleaf.leaf()!.view()
             subview.frame.origin=CGPoint(x:indent,y:newHeight)
             addSubview(subview)
-            newWidth=max(newWidth,subview.frame.size.width)
+            newWidth=max(newWidth,indent+subview.frame.size.width)
             newHeight=newHeight+subview.frame.size.height
         }
         for subnode in subtree!.subtrees() {
-            let treeView=TreeView(frame:CGRect(x:indent,y:newHeight,width:frame.size.width,height:frame.size.height),
+            let treeView=TreeView(frame:CGRect(origin:CGPoint(x:indent,y:newHeight),size:frame.size),
                                   node:subnode.node()!)
             addSubview(treeView)
-            newWidth=max(newWidth,treeView.frame.size.width)
+            newWidth=max(newWidth,indent+treeView.frame.size.width)
             newHeight=newHeight+treeView.frame.size.height
         }
-        return CGSize(width:newWidth,height:newHeight)
+        frame=CGRect(origin:frame.origin,size:CGSize(width:newWidth,height:newHeight))
     }
 
+    func adjustViews(){
+        if let parent = superview as? TreeView {
+            parent.adjustPositionOfSubviews()
+        }else if let parent = superview as? UIScrollView {
+            parent.contentSize=frame.size
+        }
+        setNeedsDisplay()
+    }
 
     func switchOpening() {
         if subtree!.isOpen(){
@@ -160,15 +174,28 @@ class TreeView:UIView {
                     subview.removeFromSuperview()
                 }
             }
-            self.frame=CGRect(origin:frame.origin,
-                              size:CGSize(width:frame.size.width,
-                                          height:nodeView!.frame.size.height))
+            frame=CGRect(origin:frame.origin,
+                         size:CGSize(width:frame.size.width,
+                                     height:nodeView!.frame.size.height))
+
         }else{
             subtree!.open()
-            self.frame=CGRect(origin:frame.origin,
-                              size:createSubviews(x:indent,y:nodeView!.frame.size.height))
+            createSubviews(x:indent,y:nodeView!.frame.size.height)
         }
-        setNeedsDisplay()
+        adjustViews()
+    }
+
+    func adjustPositionOfSubviews(){
+        var w:CGFloat=bounds.size.width
+        var y:CGFloat=bounds.origin.y
+        for subview in subviews {
+            subview.frame.origin.y=y
+            w=max(w,subview.frame.origin.x+subview.frame.size.width)
+            y=y+subview.frame.size.height
+        }
+        frame=CGRect(origin:frame.origin,
+                     size:CGSize(width:w,height:y-bounds.origin.y))
+        adjustViews()
     }
 
     func openingArea()->CGRect {

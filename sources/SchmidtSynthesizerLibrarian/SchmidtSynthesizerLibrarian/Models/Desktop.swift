@@ -49,13 +49,13 @@ class Desktop: NSObject {
     }
 
     func dataDirectoryPath(name:String)->String?{
-        let path=URL(fileURLWithPath:NSHomeDirectory(),isDirectory:true).appendingPathComponent("Documents/\(name)/")
+        let path=URL(fileURLWithPath:NSHomeDirectory(),isDirectory:true).appendingPathComponent("Documents/\(name)")
         do{
             try FileManager.default.createDirectory(at:path,
                                                 withIntermediateDirectories:true,
                                                 attributes:[:])
             return path.relativePath
-        }catch let e as Error{
+        }catch let e {
             print("Cannot create directory \(path): \(e)")
             return nil
         }

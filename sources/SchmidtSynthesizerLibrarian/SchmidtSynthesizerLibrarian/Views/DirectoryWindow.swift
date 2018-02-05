@@ -11,13 +11,20 @@ import UIKit
 class DirectoryWindow<FileType>: DesktopWindow where FileType:NamedObject {
 
     var directory:Directory<FileType>?
+    let scrollBorder:CGFloat=10.0
 
     init(frame:CGRect,directory:Directory<FileType>){
         self.directory=directory
         super.init(frame:frame,name:directory.name)
-
-        let irect=CGRect(x:5,y:30,width:frame.size.width-10,height:frame.size.height-30)
+        let top:CGFloat=30
+        let irect=CGRect(x:scrollBorder,y:top,width:frame.size.width-(2*scrollBorder),height:frame.size.height-top-scrollBorder)
         let scrollView=UIScrollView(frame:irect)
+        scrollView.isScrollEnabled=true
+        scrollView.isPagingEnabled=false
+        scrollView.isDirectionalLockEnabled=true
+        scrollView.bounces=true
+        scrollView.alwaysBounceVertical=false
+        scrollView.alwaysBounceHorizontal=false
         self.addSubview(scrollView)
 
         let root=DirectoryNode<FileType>(directory:directory)

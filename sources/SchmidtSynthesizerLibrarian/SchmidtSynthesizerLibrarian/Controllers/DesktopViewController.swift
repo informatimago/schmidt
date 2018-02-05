@@ -62,31 +62,37 @@ class DesktopViewController: UIViewController {
         }
     }
 
+
+    func mkdir(_ path:String) throws {
+        print("Create d \(path)")
+        try FileManager.default.createDirectory(atPath:path,
+                                            withIntermediateDirectories:true,
+                                            attributes:[:])
+    }
+
+    func touch(_ path:String) throws {
+        print("Create f \(path)")
+        FileManager.default.createFile(atPath:path,contents:nil,attributes:[:])
+    }
+
     func createTestDirectory(_ desktop:Desktop){
         let path=desktop.dataDirectoryPath(name:"Programs")!
         do {
-            print("*")
-            try FileManager.default.createDirectory(atPath:path,
-                                                withIntermediateDirectories:true,
-                                                attributes:[:])
-            print("*")
-            try FileManager.default.createDirectory(atPath:path.appending("Strings"),
-                                                withIntermediateDirectories:true,
-                                                attributes:[:])
-            print("*")
-            try FileManager.default.createDirectory(atPath:path.appending("Basses"),
-                                                withIntermediateDirectories:true,
-                                                attributes:[:])
-            print("*")
-            FileManager.default.createFile(atPath:path.appending("Foo.prg"),contents:nil,attributes:[:])
-            print("*")
-            FileManager.default.createFile(atPath:path.appending("Bar.prg"),contents:nil,attributes:[:])
-            print("*")
-            FileManager.default.createFile(atPath:path.appending("Strings").appending("Violin.prg"),contents:nil,attributes:[:])
-            print("*")
-            FileManager.default.createFile(atPath:path.appending("Strings").appending("Cello.prg"),contents:nil,attributes:[:])
+            try mkdir(path)
+            try touch(path.appending("/Foo.prg"))
+            try touch(path.appending("/Bar.prg"))
+            try mkdir(path.appending("/Basses"))
+            try touch(path.appending("/Basses").appending("/Electric.prg"))
+            try touch(path.appending("/Basses").appending("/Wet.prg"))
+            try touch(path.appending("/Basses").appending("/Dry.prg"))
+            try touch(path.appending("/Basses").appending("/Acoustic.prg"))
+            try mkdir(path.appending("/Strings"))
+            try touch(path.appending("/Strings").appending("/Violin.prg"))
+            try touch(path.appending("/Strings").appending("/Cello.prg"))
+            try touch(path.appending("/Strings").appending("/Viola.prg"))
+            try touch(path.appending("/Strings").appending("/Contrebasse.prg"))
             print("**")
-        }catch let e as Error {
+        }catch let e {
             print("CANNOT CREATE DIRECTORIES \(path): \(e)")
         }
 

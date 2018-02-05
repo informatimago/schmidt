@@ -13,6 +13,9 @@ func typeLetter(_ instance:NamedObject) -> String {
     if(instance is Directory<Program>)  {return "DP"}
     if(instance is Directory<Bank>)     {return "DB"}
     if(instance is Directory<BankSet>)  {return "DS"}
+    if(instance is File<Program>)       {return "FP"}
+    if(instance is File<Bank>)          {return "FB"}
+    if(instance is File<BankSet>)       {return "FS"}
     if(instance is Program)             {return "P"}
     if(instance is Bank)                {return "B"}
     if(instance is BankSet)             {return "S"}
@@ -35,6 +38,10 @@ class DirectoryLeaf<FileType>:Leaf where FileType:NamedObject {
         self.file=file
     }
 
+    func name() -> String {
+        return file.name
+    }
+
     func view()->UIView {
         return desktopInstance(instance:file)
     }
@@ -47,6 +54,10 @@ class DirectoryNode<FileType>:Node where FileType:NamedObject {
 
     init(directory:Directory<FileType>){
         self.directory=directory
+    }
+
+    func name() -> String {
+        return directory.name
     }
 
     func view()->UIView{
