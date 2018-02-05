@@ -1,5 +1,8 @@
 .. comment: -*- mode:rst; coding:utf-8 -*-
 
+.. section-numbering::
+   :depth: 4
+   :start: 1
 
 Specifications MIDI Librarian
 ############################################################
@@ -35,9 +38,10 @@ and sets off-line.
 
 
 Functionalities
+============================================================
+
+Categories
 ------------------------------------------------------------
-
-
 
 For the Schmidt Synthesizer, the `categories` are names given to the
 predefined set of colors (0…63).  `Categories` are lists of 64 names.
@@ -65,7 +69,8 @@ default list.
    - edit its name.
 
 
-
+General
+------------------------------------------------------------
 
 Currently, we can only transfer single banks or multi banks manually.
 Sending or receiving a whole set requires 16 manual operations (8
@@ -84,13 +89,65 @@ manual synchronization.
   is sent again.  The bank and sets are automatically given a default
   name containing a time stamp.
 
-- Listen for program changes and NPRN messages to automatically update the current program.
+
+- search and select for programs upon various criteria:
+
+  + name (regexp),
+
+  + parameter values or ranges, (eg. all programs with: `Group1.VCF1
+    on and VCF1.InputA.Level>100`)
+
+- batch set parameters to programs.  This can be represented as an
+  icon on the desktop, and dragging programs from banks to that icon
+  would modify the program.  Eg. to set the performance parameters
+  (after-touch, modulation wheel, X/Y joystick), or the category
+  (colors).
+
+- sort programs in banks according to criteria:
+
+  + name
+
+  + category
+
+  + parameters (eg. sort upon `VCF1.Cutoff, VCF2.Cutoff, DF1.Cutoff,
+    DF2.Cutoff`, or sort upon `VCA.Attack, VCA.Decay`, etc).
+
+
+- generate random programs.
+
+- convert programs from one synthesizer to the other (direct mapping of parameters).
+
+
+
+Synthesizer Program Visualization
+------------------------------------------------------------
+
+Listen for Bank Change/Program Change messages.  Upon receiving a Bank
+Change/Program Change:
+
+- if possible query the synthesizer for the current program parameters
+  if not, assume the parameters from the corresponding program in the
+  saved BankSet dump.
+
+- display the current program parameters.
+
+- Listen for NPRN messages to automatically update the current
+  program, and update its display.
+
+
+
+Bank
+------------------------------------------------------------
 
 - Send a Bank:
 
   - select a Bank,
 
   - activate the sending process (click on the send button).
+
+
+BankSet
+------------------------------------------------------------
 
 - Send a BankSet:
 
@@ -107,7 +164,9 @@ BankSets and Banks are stored each in their own hierarchical directory
 tree.  Programs are usually stored in banks, but they can also be
 stored stand-alone in their own hierarchical directory tree.
 
-Manipulation of a directory tree:
+
+Manipulation of a Directory Tree
+------------------------------------------------------------
 
 - create directory
 - rename directory
@@ -121,6 +180,7 @@ Manipulation of a directory tree:
 
 
 Manipulation of Banks
+------------------------------------------------------------
 
 - open a bank : the list of programs in the bank is shown.
 
@@ -139,6 +199,7 @@ directory), from the desktop, or from open BankSets.
 
 
 Manipulation of BankSets
+------------------------------------------------------------
 
 - open a set :  the list of banks in the set is shown.
 
@@ -155,6 +216,7 @@ directory), or from the desktop.
 
 
 Manipulation of Programs
+------------------------------------------------------------
 
 - open a program : shows the parameters of the program.
 - close an opened program.
@@ -172,7 +234,8 @@ directory), from the desktop, or from an open bank.
   messages).
 
 
-Manipulation of the Synthesizer icon
+Manipulation of the Synthesizer
+------------------------------------------------------------
 
 - opening the Synthesizer icon will show the current program
   parameters, updated as PC, BC and NPRN messages are received.
@@ -199,7 +262,7 @@ Manipulation of the Synthesizer icon
 
 
 User Interface
-----------------------------------------
+============================================================
 
 We show a Desktop with "icons", "strips" and "windows".
 
