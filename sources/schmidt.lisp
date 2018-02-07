@@ -108,6 +108,9 @@ SysEx Format for Single Bank
 MIDI Sysex Format
 ----------------------------------------
 
+Bank Dump
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
     MIDI SysEx header:
 
         F0              System Exclusive
@@ -127,6 +130,27 @@ MIDI Sysex Format
 
         05 0E 03 02     check-sum?
         F7              EOX (End of Exclusive)
+
+Firmware Updates
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+    MIDI SysEx header:
+
+        F0              System Exclusive
+        07              Kurtzveil
+        0d
+        07
+        07
+        03
+        03
+        0f …
+
+    V1.21_panel.syx   f0 07 0d 07 07 03 03 0f 0f 0f 0f 0f 0f 0f 0f 0f
+    V1.21_system.syx  f0 07 0d 07 07 03 03 0f 0f 0f 0f 0f 0f 0f 0f 0f
+    V1.21_voice.syx   f0 07 0d 07 07 03 03 0f 0f 0f 0f 0f 0f 0f 0f 0f
+    V1.22_panel.syx   f0 07 0d 07 07 03 03 0f 0f 0f 0f 0f 0f 0f 0f 0f
+    V1.22_voice.syx   f0 07 0d 07 07 03 03 0f 0f 0f 0f 0f 0f 0f 0f 0f
+    V1.23_system.syx  f0 07 0d 07 07 03 03 0f 0f 0f 0f 0f 0f 0f 0f 0f
 
 
 Bank Data Block Format

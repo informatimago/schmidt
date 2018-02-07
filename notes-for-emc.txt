@@ -1,15 +1,17 @@
 Schimdt_Manual_E_121_Web.pdf Errata
-========================================
+########################################
 
 - In the MIDI parameter sections, several occurences of the mapping for
-  oscillators contain a typo "Osz2" for "Osz3":
+  oscillators contain a typo "Osz2" for "Osz3": ::
 
-    00: Osz1
-    01: Osz2
-    10: Osz2
-    11: Osz4
+        00: Osz1
+        01: Osz2
+        10: Osz2
+        11: Osz4
 
-- Everywhere, the second unit shall be written in lower case, for example: 2ms…21s
+- Everywhere, the abreviated time unit "second" shall be written in
+  lower case, for example: 2ms…21s
+  The upper-case "S" represents the electric conductance unit "Siemens".
 
 - Several occurences of "Dacay2" --> "Decay 2"
 
@@ -18,19 +20,19 @@ Schimdt_Manual_E_121_Web.pdf Errata
   of page 111 seem to be related to DF2.
 
 
-- Glide/bend Pitch Bend ranges are not disjoint!  1…28 should probably be 15…28.
+- Glide/bend and Pitch Bend ranges are not disjoint!  1…28 should probably be 15…28.
 
-- Missing a section explaining the format of the SysEx messages, such as:
-
-    !!! ADD SysEx DOC HERE !!!
+- Missing a section explaining the format of the SysEx messages, (see
+  below reverse-engineered documentation "Schmidt Synthesizer SysEx
+  Headers").
 
 
 
 Feature requests
-========================================
+########################################
 
 MIDI Implementation
-----------------------------------------
+========================================
 
 It would be useful to provide several sysex message to be able to
 command program and bank reading and writing (dumping and
@@ -39,5 +41,357 @@ reception/saving), so that a librarian software may be implemented.
 - The MIDI sysex messages to request programs (single, multi) and banks dumps are not specified.
 - The MIDI sysex messages to command writing a program or a bank are not specified.
 - The format of the MIDI sysex bank dumps message is not specified.
+
+
+Firmware Update
+========================================
+
+It doesn't seem to work on the USB port, only on the MIDI port.
+It should work on the USB port too.
+
+
+Notice: the first byte after F0 in the SysEx messages is usually a
+byte identifying the manufacturer.  In the case of bank dump SysEx, the
+byte 7D is used (for Non-Commercial use), but in the case of firmware
+updates, it's 07, which means Kurzweil.
+https://www.midi.org/specifications/item/manufacturer-id-numbers
+It would be preferable to keep 7D (Non-Commercial use) until Schmidt is
+allocated a Manufacturer ID.
+
+
+
+Schmidt Synthesizer SysEx Messages
+########################################
+
+*This section should be completed and added to the user manual.*
+
+SysEx Format for Firmware Updates
+========================================
+
+MIDI SysEx header: ::
+
+        F0              System Exclusive
+        07              Kurtzveil
+        0d
+        07
+        07
+        03
+        03
+        0f …
+
+    V1.21_panel.syx   f0 07 0d 07 07 03 03 0f 0f 0f 0f 0f 0f 0f 0f 0f
+    V1.21_system.syx  f0 07 0d 07 07 03 03 0f 0f 0f 0f 0f 0f 0f 0f 0f
+    V1.21_voice.syx   f0 07 0d 07 07 03 03 0f 0f 0f 0f 0f 0f 0f 0f 0f
+    V1.22_panel.syx   f0 07 0d 07 07 03 03 0f 0f 0f 0f 0f 0f 0f 0f 0f
+    V1.22_voice.syx   f0 07 0d 07 07 03 03 0f 0f 0f 0f 0f 0f 0f 0f 0f
+    V1.23_system.syx  f0 07 0d 07 07 03 03 0f 0f 0f 0f 0f 0f 0f 0f 0f
+
+
+SysEx Format for Single Bank
+========================================
+
+MIDI SysEx Format
+----------------------------------------
+
+Bank Dump
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+    MIDI SysEx header: ::
+
+        F0              System Exclusive
+        7D              Non-Commercial SysEx
+        77
+        33
+        07              bank number 00 - 07 (for bank 1 to 8).
+        00 00
+
+    Single Bank Data: ::
+
+       65536 octets.  Each octet encodes a quad between 0 and 15 (00H…0FH).
+       Two successive octets are combined in little-endian order to form a data octet:
+       0w 0x 0y 0z …  encode xw zy …, resulting into 32768 octet of bank data block.
+
+    MIDI SysEx trailer: ::
+
+        05 0E 03 02     check-sum?
+        F7              EOX (End of Exclusive)
+
+Bank Data Block Format
+----------------------------------------
+
+A Single Bank Block contains 32768 octets: the concatenation of 128
+program data blocks of 256 octets each.
+
+The last byte contains a check-sum computed as the arithmetic sum of
+all the octets in the bank data block, modulo 256.
+
+
+Program Data Block Format
+----------------------------------------
+
+The program parameters are numbered as documented for the NPRN MIDI
+messages sent and received when modifying the parameters of the
+current program.  Here is the list of documented parameters: ::
+
+    Number of parameters: 203
+      1: (vcf 1) ENV Depth
+      2: (vcf 2) ENV Depth
+      3: (vcf 1) Cutoff
+      4: (vcf 2) Cutoff
+      5: (df 1) Cutoff
+      6: (df 2) Cutoff
+      7: (osz 3) Main Pitch
+      8: (osz 4) Main Tune
+     11 - 26: Program Name.
+     29: (special) Preset LED Color
+     30: (special) Preset Screen Color
+     31: (vcf 1/2) VCF12 LFO-Sync-Mode
+     32: (master-env/vca) Sound Volume
+     33: (master-env/vca) Attack
+     34: (master-env/vca) Decay
+     35: (master-env/vca) Sustain
+     36: (master-env/vca) Release
+     37: (master-env/vca) Release-Level
+     38: (group 1/2) Group 1 Velocity
+     39: (group 1/2) Group 2 Velocity
+     40: (vcf 1) Attack
+     41: (vcf 1) Decay 1
+     42: (vcf 1) Sustain
+     43: (vcf 1) Release
+     44: (vcf 2) Attack
+     45: (vcf 2) Decay 1
+     46: (vcf 2) Sustain
+     47: (vcf 2) Release
+     48: (group 1/2) Min Man/Fade-Controls
+     49: (group 1/2) Group 1/2 Man-Mix
+     50: (group 1/2) Group 1/2 Fade-Time
+     51: (group 1/2) Group 1/2 Fade-Delay
+     52: (group 1/2) Panorama-Controls
+     53: (group 1/2) Group 1 Pan-Offset
+     54: (group 1/2) Group 2 Pan-Offset
+     55: (group 1/2) Panorama-LFO-Depth
+     56: (group 1/2) Panorama-LFO-Rate
+     57: (group 1/2) LFO-Controls
+     58: (group 1/2) Mix-LFO-Depth
+     59: (group 1/2) Mix-LFO-Rate
+     60: (master-env/vca) Soft/VCA-VCF12-Retrigg
+     61: (vcf 1/2) VCF12 Decay2
+     62: (vcf 1) Decay 2
+     63: (vcf 2) Decay 2
+     64: (vcf 1) ENV Destination (Velocity)
+     65: (vcf 2) ENV Destination (Velocity)
+     66: (vcf 1) ENV Velocity-Depth
+     67: (vcf 2) ENV Velocity-Depth
+     68: (vcf 2) ENV-Trigger-Repeat-Rate
+     69: (vcf 1) Trigger Delay
+     70: (vcf 2) Trigger Delay
+     71: (glide/bend) Glide Depth
+     72: (osz 1234) Unisono Tune (Mono)
+     73: (osz 1234) Single Fine Tune
+     74: (osz 1234) Single Transpose
+     75: (vcf 1) Resonance
+     76: (vcf 1) Filter Mode (LP-BP-HP)
+     77: (vcf 2) Resonance
+     78: (vcf 2) Filter Mode (LP-BP-HP)
+     79: (vcf 1/2) Input Source
+     80: (df 1/2) Input Source
+     81: (vcf 1/2) Input B Filter/Level Mod
+     82: (vcf 1) Input Level A
+     83: (vcf 1) Input Level B
+     84: (vcf 2) Input Level A
+     85: (vcf 2) Input Level B
+     86: (vcf 1) Level B Mod Time Out
+     87: (vcf 2) Level B Mod Time Out
+     88: (vcf 1) Velocity
+     89: (vcf 2) Velocity
+     90: (vcf 1) Key Follow
+     91: (vcf 2) Key Follow
+     92: (df 1) Input Level A
+     93: (df 1) Input Level B
+     94: (df 2) Input Level A
+     95: (df 2) Input Level B
+     96: (vcf 1) Input Level DF1 Out
+     97: (vcf 2) Input Level DF1 Out
+     98: (group 1/2) Group 1 Out DF 1 Level
+     99: (group 1/2) Group 2 Out DF 2 Level
+    100: (vcf 1/2 df 1/2) LFO Source
+    101: (vcf 1) LFO Control/Mode
+    102: (vcf 2) LFO Control/Mode
+    103: (vcf 1) LFO Depth
+    104: (vcf 2) LFO Depth
+    105: (vcf 1) LFO Rate
+    106: (vcf 2) LFO Rate
+    107: (vcf 1) LFO Time
+    108: (vcf 2) LFO Time
+    109: (group 1/2) Input/Output
+    110: (group 1/2) VCF3 Group 1/2 Out
+    111: (group 1/2) Group 1 Out VCF3 Level
+    112: (group 1/2) Group 2 Out VCF3 Level
+    113: (group 1/2) VCF3 Cutoff
+    114: (group 1/2) DF 1/2 Group 1/2 Out
+    115: (group 1/2) Group 1 Out DF 1 Distortion
+    116: (group 1/2) Group 2 Out DF 2 Distortion
+    117: (df 2) Assign DF1 Value
+    118: (df 1) Space
+    119: (df 1) Key Follow
+    120: (df 1) Velocity
+    121: (df 1) ENV Depth
+    122: (df 1) LFO Depth
+    123: (df 1) LFO Rate
+    124: (df 2) Space
+    125: (df 2) Key Follow
+    126: (df 2) Velocity
+    127: (df 2) ENV Depth
+    128: (df 2) LFO Depth
+    129: (df 2) LFO Rate
+    130: (df 1/2) ENV-Mode/DF1->2 Assign
+    131: (df 1/2) Resonance
+    132: (df 1) Mode/Mulator-Settings
+    133: (df 2) Mode/Mulator-Settings
+    134: (df 1) ENV Mode:ADR : ENV Attack; ENV Mode:Ramp : CLK-Rate
+    135: (df 2) ENV Mode:ADR : ENV Attack; ENV Mode:Ramp : CLK-Rate
+    136: (df 1) ENV Mode:ADR : ENV Decay; ENV Mode:Ramp : Quantize
+    137: (df 2) ENV Mode:ADR : ENV Decay; ENV Mode:Ramp : Quantize
+    138: (df 1) ENV Mode:ADR : ENV Release; ENV Mode:Ramp : #Repeats
+    139: (df 2) ENV Mode:ADR : ENV Release; ENV Mode:Ramp : #Repeats
+    140: (df 1) ENV Trigger Delay
+    141: (df 2) ENV Trigger Delay
+    142: (df 1) Ramp Nr
+    143: (df 2) Ramp Nr
+    145: (glide/bend) Single Mode/Glide Mode
+    146: (glide/bend) Glide Time Filter
+    147: (glide/bend) Glide Time OSZ
+    148: (glide/bend) Pitch Bend
+    149: (osz 1) Detune
+    150: (osz 1) Detune Fine/KBD Scale/Wave
+    151: (osz 1) Octave/Sub Octave
+    152: (osz 1) Noise Modulation
+    153: (osz 1) Semitone
+    154: (osz 123) PWM Settings
+    155: (osz 1) PWM Center
+    156: (osz 1) PWM LFO-Rate
+    157: (osz 1) PWM LFO-Depth
+    158: (osz 2) PWM Center
+    159: (osz 2) PWM LFO-Rate
+    160: (osz 2) PWM LFO-Depth
+    161: (osz 3) PWM Center
+    162: (osz 3) PWM LFO-Rate
+    163: (osz 3) PWM LFO-Depth
+    164: (osz 1) Multi PWM Width Center
+    165: (osz 1) Multi PWM Space Center
+    166: (osz 1) Multi PWM Width LFO Rate
+    167: (osz 1) Multi PWM Width LFO Depth
+    168: (osz 1) Multi PWM Space LFO Rate
+    169: (osz 1) Multi PWM Space LFO Depth
+    170: (osz 1) Multi PWM Diffuse/Mode
+    171: (osz 1) Multi PWM LFO Vel/Mode/Kbd
+    172: (osz 2) Detune
+    173: (osz 2) Detune Fine/KBD Scale/Wave
+    174: (osz 2) Octave/Sub Octave
+    175: (osz 2) Noise Modulation
+    176: (osz 2) Semitone
+    177: (osz 3) Detune
+    178: (osz 3) Semitone
+    179: (osz 3) Noise Modulation
+    180: (osz 3) Wave
+    181: (osz 3) Detune Fine/KBD Scale/Octave
+    182: (osz 3) Subosz Osz3/Sync/Add.Pitch Mod
+    183: (osz 3) LFO
+    184: (osz 3) FM Depth Osz2
+    185: (osz 3) Fine Pitch
+    186: (osz 3) Velocity
+    187: (osz 3) LFO Depth
+    188: (osz 3) LFO Rate
+    189: (osz 4) Fine Tune
+    190: (osz 4) Velocity
+    191: (osz 4) KBD Scale
+    192: (osz 4) Noise Modulation
+    193: (osz 4) Wave Preset A/B
+    194: (osz 4) Octave/Mode
+    195: (osz 4) A/B Mix Settings
+    196: (osz 4) A/B Mix
+    197: (osz 4) A/B Mix Rate
+    198: (osz 1) Vibrato Depth
+    199: (osz 2) Vibrato Depth
+    200: (osz 3) Vibrato Depth
+    201: (osz 4) Vibrato Depth
+    202: (osz 1) Vibrato Rate
+    203: (osz 2) Vibrato Rate
+    204: (osz 3) Vibrato Rate
+    205: (osz 4) Vibrato Rate
+    206: (osz 1) Vibrato Wave
+    207: (osz 2) Vibrato Wave
+    208: (osz 3) Vibrato Wave
+    209: (osz 4) Vibrato Wave
+    210: (osz 1) Envelope Depth
+    211: (osz 2) Envelope Depth
+    212: (osz 3) Envelope Depth
+    213: (osz 4) Envelope Depth
+    214: (osz 1) Envelope Time
+    215: (osz 2) Envelope Time
+    216: (osz 3) Envelope Time
+    217: (osz 4) Envelope Time
+    218: (osz 1) Env Destination/Mode
+    219: (osz 2) Env Destination/Mode
+    220: (osz 3) Env Destination/Mode
+    221: (osz 4) Env Destination/Mode
+    222: (osz 1234) Vibrato Assign
+    223: (osz 1234) Envelop Assign
+
+
+The first 8 parameters are encoded over 9 bits; the less-significant 8
+bits are stored in the octet at the NPRN index (W).  The 9th bits, the
+most significant bits of each of those 8 parameters are collected in a
+single octet, stored at the index 9 (H).
+
+The name of the program is stored on the 16 octets from 11 to 26 (N);
+the 7 less significant bits of each octets contain a Schmidt character
+code; the most significant bits are combined to forms two more 7-bit
+Schmidt character codes.  Thus a program name has therefore 18 characters.
+
+The Schmidt character code is indicated in the following table: the
+character codes are in the order of the characters as they are scanned
+when entering the program name in the Schmidt Synthesizer display. ::
+
+      0: space
+      1: A     27: a     53: 0     79: ;
+      2: B     28: b     54: 1     80: <
+      3: C     29: c     55: 2     81: =
+      4: D     30: d     56: 3     82: >
+      5: E     31: e     57: 4     83: ?
+      6: F     32: f     58: 5     84: @
+      7: G     33: g     59: 6     85: [
+      8: H     34: h     60: 7     86: \
+      9: I     35: i     61: 8     87: ]
+     10: J     36: j     62: 9     88: ^
+     11: K     37: k     63: !     89: _
+     12: L     38: l     64: "     90: `
+     13: M     39: m     65: #     91: {
+     14: N     40: n     66: $     92: |
+     15: O     41: o     67: %     93: }
+     16: P     42: p     68: &     94: ~
+     17: Q     43: q     69: '
+     18: R     44: r     70: (
+     19: S     45: s     71: )
+     20: T     46: t     72: *
+     21: U     47: u     73: +
+     22: V     48: v     74: ,
+     23: W     49: w     75: -
+     24: X     50: x     76: .
+     25: Y     51: y     77: /
+     26: Z     52: z     78: :
+
+
+The other parameters are either continuous parameters (potentiometers)
+encoded on an octet, or switch parameters encoded in bitfields packed
+into octets (\*, and C for the color bytes). ::
+
+    _WWWWWWWWH_NNNNNNNNNNNNNNNN__CC*********************************
+    ****************************************************************
+    ****************_***********************************************
+    ********************************________________________________
+
+The remaining bytes (_) are undocumented and not yet
+reverse-engineered.
 
 
