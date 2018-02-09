@@ -2,6 +2,20 @@
 
 * Issues
 ** TODO [#A] Drag-and-Drop of DesktopElement                             :ui:
+
+Using a UIImageView to drag and drop:
+
+- the subviews are not drawn in the image.
+
+- moving on the desktop is possible only to outside of any view: we 
+  cannot easily offset a dekstop item.
+
+We should re-implement it by removing the view being dragged from its
+superview, adding it to the DesktopView, and dragging there, then
+moving it back (cancel), moving it back and duplicate to target (copy)
+or inserting to target (move).
+
+
 ** TODO [#B] Select one or more Items in the Tree                 :directory:
 ** TODO [#B] Create a Directory                                   :directory:
 ** TODO [#B] Rename a Directory                                   :directory:
