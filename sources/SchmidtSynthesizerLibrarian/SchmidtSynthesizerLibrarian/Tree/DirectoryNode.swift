@@ -23,11 +23,9 @@ func typeLetter(_ instance:NamedObject) -> String {
 }
 
 func desktopInstance(instance:NamedObject) -> DesktopInstance {
-    let desktopInstance=DesktopInstance(frame:CGRect(x:0,y:0,width:200,height:40),
-                                        name:typeLetter(instance)+": "+instance.name,
-                                        object:instance)
-    desktopInstance.onDesktop=false
-    return desktopInstance
+    return DesktopInstance(frame:CGRect(x:0,y:0,width:200,height:40),
+                           name:typeLetter(instance)+": "+instance.name,
+                           object:instance)
 }
 
 class DirectoryLeaf<FileType>:Leaf where FileType:NamedObject {

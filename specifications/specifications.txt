@@ -241,7 +241,6 @@ Manipulation of the Synthesizer
   parameters, updated as PC, BC and NPRN messages are received.
 
 
-
 +----------------+----------------+----------------+----------------+----------------+----------------+
 |                | categories     | program        | bank           | bankset        | synthesizer    |
 +================+================+================+================+================+================+

@@ -9,79 +9,85 @@
 import UIKit
 
 func pointMinus(_ a:CGPoint,_ b:CGPoint) -> CGPoint{
-    return CGPoint(x:a.x-b.x,y:a.y-b.y)
-}
+    return CGPoint(x:a.x-b.x,y:a.y-b.y)}
 
 func pointAdd(_ a:CGPoint,_ b:CGPoint) -> CGPoint{
-    return CGPoint(x:a.x+b.x,y:a.y+b.y)
-}
+    return CGPoint(x:a.x+b.x,y:a.y+b.y)}
 
 
 
-class DesktopElement: UIView
+class DesktopElement: UIView,DropTarget
 // ,UIDragInteractionDelegate,NSItemProviderWriting
 {
     
     var name="Untitled"
-    
+
     init(frame:CGRect,name:String){
         super.init(frame:frame)
         self.name=name
         self.isUserInteractionEnabled=true
-        self.backgroundColor=UIColor.white
-   }
+        self.backgroundColor=UIColor.white}
 
     required init?(coder:NSCoder){
         super.init(coder:coder)
-        self.isUserInteractionEnabled=true
-   }
+        self.isUserInteractionEnabled=true}
 
 
     var selected=false
     var dragging=false
-    var originalFrame=CGRect(x:0,y:0,width:0,height:0)
 
     override func draw(_ rect: CGRect) {
         if selected || dragging {
-            let color:UIColor=UIColor.black
-            let path:UIBezierPath=UIBezierPath(rect:bounds)
-            color.set()
-            path.lineWidth=3.0
-            path.stroke()
-        }
+            frameRect(bounds,color:UIColor.black,borderWidth:3) }}
+
+    func desktopView()->DesktopView? {
+        var view:UIView?=self
+        var desktopView=view as? DesktopView
+        while (desktopView == nil) && (view != nil) {
+            view=view!.superview
+            desktopView=view as? DesktopView}
+        return desktopView}
+
+    func onDesktop()->Bool {
+        return superview==desktopView()
     }
 
-    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?){
-        originalFrame=frame
+    func image()->UIImage {
+        UIGraphicsBeginImageContext(bounds.size)
+        let context = UIGraphicsGetCurrentContext()!
+        context.translateBy(x:-bounds.origin.x,y:-bounds.origin.y)
         dragging=true
-
-        // superview!.bringSubview(toFront:self)
-        // TODO: create a UIView as subview of the desktop, and draw self inside it.  Drag this subview in the desktop.
-
-        setNeedsDisplay()
-    }
-
-    override func touchesMoved(_ touches: Set<UITouch>,with event: UIEvent?){
-        if touches.count==1 {
-            let touch=touches.first!
-            let touchLocation=touch.location(in:self)
-            if window!.frame.contains(touchLocation) {
-                let newOrigin=pointAdd(frame.origin,pointMinus(touchLocation,touch.previousLocation(in:self)))
-                frame=CGRect(origin:newOrigin,size:frame.size)
-            }
-        }
-    }
-
-    override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?){
+        fillRect(bounds,color:UIColor.white)
+        draw(bounds)
         dragging=false
-        setNeedsDisplay()
+        let image = UIGraphicsGetImageFromCurrentImageContext()!
+        UIGraphicsEndImageContext()
+        return image}
+
+    func imageView()->UIImageView {
+        let view=UIImageView(frame:frame)
+        view.image=image()
+        return view}
+
+    func dragAndDrop(fromOffset:CGPoint,to:CGPoint,onDesktop:DesktopView){
+        if(superview==onDesktop){
+            frame.origin=pointMinus(to,fromOffset)
+            setNeedsDisplay()
+        // else subclass responsibility
+        }}
+
+    func dragAndDrop(fromOffset:CGPoint,to:CGPoint,onElement:DesktopElement){
+        // subclass responsibility
     }
 
-    override func touchesCancelled(_ touches: Set<UITouch>, with event: UIEvent?){
-        frame=originalFrame
-        dragging=false
-        setNeedsDisplay()
-    }
 
+    // Drop Target:
+    func canTake(element:DesktopElement,from:CGPoint,to:CGPoint)->Bool {return false}
+    func startDrop(element:DesktopElement,from:CGPoint,to:CGPoint)     {}
+    func cancelDrop(element:DesktopElement,from:CGPoint)               {}
+    func completeDrop(element:DesktopElement,from:CGPoint,to:CGPoint)  {}
+
+    // Dropping elements:
+    func canDrop(on:DropTarget,from:CGPoint,to:CGPoint) -> Bool        {return false}
 
 }
