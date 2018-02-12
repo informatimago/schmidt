@@ -31,6 +31,42 @@ Schimdt_Manual_E_121_Web.pdf Errata
 Feature requests
 ########################################
 
+User Interface
+========================================
+
+- When writing a program to a new position, it would be useful to
+  display the name of the program in the destination slot.  (And since
+  we have space on the screen in small font, why not also display the
+  name of the source program).
+
+  Instead of: ::
+
+     +---------------------+
+     |   Write Single      |
+     |      Bank 1 - 1     |
+     |   => Bank 1 - 100   |
+     |---------------------|
+     |Bn/Pre^v:Destination |
+     |Exit:Quit Write:Write|
+     +---------------------+
+
+  Display: ::
+
+     +---------------------+
+     |Single 1:001 -> 1:100|
+     |   Schmidt TW        |
+     |-> Sound 100         |
+     |---------------------|
+     |Bnk/Pre^v:Destination|
+     |Exit:Quit Write:Write|
+     +---------------------+
+
+  Similarly for Saving/Writing Multi presets, and for the Clipboard.
+
+
+
+
+
 MIDI Implementation
 ========================================
 
