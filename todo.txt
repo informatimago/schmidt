@@ -7,7 +7,7 @@ Using a UIImageView to drag and drop:
 
 - the subviews are not drawn in the image.
 
-- moving on the desktop is possible only to outside of any view: we 
+- moving on the desktop is possible only to outside of any view: we
   cannot easily offset a dekstop item.
 
 We should re-implement it by removing the view being dragged from its
@@ -65,5 +65,3 @@ or inserting to target (move).
 ** TODO [#B] Show current program parameters, and update       :midi:program:
 - opening the Synthesizer icon will show the current program
   parameters, updated as PC, BC and NPRN messages are received.
-
-
