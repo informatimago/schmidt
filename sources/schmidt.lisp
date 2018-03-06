@@ -250,7 +250,7 @@ current program.  Here is the list of documented parameters:
      96: (vcf 1) Input Level DF1 Out
      97: (vcf 2) Input Level DF1 Out
      98: (group 1/2) Group 1 Out DF 1 Level
-     99: (group 1/2) Group 2 Out DF 2 Level
+     99: (group 1/2) Group 2 Out DF2 Level
     100: (vcf 1/2 df 1/2) LFO Source
     101: (vcf 1) LFO Control/Mode
     102: (vcf 2) LFO Control/Mode
@@ -267,7 +267,7 @@ current program.  Here is the list of documented parameters:
     113: (group 1/2) VCF3 Cutoff
     114: (group 1/2) DF 1/2 Group 1/2 Out
     115: (group 1/2) Group 1 Out DF 1 Distortion
-    116: (group 1/2) Group 2 Out DF 2 Distortion
+    116: (group 1/2) Group 2 Out DF2 Distortion
     117: (df 2) Assign DF1 Value
     118: (df 1) Space
     119: (df 1) Key Follow
@@ -2288,8 +2288,8 @@ reverse-engineered.
                     ((1 "On")
                      (0 "Off")))
                    (D "VCF2 Out"
-                    ((1 "On")
-                     (0 "Off")))
+                    ((0 "On")
+                     (1 "Off")))
                    (CC "VCF3-Input"
                     ((#b00 "Osz1")
                      (#b01 "Osz2")
@@ -2299,8 +2299,8 @@ reverse-engineered.
                      ((1 "On")
                       (0 "Off")))
                    (A "VCF1 Out"
-                     ((1 "On")
-                      (0 "Off")))))
+                     ((0 "On")
+                      (1 "Off")))))
 
     (:restriction (group 1/2)
      :Parameter "VCF3 Group 1/2 Out"
@@ -2321,22 +2321,22 @@ reverse-engineered.
      :direction S/R
      :type Switch
      :data-format XXFEDCBA
-     :explanation ((F "Group 2 DF 2 Dist-Vel."
+     :explanation ((F "Group 2 DF2 Dist-Vel."
                     ((1 "On")
                      (0 "Off")))
-                   (E "Group 1 DF 1 Dist-Vel."
+                   (E "Group 1 DF1 Dist-Vel."
                     ((1 "On")
                      (0 "Off")))
-                   (D "Group 2 DF 2 Invert"
+                   (D "Group 2 DF2 Invert"
                     ((1 "On")
                      (0 "Off")))
-                   (C "Group 1 DF 1 Invert"
+                   (C "Group 1 DF1 Invert"
                     ((1 "On")
                      (0 "Off")))
                    (B "Group 2 DF2 Out"
                      ((1 "On")
                       (0 "Off")))
-                   (A "Group 1 DF 1 Out"
+                   (A "Group 1 DF1 Out"
                      ((1 "On")
                       (0 "Off")))))
 
@@ -2357,7 +2357,7 @@ reverse-engineered.
      :explanation ((byte "Value" ((range 0 255 "-Max…Off…+Max")))))
 
     (:restriction (group 1/2)
-     :parameter "Group 1 Out DF 1 Distortion"
+     :parameter "Group 1 Out DF1 Distortion"
      :nrpn 115
      :direction S/R
      :type Pot
@@ -2365,7 +2365,7 @@ reverse-engineered.
      :explanation ((byte "Value" ((range 0 255)))))
 
     (:restriction (group 1/2)
-     :parameter "Group 2 Out DF 2 Distortion"
+     :parameter "Group 2 Out DF2 Distortion"
      :nrpn 116
      :direction S/R
      :type Pot
@@ -2373,7 +2373,7 @@ reverse-engineered.
      :explanation ((byte "Value" ((range 0 255)))))
 
     (:restriction (group 1/2)
-     :parameter "Group 1 Out DF 1 Level"
+     :parameter "Group 1 Out DF1 Level"
      :nrpn 98
      :direction S/R
      :type Pot
@@ -2381,7 +2381,7 @@ reverse-engineered.
      :explanation ((byte "Value" ((range 0 255)))))
 
     (:restriction (group 1/2)
-     :parameter "Group 2 Out DF 2 Level"
+     :parameter "Group 2 Out DF2 Level"
      :nrpn 99
      :direction S/R
      :type Pot
@@ -2732,8 +2732,25 @@ reverse-engineered.
 
 
 
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
+(defmacro define-plist-readers (name &rest indicators)
+  `(progn
+     ,@(mapcar (lambda (indicator)
+                 `(defun ,(intern (concatenate 'string (string name) "-" (string indicator))) (,name)
+                    (getf ,name ,(intern (string indicator)
+                                         (load-time-value (find-package "KEYWORD"))))))
+               indicators)
+     ',name))
 
+(define-plist-readers specification
+  restriction parameter nrpn direction type data-format explanation)
+
+(defun find-parameter-specification (restriction name &optional (parameters *parameters*))
+  (find-if (lambda (specification)
+             (and (equalp restriction (specification-restriction specification))
+                  (equalp name        (specification-parameter specification))))
+           parameters))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
@@ -2849,6 +2866,20 @@ reverse-engineered.
           (aref program 30) screen-color)
     (list preset-specific-colors led-color screen-color)))
 
+(defun program-parameter (program specification)
+  (aref program (specification-nprn specification)))
+
+(defun (setf program-parameter) (new-value program specification)
+  (setf (aref program (specification-nprn specification)) new-value))
+
+(defun program-field (program restriction parameter field)
+  (let ((value (decode-switch program (find-parameter-specification restriction parameter))))
+    (if (atom value)
+        value
+        (second (find field
+                      value
+                      :test (function string=)
+                      :key (function first))))))
 
 ;;----------------------------------------------------------------------
 
@@ -2868,22 +2899,24 @@ reverse-engineered.
 
 (defun decode-switch-fields (byte data-format explanation)
   (check-type data-format symbol)
-  (let ((bits (loop :for bit :from 7 :downto 0
-                    :for chr :in (explode data-format)
-                    :for key := (intern (string chr))
-                    :collect (cons key bit))))
-    (assert (= 8 (length bits)))
-    (let ((fields (sort (remove 'x bits :key (function car))
-                        (function char<=) :key (lambda (k) (character (car k))))))
-      (loop
-        :for (key name encoding) :in explanation
-        :for bits := (remove (intern (string (aref (string key) 0))) fields :key (function car) :test-not (function eql))
-        :collect (loop
-                   :for (nil . bit) :in (sort bits (function <) :key (function cdr))
-                   :for e :from 0
-                   :for val := (ldb (byte 1 bit) byte)
-                     :then (dpb (ldb (byte 1 bit) byte) (byte 1 e) val)
-                   :finally (return (list name (or (second (assoc val encoding)) val))))))))
+  (if (eql 'byte data-format)
+      byte
+      (let ((bits (loop :for bit :from 7 :downto 0
+                        :for chr :in (explode data-format)
+                        :for key := (intern (string chr))
+                        :collect (cons key bit))))
+        (assert (= 8 (length bits)))
+        (let ((fields (sort (remove 'x bits :key (function car))
+                            (function char<=) :key (lambda (k) (character (car k))))))
+          (loop
+            :for (key name encoding) :in explanation
+            :for bits := (remove (intern (string (aref (string key) 0))) fields :key (function car) :test-not (function eql))
+            :collect (loop
+                       :for (nil . bit) :in (sort bits (function <) :key (function cdr))
+                       :for e :from 0
+                       :for val := (ldb (byte 1 bit) byte)
+                         :then (dpb (ldb (byte 1 bit) byte) (byte 1 e) val)
+                       :finally (return (list name (or (second (assoc val encoding)) val)))))))))
 
 (defun decode-switch (program-bytes specification)
   (destructuring-bind (&key restriction parameter nrpn direction type data-format explanation)
@@ -2894,6 +2927,7 @@ reverse-engineered.
 
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
 
 (defun dump-parameters (&optional (parameters *parameters*))
   (loop
