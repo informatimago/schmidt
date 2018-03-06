@@ -100,9 +100,8 @@ The whole selected item is returned.
 (defun display-program-list (programs)
   (terpri)
   (format t "------------------------------------------------------------------------~%")
-  (loop :for (program bank-namestring bank-number program-number)
-          :in programs
-        :do (format t "~3D:~3D ~18A  ~S~%" (1+ bank-number) (1+ program-number) (program-name program) bank-namestring))
+  (loop :for program :in programs
+        :do (write-line (program-reference program t)))
   (format t "------------------------------------------------------------------------~%")
   (values))
 
@@ -172,11 +171,14 @@ The whole selected item is returned.
                     :key (lambda (entry)
                            (program-name (first entry)))))))))
 
+(defun program-reference (program &optional bank)
+  (destructuring-bind (program bank-namestring bank-number program-number) program
+    (format nil "~3D:~3D ~18A~:[~;  ~S~]" (1+ bank-number) (1+ program-number) (program-name program) bank bank-namestring)))
+
+
 (defun program-menu (programs)
   (mapcar (lambda (entry)
-            (destructuring-bind (program bank-namestring bank-number program-number) entry
-              (cons (format nil "~3D:~3D ~18A  ~S" (1+ bank-number) (1+ program-number) (program-name program) bank-namestring)
-                    entry)))
+            (cons (program-reference entry t) entry))
           programs))
 
 (defun select-a-program ()
