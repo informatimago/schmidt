@@ -9,7 +9,7 @@
 import UIKit
 
 class Desktop: NSObject {
-    
+
     var categories: [Category]=[]
     var elements:[NamedObject]=[]
 
