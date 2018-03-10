@@ -37,7 +37,7 @@ class DesktopViewController: UIViewController {
         let desktop=Desktop()
         let directory=desktop.programDirectory()!
         createTestDirectory(desktop)
-        printDirectory(directory:directory,prefix:"  ")
+        // printDirectory(directory:directory,prefix:"  ")
 
         desktopView.desktop=desktop
         for instance in desktop.elements {
@@ -64,14 +64,14 @@ class DesktopViewController: UIViewController {
 
 
     func mkdir(_ path:String) throws {
-        print("Create d \(path)")
+        // print("Create d \(path)")
         try FileManager.default.createDirectory(atPath:path,
                                             withIntermediateDirectories:true,
                                             attributes:[:])
     }
 
     func touch(_ path:String) throws {
-        print("Create f \(path)")
+        // print("Create f \(path)")
         FileManager.default.createFile(atPath:path,contents:nil,attributes:[:])
     }
 
@@ -91,7 +91,7 @@ class DesktopViewController: UIViewController {
             try touch(path.appending("/Strings").appending("/Cello.prg"))
             try touch(path.appending("/Strings").appending("/Viola.prg"))
             try touch(path.appending("/Strings").appending("/Contrebasse.prg"))
-            print("**")
+            // print("**")
         }catch let e {
             print("CANNOT CREATE DIRECTORIES \(path): \(e)")
         }

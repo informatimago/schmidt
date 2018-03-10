@@ -19,20 +19,20 @@ class Directory<FileType>: DirectoryEntry<FileType>  where FileType:NamedObject 
                 var isDirectory=ObjCBool(false)
                 let exists=FileManager.default.fileExists(atPath:path.appending("/"+subpath),
                                                           isDirectory: UnsafeMutablePointer<ObjCBool>(&isDirectory))
-                print("subpath \(subpath) exists? \(exists)")
+                // print("subpath \(subpath) exists? \(exists)")
                 if exists {
                     if isDirectory.boolValue {
-                        print("dire \(URL(fileURLWithPath:path,isDirectory:true).appendingPathComponent(subpath).path)")
+                        // print("dire \(URL(fileURLWithPath:path,isDirectory:true).appendingPathComponent(subpath).path)")
                         result.append(Directory(path:URL(fileURLWithPath:path,isDirectory:true).appendingPathComponent(subpath).path))
                     }else{
-                        print("file \(URL(fileURLWithPath:path,isDirectory:true).appendingPathComponent(subpath).path)")
+                        // print("file \(URL(fileURLWithPath:path,isDirectory:true).appendingPathComponent(subpath).path)")
                         result.append(File(path:URL(fileURLWithPath:path,isDirectory:true).appendingPathComponent(subpath).path))
                     }
                 }
             }
-            for entry in result {
-                print("result \(type(of:entry)) \(entry.path)")
-            }
+            // for entry in result {
+            //     print("result \(type(of:entry)) \(entry.path)")
+            // }
             return result
         }catch let e {
             print("ERROR: \(e)")
