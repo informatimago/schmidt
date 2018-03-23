@@ -34,10 +34,14 @@ Feature requests
 User Interface
 ========================================
 
-- When writing a program to a new position, it would be useful to
-  display the name of the program in the destination slot.  (And since
-  we have space on the screen in small font, why not also display the
-  name of the source program).
+
+Writing Programs
+----------------------------------------
+
+When writing a program to a new position, it would be useful to
+display the name of the program in the destination slot.  (And since
+we have space on the screen in small font, why not also display the
+name of the source program).
 
   Instead of: ::
 
@@ -64,6 +68,23 @@ User Interface
   Similarly for Saving/Writing Multi presets, and for the Clipboard.
 
 
+Showing Parameter Value
+----------------------------------------
+
+In Pot Mode = Catch, it would be nice if the value of the parameter
+was displayed as soon as a potentiometer is turned, before the value is
+caught and changed.
+
+
+
+CV Modifiers
+========================================
+
+To be able to fully use the capabilities of the Expressivee Touché
+(with 4 CV outputs), it would be nice if it was possible to assign
+input B4 to any parameter like B1-B3, instead of just to the
+volume. (ie. add Mod.ExtB4 to the modulators).
+https://www.expressivee.com/touche/overview
 
 
 
