@@ -39,6 +39,14 @@ class DesktopInstance: DesktopElement {
 
     // Dropping elements:
     override func canDrop(on:DropTarget,from:CGPoint,to:CGPoint) -> Bool        {return false}
+
+    override func open(){
+        desktopView()?.add(element:DesktopIcon(frame:CGRect(x:50,y:40,width:300,height:200),
+            name:"SchmidtSynthesizer",
+            icon:(UIImage(contentsOfFile:"schmidt_detail_01")!)));
+    }
+
+    
 /*
 
                                      completeDrop                       startDrop

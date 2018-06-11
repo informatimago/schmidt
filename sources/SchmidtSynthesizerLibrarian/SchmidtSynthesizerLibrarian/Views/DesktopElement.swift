@@ -90,4 +90,14 @@ class DesktopElement: UIView,DropTarget
     // Dropping elements:
     func canDrop(on:DropTarget,from:CGPoint,to:CGPoint) -> Bool        {return false}
 
+    func open(){
+        // subclass responsibility;
+    }
+    override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?){
+        if !dragging && (touches.count==2) {
+            self.open();
+        }else{
+            super.touchesEnded(touches,with:event);
+        }
+    }
 }

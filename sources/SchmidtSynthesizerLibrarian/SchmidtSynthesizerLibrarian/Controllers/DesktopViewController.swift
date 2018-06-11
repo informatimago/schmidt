@@ -19,6 +19,7 @@ class DesktopViewController: UIViewController {
         if(instance is Program)             {return "P"}
         if(instance is Bank)                {return "B"}
         if(instance is BankSet)             {return "S"}
+        if(instance is Synthesizer)         {return "SY"}
         return "X"
     }
 
@@ -47,6 +48,7 @@ class DesktopViewController: UIViewController {
         add(instance:Program(name:"ABCDEFGHIJKLMNOPQR"))
         add(instance:Bank(name:"Pads"))
         add(instance:BankSet(name:"Concert in Paris"))
+        add(instance:Synthesizer(name:"Schmidt Synthesizer"))
 
         desktopView.add(element:DirectoryWindow<Program>(frame:CGRect(x:220,y:10,width:300,height:400),
                                                          directory:directory))

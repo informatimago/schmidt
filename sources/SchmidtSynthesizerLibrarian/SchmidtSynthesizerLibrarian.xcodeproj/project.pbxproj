@@ -7,6 +7,10 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		2A043F1C20CE96A40094F106 /* Synthesizer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A043F1B20CE96A40094F106 /* Synthesizer.swift */; };
+		2A043F2020CE9A250094F106 /* schmidt_detail_03.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 2A043F1D20CE9A240094F106 /* schmidt_detail_03.jpg */; };
+		2A043F2120CE9A250094F106 /* schmidt_detail_02.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 2A043F1E20CE9A250094F106 /* schmidt_detail_02.jpg */; };
+		2A043F2220CE9A250094F106 /* schmidt_detail_01.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 2A043F1F20CE9A250094F106 /* schmidt_detail_01.jpg */; };
 		2A9E0865201ED53100FE2A14 /* BankSetWindow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A9E084F201E91C300FE2A14 /* BankSetWindow.swift */; };
 		2A9E0866201ED53100FE2A14 /* BankWindow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A9E0850201E91C300FE2A14 /* BankWindow.swift */; };
 		2A9E0867201ED53100FE2A14 /* DesktopElement.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A9E0851201E91C300FE2A14 /* DesktopElement.swift */; };
@@ -69,6 +73,10 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		2A043F1B20CE96A40094F106 /* Synthesizer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Synthesizer.swift; sourceTree = "<group>"; };
+		2A043F1D20CE9A240094F106 /* schmidt_detail_03.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = schmidt_detail_03.jpg; sourceTree = "<group>"; };
+		2A043F1E20CE9A250094F106 /* schmidt_detail_02.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = schmidt_detail_02.jpg; sourceTree = "<group>"; };
+		2A043F1F20CE9A250094F106 /* schmidt_detail_01.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = schmidt_detail_01.jpg; sourceTree = "<group>"; };
 		2A9E0840201E91C300FE2A14 /* DataViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataViewController.swift; sourceTree = "<group>"; };
 		2A9E0841201E91C300FE2A14 /* DesktopViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DesktopViewController.swift; sourceTree = "<group>"; };
 		2A9E0842201E91C300FE2A14 /* ModelController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModelController.swift; sourceTree = "<group>"; };
@@ -131,6 +139,16 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		2A043F2320CE9A310094F106 /* Images */ = {
+			isa = PBXGroup;
+			children = (
+				2A043F1F20CE9A250094F106 /* schmidt_detail_01.jpg */,
+				2A043F1E20CE9A250094F106 /* schmidt_detail_02.jpg */,
+				2A043F1D20CE9A240094F106 /* schmidt_detail_03.jpg */,
+			);
+			path = Images;
+			sourceTree = "<group>";
+		};
 		2A9E083F201E91C300FE2A14 /* Controllers */ = {
 			isa = PBXGroup;
 			children = (
@@ -154,6 +172,7 @@
 				2A9E084B201E91C300FE2A14 /* File.swift */,
 				2A9E084C201E91C300FE2A14 /* NamedObject.swift */,
 				2A9E084D201E91C300FE2A14 /* Program.swift */,
+				2A043F1B20CE96A40094F106 /* Synthesizer.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -205,6 +224,7 @@
 		2AEC6D5A200BD30E00793771 /* SchmidtSynthesizerLibrarian */ = {
 			isa = PBXGroup;
 			children = (
+				2A043F2320CE9A310094F106 /* Images */,
 				2A9E083F201E91C300FE2A14 /* Controllers */,
 				2A9E0844201E91C300FE2A14 /* Models */,
 				2A9E0857201E91C300FE2A14 /* Tree */,
@@ -348,8 +368,11 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				2A043F2120CE9A250094F106 /* schmidt_detail_02.jpg in Resources */,
+				2A043F2020CE9A250094F106 /* schmidt_detail_03.jpg in Resources */,
 				2AEC6D6A200BD30E00793771 /* LaunchScreen.storyboard in Resources */,
 				2AEC6D67200BD30E00793771 /* Assets.xcassets in Resources */,
+				2A043F2220CE9A250094F106 /* schmidt_detail_01.jpg in Resources */,
 				2AEC6D65200BD30E00793771 /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -385,6 +408,7 @@
 				2A9E0878201ED53E00FE2A14 /* BankSet.swift in Sources */,
 				2A9E087C201ED53E00FE2A14 /* DirectoryEntry.swift in Sources */,
 				2A9E0867201ED53100FE2A14 /* DesktopElement.swift in Sources */,
+				2A043F1C20CE96A40094F106 /* Synthesizer.swift in Sources */,
 				2A9E086B201ED53100FE2A14 /* DesktopWindow.swift in Sources */,
 				2A9E0882201ED54300FE2A14 /* ModelController.swift in Sources */,
 				2A9E0884201ED5C100FE2A14 /* TreeView.swift in Sources */,
