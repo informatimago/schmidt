@@ -40,18 +40,6 @@ class DesktopElement: UIView,DropTarget
         if selected || dragging {
             frameRect(bounds,color:UIColor.black,borderWidth:3) }}
 
-    func desktopView()->DesktopView? {
-        var view:UIView?=self
-        var desktopView=view as? DesktopView
-        while (desktopView == nil) && (view != nil) {
-            view=view!.superview
-            desktopView=view as? DesktopView}
-        return desktopView}
-
-    func onDesktop()->Bool {
-        return superview==desktopView()
-    }
-
     func image()->UIImage {
         UIGraphicsBeginImageContext(bounds.size)
         let context = UIGraphicsGetCurrentContext()!

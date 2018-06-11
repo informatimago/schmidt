@@ -57,7 +57,7 @@ class DesktopView: UIView,DropTarget {
 
     func canTake(element:DesktopElement,from:CGPoint,to:CGPoint)->Bool {
         var result=false
-        print("canTake onDesktop:\(element.onDesktop()) hitTest:\(hitTest(to,with:nil))")
+        print("canTake onDesktop:\(element.onDesktop()) hitTest:\(String(describing: hitTest(to,with:nil)))")
         if element.onDesktop() {
             result=(self==hitTest(to,with:nil))
         }else{
@@ -127,12 +127,14 @@ class DesktopView: UIView,DropTarget {
 
     // Events:
 
-    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?){
+    func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?, fromView view:UIView){
         if touches.count==1 {
             let touch=touches.first!
-            let touchLocation=touch.location(in:self)
-            if let element=hitTest(touchLocation,with:event) as? DesktopElement {
-                startDragging(element:element,fromLocation:touchLocation) }}}
+            let touchLocation=touch.location(in:view)
+            let element=view.hitTest(touchLocation,with:event)
+            print("DesktopView touchesBegan element = \(String(describing: element))")
+            if let element = element as? DesktopElement {
+                startDragging(element:element ,fromLocation:convert(touchLocation,fro:view)) }}}
 
     func updateTarget(touchLocation:CGPoint,with event:UIEvent?,update:(DropTarget,CGPoint)->Void){
         var newTarget=hitTest(touchLocation,with:event) as? DropTarget
@@ -148,34 +150,43 @@ class DesktopView: UIView,DropTarget {
         if newTarget!.canTake(element:currentElement!,from:startLocation,to:touchLocation) {
             update(newTarget!,touchLocation) }}
 
-    override func touchesMoved(_ touches: Set<UITouch>,with event: UIEvent?){
+    func touchesMoved(_ touches: Set<UITouch>,with event: UIEvent?, fromView view:UIView){
         if dragging && (touches.count==1) {
             let touch=touches.first!
-            let touchLocation=touch.location(in:self)
-            if window!.frame.contains(touchLocation) {
-                dragImage(toLocation:touchLocation)
-                updateTarget(touchLocation:touchLocation,
+            let touchLocation=touch.location(in:view)
+            if window!.frame.contains(convert(touchLocation,from:view)) {
+                dragImage(toLocation:convert(touchLocation,from:view))
+                updateTarget(touchLocation:convert(touchLocation,from:view),
                              with:event,
                              update:{ (_ newTarget:DropTarget,_ touchLocation:CGPoint) in
                                         newTarget.startDrop(element:currentElement!,from:startLocation,to:touchLocation)
                                         currentTarget=newTarget }) }}}
 
-    override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?){
+    func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?, fromView view:UIView){
         if dragging && (touches.count==1) {
             let touch=touches.first!
-            let touchLocation=touch.location(in:self)
-            if window!.frame.contains(touchLocation) {
-                dragImage(toLocation:touchLocation)
-                updateTarget(touchLocation:touchLocation,
+            let touchLocation=touch.location(in:view)
+            if window!.frame.contains(convert(touchLocation,from:view)) {
+                dragImage(toLocation:convert(touchLocation,from:view))
+                updateTarget(touchLocation:convert(touchLocation,from:view),
                              with:event,
                              update:{ (_ newTarget:DropTarget,_ touchLocation:CGPoint) in
                                 newTarget.completeDrop(element:currentElement!,from:startLocation,to:touchLocation) }) }}
         finishDragging() }
 
-    override func touchesCancelled(_ touches: Set<UITouch>, with event: UIEvent?){
+    func touchesCancelled(_ touches: Set<UITouch>, with event: UIEvent?,fromView view:UIView){
         if (currentTarget != nil) {
             currentTarget!.cancelDrop(element:currentElement!,from:startLocation)
             currentTarget=nil }
         finishDragging() }
+
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?){
+        touchesBegan(touches,with:event,fromView:self) }
+    override func touchesMoved(_ touches: Set<UITouch>,with event: UIEvent?){
+        touchesMoved(touches,with:event,fromView:self) }
+    override func touchesEnded(_ touches: Set<UITouch>,with event: UIEvent?){
+        touchesEnded(touches,with:event,fromView:self) }
+    override func touchesCancelled(_ touches: Set<UITouch>, with event: UIEvent?){
+        touchesCancelled(touches,with:event,fromView:self) }
 
 }

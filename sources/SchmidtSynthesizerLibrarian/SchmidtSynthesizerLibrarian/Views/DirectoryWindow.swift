@@ -18,7 +18,7 @@ class DirectoryWindow<FileType>: DesktopWindow where FileType:NamedObject {
         super.init(frame:frame,name:directory.name)
         let top:CGFloat=30
         let irect=CGRect(x:scrollBorder,y:top,width:frame.size.width-(2*scrollBorder),height:frame.size.height-top-scrollBorder)
-        let scrollView=UIScrollView(frame:irect)
+        let scrollView=DesktopScrollView(frame:irect)
         scrollView.isScrollEnabled=true
         scrollView.isPagingEnabled=false
         scrollView.isDirectionalLockEnabled=true

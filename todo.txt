@@ -15,7 +15,6 @@ superview, adding it to the DesktopView, and dragging there, then
 moving it back (cancel), moving it back and duplicate to target (copy)
 or inserting to target (move).
 
-
 ** TODO [#B] Select one or more Items in the Tree                 :directory:
 ** TODO [#B] Create a Directory                                   :directory:
 ** TODO [#B] Rename a Directory                                   :directory:

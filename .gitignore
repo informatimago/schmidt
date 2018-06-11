@@ -8,3 +8,7 @@
 *.bytes
 *.xcuserstate
 xcdebugger
+
+# We add the generated files here too, to avoid seeing them in git status:
+notes-for-emc.pdf
+

@@ -136,7 +136,7 @@ class TreeView:UIView {
         path.close()
         path.stroke()
     }
-    
+
     func createSubviews(x:CGFloat,y:CGFloat) {
         var newWidth=max(x+nodeView!.frame.width,frame.size.width)
         var newHeight=y
@@ -206,22 +206,41 @@ class TreeView:UIView {
         return openingArea().contains(touch.location(in:self))
     }
 
+    func scrollParent()->UIScrollView? {
+        var current:UIView?=self
+        while (current != nil) && !(current is UIScrollView) {
+            current=current!.superview
+        }
+        return current as? UIScrollView
+    }
+
     var beganInOpeningArea=false
 
     override func touchesBegan(_ touches: Set<UITouch>,with event: UIEvent?){
-        if touches.count == 1 {
+        print("TreeView touchesBegan")
+        if let desktop=desktopToProcessTouches(touches,with:event,fromView:self) {
+            desktop.touchesBegan(touches,with:event,fromView:self)
+        }else{
             beganInOpeningArea=inOpeningArea(touch:touches.first!)
+            if !beganInOpeningArea {
+                super.touchesBegan(touches,with:event)
+            }
         }
     }
 
     override func touchesEnded(_ touches: Set<UITouch>,with event: UIEvent?){
-        if touches.count == 1 {
-            if beganInOpeningArea && inOpeningArea(touch:touches.first!) {
-                switchOpening()
+        print("TreeView touchesEnded")
+        if let desktop=desktopToProcessTouches(touches,with:event,fromView:self) {
+            desktop.touchesEnded(touches,with:event,fromView:self)
+        }else{
+            if beganInOpeningArea {
+                if inOpeningArea(touch:touches.first!) {
+                    switchOpening()
+                }
+            }else{
+                super.touchesEnded(touches,with:event)
             }
         }
-
     }
 
 }
-
