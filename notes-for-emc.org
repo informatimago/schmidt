@@ -1,13 +1,34 @@
-Schimdt_Manual_E_121_Web.pdf Errata
-########################################
+# -*- mode:org;coding:utf-8 -*-
+
+#+AUTHOR: Pascal J. Bourguignon
+#+EMAIL: pjb@informatimago.com
+#+DATE: June 13th, 2018
+#+TITLE: Schmidt Synthesizer Feature Requests
+#+LANGUAGE: en
+
+#+LATEX_HEADER: \usepackage{fancyhdr}
+#+LATEX_HEADER: \usepackage[english]{babel}
+#+LATEX_HEADER: \pagestyle{fancyplain}
+#+LATEX_HEADER: \lhead{\small{}}
+#+LATEX_HEADER: \chead{}
+#+LATEX_HEADER: \rhead{}
+#+LATEX_HEADER: \lfoot{}
+#+LATEX_HEADER: \cfoot{\tiny{}}
+#+LATEX_HEADER: \rfoot{\thepage}
+#+LATEX_HEADER: \setcounter{page}{1}
+#+LATEX_HEADER: \pagenumbering{arabic}
+
+\newpage
+* =Schimdt_Manual_E_121_Web.pdf= Errata
 
 - In the MIDI parameter sections, several occurences of the mapping for
-  oscillators contain a typo "Osz2" for "Osz3": ::
-
-        00: Osz1
-        01: Osz2
-        10: Osz2
-        11: Osz4
+  oscillators contain a typo "Osz2" for "Osz3":
+    #+BEGIN_EXAMPLE
+            00: Osz1
+            01: Osz2
+            10: Osz2
+            11: Osz4
+    #+END_EXAMPLE
 
 - Everywhere, the abreviated time unit "second" shall be written in
   lower case, for example: 2ms…21s
@@ -19,32 +40,24 @@ Schimdt_Manual_E_121_Web.pdf Errata
   parameters from the bottom of this page from Velocity 126, and top
   of page 111 seem to be related to DF2.
 
-
 - Glide/bend and Pitch Bend ranges are not disjoint!  1…28 should probably be 15…28.
 
 - Missing a section explaining the format of the SysEx messages, (see
   below reverse-engineered documentation "Schmidt Synthesizer SysEx
   Headers").
 
-
-
-Feature requests
-########################################
-
-User Interface
-========================================
-
-
-Writing Programs
-----------------------------------------
+\newpage
+* Feature requests
+** User Interface
+*** Writing Programs
 
 When writing a program to a new position, it would be useful to
 display the name of the program in the destination slot.  (And since
 we have space on the screen in small font, why not also display the
 name of the source program).
 
-  Instead of: ::
-
+Instead of:
+#+BEGIN_EXAMPLE
      +---------------------+
      |   Write Single      |
      |      Bank 1 - 1     |
@@ -53,9 +66,9 @@ name of the source program).
      |Bn/Pre^v:Destination |
      |Exit:Quit Write:Write|
      +---------------------+
-
-  Display: ::
-
+#+END_EXAMPLE
+Display:
+#+BEGIN_EXAMPLE
      +---------------------+
      |Single 1:001 -> 1:100|
      |   Schmidt TW        |
@@ -64,21 +77,56 @@ name of the source program).
      |Bnk/Pre^v:Destination|
      |Exit:Quit Write:Write|
      +---------------------+
+#+END_EXAMPLE
+Similarly for Saving/Writing Multi presets, and for the Clipboard.
 
-  Similarly for Saving/Writing Multi presets, and for the Clipboard.
-
-
-Showing Parameter Value
-----------------------------------------
+*** Showing Parameter Value
 
 In Pot Mode = Catch, it would be nice if the value of the parameter
 was displayed as soon as a potentiometer is turned, before the value is
 caught and changed.
 
+** Real time Controls Assignments
 
+It would be nice to be able to assign the real time controls to more
+than a single parameter at a time.  While I realize that this may
+require extending the format of the program sysex, it would be worth
+it being able to assign those real time controls (including the CV
+modifiers B1-B4), each to at least 8 different parameters, and, when
+the half-range directions  (00+ 00- +00 -00) are used,  to at least 4
+different parameters in each direction simultaneously (4 parameters in
+the + direction, and 4 different parameters in the - direction).
 
-CV Modifiers
-========================================
+For example, we may want to assign the modulation wheel simultaneously
+to the cutoff of the five filters:
+
+|              |        |  <r> |
+| VCF 1 cutoff | =-..+= |  25% |
+| VCF 2 cutoff | =+..-= |  75% |
+| DF 1 cutoff  | =0..+= |  33% |
+| DF 2 cutoff  | =0..-= | 100% |
+| VCF 3 cutoff | =0..+= | 125% |
+
+Currently we can assign the controllers in a single direction (00+ 00-
++00 -00), but in this case, the other direction (or the other
+half-range) is useless.  In that case we would want to be able to
+specify at the same time a ±00 and a 00± direction, and for both
+direction, up to 4 parameters.
+
+For example, we may want to assign the Y axis this way:
+|       |                     |  <r> |
+| =00+= | OSZ 1 Vibrato Depth | 100% |
+| =00+= | OSZ 2 Vibrato Depth |  75% |
+| =00+= | OSZ 3 Vibrato Depth |  50% |
+| =00+= | OSZ 4 Vibrato Depth |  33% |
+| =+00= | VCF 1 Cutoff        | 100% |
+| =+00= | VCF 2 cutoff        |  75% |
+| =-00= | VCF 3 cutoff        | 100% |
+| =-00= | VCF 4 cutoff        |  33% |
+so moving the stick down would change the vcf cutoffs, while moving it
+up would change the vibrato depth.
+
+** CV Modifiers
 
 To be able to fully use the capabilities of the Expressivee Touché
 (with 4 CV outputs), it would be nice if it was possible to assign
@@ -86,10 +134,8 @@ input B4 to any parameter like B1-B3, instead of just to the
 volume. (ie. add Mod.ExtB4 to the modulators).
 https://www.expressivee.com/touche/overview
 
+** MIDI Implementation
 
-
-MIDI Implementation
-========================================
 
 It would be useful to provide several sysex message to be able to
 command program and bank reading and writing (dumping and
@@ -99,13 +145,10 @@ reception/saving), so that a librarian software may be implemented.
 - The MIDI sysex messages to command writing a program or a bank are not specified.
 - The format of the MIDI sysex bank dumps message is not specified.
 
-
-Firmware Update
-========================================
+** Firmware Update
 
 It doesn't seem to work on the USB port, only on the MIDI port.
 It should work on the USB port too.
-
 
 Notice: the first byte after F0 in the SysEx messages is usually a
 byte identifying the manufacturer.  In the case of bank dump SysEx, the
@@ -115,17 +158,16 @@ https://www.midi.org/specifications/item/manufacturer-id-numbers
 It would be preferable to keep 7D (Non-Commercial use) until Schmidt is
 allocated a Manufacturer ID.
 
-
-
-Schmidt Synthesizer SysEx Messages
-########################################
+\newpage
+\newpage
+* Schmidt Synthesizer SysEx Messages
 
 *This section should be completed and added to the user manual.*
 
-SysEx Format for Firmware Updates
-========================================
+** SysEx Format for Firmware Updates
 
-MIDI SysEx header: ::
+MIDI SysEx header:
+#+BEGIN_EXAMPLE
 
         F0              System Exclusive
         07              Kurtzveil
@@ -143,38 +185,34 @@ MIDI SysEx header: ::
     V1.22_voice.syx   f0 07 0d 07 07 03 03 0f 0f 0f 0f 0f 0f 0f 0f 0f
     V1.23_system.syx  f0 07 0d 07 07 03 03 0f 0f 0f 0f 0f 0f 0f 0f 0f
 
+#+END_EXAMPLE
 
-SysEx Format for Single Bank
-========================================
+** SysEx Format for Single Bank
+*** MIDI SysEx Format
+**** Bank Dump
 
-MIDI SysEx Format
-----------------------------------------
-
-Bank Dump
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
-    MIDI SysEx header: ::
-
+- MIDI SysEx header:
+#+BEGIN_EXAMPLE
         F0              System Exclusive
         7D              Non-Commercial SysEx
         77
         33
         07              bank number 00 - 07 (for bank 1 to 8).
         00 00
-
-    Single Bank Data: ::
+#+END_EXAMPLE
+- Single Bank Data:
 
        65536 octets.  Each octet encodes a quad between 0 and 15 (00H…0FH).
        Two successive octets are combined in little-endian order to form a data octet:
        0w 0x 0y 0z …  encode xw zy …, resulting into 32768 octet of bank data block.
 
-    MIDI SysEx trailer: ::
-
+- MIDI SysEx trailer:
+#+BEGIN_EXAMPLE
         05 0E 03 02     check-sum?
         F7              EOX (End of Exclusive)
+#+END_EXAMPLE
 
-Bank Data Block Format
-----------------------------------------
+*** Bank Data Block Format
 
 A Single Bank Block contains 32768 octets: the concatenation of 128
 program data blocks of 256 octets each.
@@ -182,14 +220,13 @@ program data blocks of 256 octets each.
 The last byte contains a check-sum computed as the arithmetic sum of
 all the octets in the bank data block, modulo 256.
 
-
-Program Data Block Format
-----------------------------------------
+*** Program Data Block Format
 
 The program parameters are numbered as documented for the NPRN MIDI
 messages sent and received when modifying the parameters of the
-current program.  Here is the list of documented parameters: ::
+current program.  Here is the list of documented parameters:
 
+#+BEGIN_EXAMPLE
     Number of parameters: 203
       1: (vcf 1) ENV Depth
       2: (vcf 2) ENV Depth
@@ -394,7 +431,7 @@ current program.  Here is the list of documented parameters: ::
     221: (osz 4) Env Destination/Mode
     222: (osz 1234) Vibrato Assign
     223: (osz 1234) Envelop Assign
-
+#+END_EXAMPLE
 
 The first 8 parameters are encoded over 9 bits; the less-significant 8
 bits are stored in the octet at the NPRN index (W).  The 9th bits, the
@@ -408,8 +445,9 @@ Schmidt character codes.  Thus a program name has therefore 18 characters.
 
 The Schmidt character code is indicated in the following table: the
 character codes are in the order of the characters as they are scanned
-when entering the program name in the Schmidt Synthesizer display. ::
+when entering the program name in the Schmidt Synthesizer display.
 
+#+BEGIN_EXAMPLE
       0: space
       1: A     27: a     53: 0     79: ;
       2: B     28: b     54: 1     80: <
@@ -437,18 +475,19 @@ when entering the program name in the Schmidt Synthesizer display. ::
      24: X     50: x     76: .
      25: Y     51: y     77: /
      26: Z     52: z     78: :
-
+#+END_EXAMPLE
 
 The other parameters are either continuous parameters (potentiometers)
 encoded on an octet, or switch parameters encoded in bitfields packed
-into octets (\*, and C for the color bytes). ::
+into octets (\*, and C for the color bytes).
 
+#+BEGIN_EXAMPLE
     _WWWWWWWWH_NNNNNNNNNNNNNNNN__CC*********************************
     ****************************************************************
     ****************_***********************************************
     ********************************________________________________
+#+END_EXAMPLE
 
 The remaining bytes (_) are undocumented and not yet
 reverse-engineered.
-
 
