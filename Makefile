@@ -18,3 +18,10 @@ clean::
 	@find . -name \*.dx64fsl -exec rm -f {} \;
 	@for module in $(MODULES) ; do $(MAKE) $(MFLAGS) -w -C $${module} clean ; done
 
+# Generate PDF from org-mode document.
+%.pdf:%.org
+	-rm -f $@
+	emacs --batch \
+		--eval '(find-file "'$<'")' \
+		--funcall org-latex-export-to-pdf \
+		--kill
