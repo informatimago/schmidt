@@ -13,7 +13,7 @@ clean::
 	-rm specifications.d
 
 questions:
-	grep -nH -e '\<\(QUESTIONS\?\|HOW\)\>' *.txt
+	grep -nH -e '\<\(QUESTIONS\?\|HOW\)\>' *.{txt,org}
 
 tbd:
 	grep -nH -e '\<\(TBD\|GENERAL_DESCRIPTION\|DESCRIPTION_OF_THE_RESPONSIBILITIES_OF_THE_ENTITY\|LIST_OF_ATTRIBUTES\|LIST_OF_ASSOCIATIONS_WITH_OTHER_ENTITIES\)\>' *.txt
