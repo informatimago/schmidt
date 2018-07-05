@@ -58,14 +58,14 @@ and sets off-line.
 The purpose of the *MIDI Librarian* is to help editing and managing
 presets and banks of presets for the *Schmidt Synthesizer*.
 
-- visualization: when a preset is selected on the synthesizer, it should be
+- *visualization*: when a preset is selected on the synthesizer, it should be
   displayed on the tablet screen, showing notably the setting of the
   knobs, which is not reflected on the physical dead knobs.  This
   display of the preset settings should be graphical (eg. envelops)
   and calibrated (for times and periods), to aid visualising the sound
   that would be generated.
 
-- editing: some preset editing is provided, but we don't want to replace
+- *editing*: some preset editing is provided, but we don't want to replace
   the physical button and knob editing that is the strong point of a
   control panel such as the one of the *Schmidt Synthesizer*.   On the
   other hand, preset renaming, changing or copying parameters globally
@@ -73,11 +73,11 @@ presets and banks of presets for the *Schmidt Synthesizer*.
   presets, for sophisticated editing, are features that should be
   provided.
 
-- management: presets are organized in banks on the synthesizer.
+- *management*: presets are organized in banks on the synthesizer.
   We want to be able to easily save, copy and move presets among
   banks, and to save, copy and move banks.
 
-- sharing: presets and banks of presets can be stored on the cloud,
+- *sharing*: presets and banks of presets can be stored on the cloud,
   and can be shared amongst users of the *Schmidt Synthesizer*.  (No
   sale/buying is envisionned since the number of *Schmidt Synthesizer*
   is limited, selling presets for them doesn't offer a big enough
@@ -311,7 +311,6 @@ user as she wishes.
 The saved programs, banks, and banksets can be moved on the desktop.
 In that case, the strip on the desktop is but an alias of the element;
 the element is still visible in its original place.
-
 
 
 
