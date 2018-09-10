@@ -1,16 +1,16 @@
 # -*- mode:org;coding:utf-8 -*-
 
-#+AUTHOR: Pascal Bourguignon
-#+EMAIL: pascal.bourguignon-obiane@interieur.gouv.fr
-#+DATE: 05 Juillet 2018
-#+TITLE: Smartcard Logon / NLA
+#+AUTHOR: Pascal J. Bourguignon
+#+EMAIL: pjb@informatimago.com
+#+DATE: 09 September 2018
+#+TITLE: Specifications of the MIDI Librarian for the Schmidt Synthesizer
 
 #+LATEX_HEADER: \usepackage[english]{babel}
 #+LATEX_HEADER: \usepackage[autolanguage]{numprint} % Must be loaded *after* babel.
 #+LATEX_HEADER: \usepackage{rotating}
 #+LATEX_HEADER: \usepackage{float}
 #+LATEX_HEADER: \usepackage{fancyhdr}
-#+LATEX_HEADER: \usepackage[margin=0.5in]{geometry}
+#+LATEX_HEADER: \usepackage[margin=0.75in]{geometry}
 #+LATEX_HEADER: \usepackage{indentfirst}
 #+LATEX_HEADER: \usepackage{tikz}
 #+LATEX_HEADER: \usetikzlibrary{positioning, fit, calc, shapes, arrows}

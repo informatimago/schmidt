@@ -1,6 +1,6 @@
 MODULES=specifications architecture analysis design sources tests
 PDFS= notes-for-emc.pdf
-all::documents
+all:: $(PDFS) documents
 
 include tools/common.make
 
