@@ -4,13 +4,22 @@ PDFS= specifications.pdf
 all:documents
 documents:$(PDFS)
 	open $(PDFS)
-include ../tools/common.make
+
+# include ../tools/common.make
+
+# Generate PDF from org-mode document.
+%.pdf:%.org
+	-rm -f $@
+	emacs --batch \
+		--eval '(find-file "'$<'")' \
+		--funcall org-latex-export-to-pdf \
+		--kill
+
+clean::
+	- rm -f specifications.tex missfont.log
+
 
 .PHONY::  questions tbd
-
--include specifications.d
-clean::
-	-rm specifications.d
 
 questions:
 	grep -nH -e '\<\(QUESTIONS\?\|HOW\)\>' *.txt
