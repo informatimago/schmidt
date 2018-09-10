@@ -63,6 +63,19 @@ clean-png clean-pngs:
 %.pdf:%.txt
 	rst2pdf -o $@ $<
 
+%.pdf:%.eps
+	epstopdf $<
+
+%.pdf:%.org
+	-@rm -f $@
+	@printf '# Generating %s\n' $@
+	@yes utf-8 | emacs \
+		--batch \
+		--eval '(find-file "'$<'")' \
+		--funcall org-latex-export-to-pdf \
+		--eval '(with-current-buffer "*Org PDF LaTeX Output*" (write-region (point-min) (point-max) "'$@'.log" t))' \
+		--kill
+
 # Object diagrams = Class diagrams.
 o-%.png:o-%.puml
 	@ printf '// Diagramming %s\n' $<

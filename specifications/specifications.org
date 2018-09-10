@@ -1,16 +1,36 @@
-.. comment: -*- mode:rst; coding:utf-8 -*-
+# -*- mode:org;coding:utf-8 -*-
 
-.. section-numbering::
-   :depth: 4
-   :start: 1
+#+AUTHOR: Pascal Bourguignon
+#+EMAIL: pascal.bourguignon-obiane@interieur.gouv.fr
+#+DATE: 05 Juillet 2018
+#+TITLE: Smartcard Logon / NLA
 
-Specifications MIDI Librarian
-############################################################
+#+LATEX_HEADER: \usepackage[english]{babel}
+#+LATEX_HEADER: \usepackage[autolanguage]{numprint} % Must be loaded *after* babel.
+#+LATEX_HEADER: \usepackage{rotating}
+#+LATEX_HEADER: \usepackage{float}
+#+LATEX_HEADER: \usepackage{fancyhdr}
+#+LATEX_HEADER: \usepackage[margin=0.5in]{geometry}
+#+LATEX_HEADER: \usepackage{indentfirst}
+#+LATEX_HEADER: \usepackage{tikz}
+#+LATEX_HEADER: \usetikzlibrary{positioning, fit, calc, shapes, arrows}
+#+LATEX_HEADER: \usepackage[underline=false]{pgf-umlsd}
+#+LATEX_HEADER: \usepackage{lastpage}
+#+LATEX_HEADER: \pagestyle{fancyplain}
+#+LATEX_HEADER: \pagenumbering{arabic}
+#+LATEX_HEADER: \lhead{\small{Schmidt Synthesizer}}
+#+LATEX_HEADER: \chead{}
+#+LATEX_HEADER: \rhead{\small{Specifications of the MIDI Librarian for the Schmidt Synthesizer}}
+#+LATEX_HEADER: \lfoot{}
+#+LATEX_HEADER: \cfoot{\tiny{\copyright{} Pascal J. Bourguignon}}
+#+LATEX_HEADER: \rfoot{\small{Page \thepage \hspace{1pt} de \pageref{LastPage}}}
 
 
+#+LATEX: \newpage
+* Specifications MIDI Librarian
 
-The `MIDI Librarian` application lets the user edit sets and banks of
-programs, to save sysex files (.syx) containing programs, banks or
+The *MIDI Librarian* application lets the user edit sets and banks of
+programs, to save sysex files (=.syx=) containing programs, banks or
 sets, and when possible, to communicate with the MIDI synthesizer to
 transfer programs, banks or sets, either in batch or during
 interactive use.
@@ -18,10 +38,7 @@ interactive use.
 Additionnal entities may be edited, to help organizing programs, banks
 and sets off-line.
 
-
-
-
-::
+#+BEGIN_EXAMPLE
 
     entry ::= directory | program-file .
     directory ::= name { entry } .
@@ -33,19 +50,44 @@ and sets off-line.
     category ::= name color .
     categories ::= 64* category . -- unique colors.
 
+#+END_EXAMPLE
 
+** Functionalities
+*** Introduction
 
+The purpose of the *MIDI Librarian* is to help editing and managing
+presets and banks of presets for the *Schmidt Synthesizer*.
 
+- *visualization*: when a preset is selected on the synthesizer, it should be
+  displayed on the tablet screen, showing notably the setting of the
+  knobs, which is not reflected on the physical dead knobs.  This
+  display of the preset settings should be graphical (eg. envelops)
+  and calibrated (for times and periods), to aid visualising the sound
+  that would be generated.
 
-Functionalities
-============================================================
+- *editing*: some preset editing is provided, but we don't want to replace
+  the physical button and knob editing that is the strong point of a
+  control panel such as the one of the *Schmidt Synthesizer*.   On the
+  other hand, preset renaming, changing or copying parameters globally
+  to a group of presets, applying editing macros to one or multiple
+  presets, for sophisticated editing, are features that should be
+  provided.
 
-Categories
-------------------------------------------------------------
+- *management*: presets are organized in banks on the synthesizer.
+  We want to be able to easily save, copy and move presets among
+  banks, and to save, copy and move banks.
 
-For the Schmidt Synthesizer, the `categories` are names given to the
-predefined set of colors (0…63).  `Categories` are lists of 64 names.
-Each `BankSet` has it own list of `Categories`, initialized with the
+- *sharing*: presets and banks of presets can be stored on the cloud,
+  and can be shared amongst users of the *Schmidt Synthesizer*.  (No
+  sale/buying is envisionned since the number of *Schmidt Synthesizer*
+  is limited, selling presets for them doesn't offer a big enough
+  market).
+
+*** Categories
+
+For the Schmidt Synthesizer, the *categories* are names given to the
+predefined set of colors (0…63).  *Categories* are lists of 64 names.
+Each *BankSet* has it own list of *Categories*, initialized with the
 default list.
 
 
@@ -68,9 +110,7 @@ default list.
 
    - edit its name.
 
-
-General
-------------------------------------------------------------
+*** General
 
 Currently, we can only transfer single banks or multi banks manually.
 Sending or receiving a whole set requires 16 manual operations (8
@@ -94,8 +134,8 @@ manual synchronization.
 
   + name (regexp),
 
-  + parameter values or ranges, (eg. all programs with: `Group1.VCF1
-    on and VCF1.InputA.Level>100`)
+  + parameter values or ranges, (eg. all programs with: *Group1.VCF1
+    on and VCF1.InputA.Level>100*)
 
 - batch set parameters to programs.  This can be represented as an
   icon on the desktop, and dragging programs from banks to that icon
@@ -109,18 +149,15 @@ manual synchronization.
 
   + category
 
-  + parameters (eg. sort upon `VCF1.Cutoff, VCF2.Cutoff, DF1.Cutoff,
-    DF2.Cutoff`, or sort upon `VCA.Attack, VCA.Decay`, etc).
+  + parameters (eg. sort upon *VCF1.Cutoff, VCF2.Cutoff, DF1.Cutoff,
+    DF2.Cutoff*, or sort upon *VCA.Attack, VCA.Decay*, etc).
 
 
 - generate random programs.
 
 - convert programs from one synthesizer to the other (direct mapping of parameters).
 
-
-
-Synthesizer Program Visualization
-------------------------------------------------------------
+*** Synthesizer Program Visualization
 
 Listen for Bank Change/Program Change messages.  Upon receiving a Bank
 Change/Program Change:
@@ -134,10 +171,7 @@ Change/Program Change:
 - Listen for NPRN messages to automatically update the current
   program, and update its display.
 
-
-
-Bank
-------------------------------------------------------------
+*** Bank
 
 - Send a Bank:
 
@@ -145,9 +179,7 @@ Bank
 
   - activate the sending process (click on the send button).
 
-
-BankSet
-------------------------------------------------------------
+*** BankSet
 
 - Send a BankSet:
 
@@ -164,9 +196,7 @@ BankSets and Banks are stored each in their own hierarchical directory
 tree.  Programs are usually stored in banks, but they can also be
 stored stand-alone in their own hierarchical directory tree.
 
-
-Manipulation of a Directory Tree
-------------------------------------------------------------
+*** Manipulation of a Directory Tree
 
 - create directory
 - rename directory
@@ -178,9 +208,7 @@ Manipulation of a Directory Tree
 - rename an item from a directory
 - select one or more items in the directory tree (for further manipulations, like opening, etc).
 
-
-Manipulation of Banks
-------------------------------------------------------------
+*** Manipulation of Banks
 
 - open a bank : the list of programs in the bank is shown.
 
@@ -197,9 +225,7 @@ directory), from the desktop, or from open BankSets.
 - send from one to eight selected banks to a Schmidt synthesizer
   (represented as an icon on the desktop).
 
-
-Manipulation of BankSets
-------------------------------------------------------------
+*** Manipulation of BankSets
 
 - open a set :  the list of banks in the set is shown.
 
@@ -214,9 +240,7 @@ directory), or from the desktop.
 - send one selected set to a Schmidt synthesizer
   (represented as an icon on the desktop).
 
-
-Manipulation of Programs
-------------------------------------------------------------
+*** Manipulation of Programs
 
 - open a program : shows the parameters of the program.
 - close an opened program.
@@ -233,35 +257,22 @@ directory), from the desktop, or from an open bank.
   only configures the current program of the synthesizer sending NPRN
   messages).
 
-
-Manipulation of the Synthesizer
-------------------------------------------------------------
+*** Manipulation of the Synthesizer
 
 - opening the Synthesizer icon will show the current program
   parameters, updated as PC, BC and NPRN messages are received.
 
 
-+----------------+----------------+----------------+----------------+----------------+----------------+
-|                | categories     | program        | bank           | bankset        | synthesizer    |
-+================+================+================+================+================+================+
-| category       |      No        | Set cat/col    | Set cat/col(1) | Set cat/col(1) |      No        |
-+----------------+----------------+----------------+----------------+----------------+----------------+
-| categories     |      No        |      No        |     No         |      No        |      No        |
-+----------------+----------------+----------------+----------------+----------------+----------------+
-| program        |      No        |      No        | Store          |      No        | Send(NPRN)     |
-+----------------+----------------+----------------+----------------+----------------+----------------+
-| bank           |      No        |      No        |     No         | Store          | Send(SysEx)    |
-+----------------+----------------+----------------+----------------+----------------+----------------+
-| bankset        |      No        |      No        |     No         |      No        | Send(SysEx)(2) |
-+----------------+----------------+----------------+----------------+----------------+----------------+
-| synthesizer    |      No        |      No        |     No         |      No        |      No        |
-+----------------+----------------+----------------+----------------+----------------+----------------+
+|             | categories | program     | bank           | bankset        | synthesizer    |
+|-------------+------------+-------------+----------------+----------------+----------------|
+| category    | No         | Set cat/col | Set cat/col(1) | Set cat/col(1) | No             |
+| categories  | No         | No          | No             | No             | No             |
+| program     | No         | No          | Store          | No             | Send(NPRN)     |
+| bank        | No         | No          | No             | Store          | Send(SysEx)    |
+| bankset     | No         | No          | No             | No             | Send(SysEx)(2) |
+| synthesizer | No         | No          | No             | No             | No             |
 
-
-
-
-User Interface
-============================================================
+** User Interface
 
 We show a Desktop with "icons", "strips" and "windows".
 
@@ -303,4 +314,33 @@ the element is still visible in its original place.
 
 
 
+** Cloud
+
+*** User Account Creation
+
+The user can create a user account (nickname, email, password) on the *Cloud*, and connect to it.
+Then, in addition to loading and saving to local directories, it will be possible to save and load to cloud directories.
+One directory on the cloud is a public directory that is readable by any other user.
+The root cloud directory will show a list of public directories, one for each users.
+
+#+BEGIN_EXAMPLE
+
+-- read-only part:
+/cloud/emc/factory-v1
+/cloud/informatimago/nice-sounds
+/cloud/informatimago/jmj-sounds
+
+-- read-write part on the cloud:
+/mycloud/public
+/mycloud/public/nice-sounds
+/mycloud/public/jmj-sounds
+/mycloud/tests
+/mycloud/my-concert/part1
+/mycloud/my-concert/part2
+
+-- read-write part stored locally:
+/local/my-concert/part1
+/local/my-concert/part2
+
+#+END_EXAMPLE
 
