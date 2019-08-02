@@ -18,7 +18,7 @@
 #+LATEX_HEADER: \usepackage{lastpage}
 #+LATEX_HEADER: \pagestyle{fancyplain}
 #+LATEX_HEADER: \pagenumbering{arabic}
-#+LATEX_HEADER: \lhead{\small{Schmidt Synthesizer}}
+#+LATEX_HEADER: \lhead{\small{MIDI Librarian}}
 #+LATEX_HEADER: \chead{}
 #+LATEX_HEADER: \rhead{\small{Specifications of the MIDI Librarian for the Schmidt Synthesizer}}
 #+LATEX_HEADER: \lfoot{}
@@ -27,7 +27,7 @@
 
 
 #+LATEX: \newpage
-* Specifications MIDI Librarian
+* Specifications of the MIDI Librarian
 
 The *MIDI Librarian* application lets the user edit sets and banks of
 programs, to save sysex files (=.syx=) containing programs, banks or
@@ -45,7 +45,7 @@ and sets off-line.
     program-file ::= name { program } .
     program ::= name category data .
     bank ::= number 256* program .
-    set  :=  8* bank . -- unique bank numbers.y
+    set  :=  8* bank . -- unique bank numbers.
 
     category ::= name color .
     categories ::= 64* category . -- unique colors.
@@ -112,7 +112,7 @@ default list.
 
 *** General
 
-Currently, we can only transfer single banks or multi banks manually.
+Currently, we can  transfer single banks or multi banks only manually.
 Sending or receiving a whole set requires 16 manual operations (8
 single banks, and 8 multi banks).
 
@@ -134,8 +134,8 @@ manual synchronization.
 
   + name (regexp),
 
-  + parameter values or ranges, (eg. all programs with: *Group1.VCF1
-    on and VCF1.InputA.Level>100*)
+  + parameter values or ranges, (eg. all programs with: =Group1.VCF1 on=
+    =and= =VCF1.InputA.Level>100=)
 
 - batch set parameters to programs.  This can be represented as an
   icon on the desktop, and dragging programs from banks to that icon
@@ -149,8 +149,8 @@ manual synchronization.
 
   + category
 
-  + parameters (eg. sort upon *VCF1.Cutoff, VCF2.Cutoff, DF1.Cutoff,
-    DF2.Cutoff*, or sort upon *VCA.Attack, VCA.Decay*, etc).
+  + parameters (eg. sort upon =VCF1.Cutoff=, =VCF2.Cutoff=, =DF1.Cutoff=,
+    =DF2.Cutoff=, or sort upon =VCA.Attack=, =VCA.Decay=, etc).
 
 
 - generate random programs.
@@ -262,20 +262,9 @@ directory), from the desktop, or from an open bank.
 - opening the Synthesizer icon will show the current program
   parameters, updated as PC, BC and NPRN messages are received.
 
-
-|             | categories | program     | bank           | bankset        | synthesizer    |
-|-------------+------------+-------------+----------------+----------------+----------------|
-| category    | No         | Set cat/col | Set cat/col(1) | Set cat/col(1) | No             |
-| categories  | No         | No          | No             | No             | No             |
-| program     | No         | No          | Store          | No             | Send(NPRN)     |
-| bank        | No         | No          | No             | Store          | Send(SysEx)    |
-| bankset     | No         | No          | No             | No             | Send(SysEx)(2) |
-| synthesizer | No         | No          | No             | No             | No             |
-
 ** User Interface
 
 We show a Desktop with "icons", "strips" and "windows".
-
 
 - icon:
 
@@ -285,12 +274,9 @@ We show a Desktop with "icons", "strips" and "windows".
 
     text in a box representing some object. (the box may also contain some (small) images).
 
-
 - window:
 
     rectangular area containing further user interface elements.
-
-
 
 We use icons to represent connected synthesizers.
 We use strips to represent categories, directories, programs, banks and banksets.
@@ -312,7 +298,14 @@ The saved programs, banks, and banksets can be moved on the desktop.
 In that case, the strip on the desktop is but an alias of the element;
 the element is still visible in its original place.
 
-
+| drag \ over | categories | program     | bank           | bankset        | synthesizer    |
+|-------------+------------+-------------+----------------+----------------+----------------|
+| category    | No         | Set cat/col | Set cat/col(1) | Set cat/col(1) | No             |
+| categories  | No         | No          | No             | No             | No             |
+| program     | No         | No          | Store          | No             | Send(NPRN)     |
+| bank        | No         | No          | No             | Store          | Send(SysEx)    |
+| bankset     | No         | No          | No             | No             | Send(SysEx)(2) |
+| synthesizer | No         | No          | No             | No             | No             |
 
 ** Cloud
 
