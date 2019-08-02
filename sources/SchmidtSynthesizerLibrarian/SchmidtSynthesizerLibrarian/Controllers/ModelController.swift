@@ -52,7 +52,7 @@ class ModelController: NSObject, UIPageViewControllerDataSource {
         if viewController is DesktopViewController {
             return 0;
         }else{
-            return pageData.index(of: (viewController as! DataViewController).dataObject) ?? NSNotFound
+            return pageData.firstIndex(of: (viewController as! DataViewController).dataObject) ?? NSNotFound
         }
     }
 

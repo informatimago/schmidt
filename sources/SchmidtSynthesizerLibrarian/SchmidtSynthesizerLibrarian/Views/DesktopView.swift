@@ -45,7 +45,7 @@ class DesktopView: UIView,DropTarget {
 
     func remove(element:DesktopElement){
         element.removeFromSuperview()
-        if let index=elements.index(of:element) {
+        if let index=elements.firstIndex(of:element) {
             elements.remove(at:index) }}
 
     override func draw(_ rect:CGRect){
@@ -134,7 +134,7 @@ class DesktopView: UIView,DropTarget {
             let element=view.hitTest(touchLocation,with:event)
             print("DesktopView touchesBegan element = \(String(describing: element))")
             if let element = element as? DesktopElement {
-                startDragging(element:element ,fromLocation:convert(touchLocation,fro:view)) }}}
+                startDragging(element: element, fromLocation: convert(touchLocation,from:view)) }}}
 
     func updateTarget(touchLocation:CGPoint,with event:UIEvent?,update:(DropTarget,CGPoint)->Void){
         var newTarget=hitTest(touchLocation,with:event) as? DropTarget

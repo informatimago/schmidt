@@ -1,6 +1,6 @@
--*- mode:org;coding:utf-8 -*-
+# -*- mode:org;coding:utf-8 -*-
 
-* Issues
+* TODO [/] Schmidt Synthesizer Librarian Project                    :schmidt:
 ** TODO [#A] Drag-and-Drop of DesktopElement                             :ui:
 
 Using a UIImageView to drag and drop:
