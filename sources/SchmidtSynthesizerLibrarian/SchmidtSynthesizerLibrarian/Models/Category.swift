@@ -9,10 +9,13 @@
 import UIKit
 
 class Category: NSObject {
+
     var name:String
     var color:Int
+
     init(color:Int,name:String){
         self.name=name
         self.color=color
     }
+
 }

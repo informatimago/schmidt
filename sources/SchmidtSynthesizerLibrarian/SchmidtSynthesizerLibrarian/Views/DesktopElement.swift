@@ -19,7 +19,7 @@ func pointAdd(_ a:CGPoint,_ b:CGPoint) -> CGPoint{
 class DesktopElement: UIView,DropTarget
 // ,UIDragInteractionDelegate,NSItemProviderWriting
 {
-    
+
     var name="Untitled"
 
     init(frame:CGRect,name:String){

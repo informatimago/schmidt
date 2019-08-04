@@ -12,10 +12,9 @@ class Bank: NamedObject {
 
     var data:NSData?
     var programs:[Program]=[]
-    
+
     required init(name:String){
         super.init(name:name)
     }
-    
 
 }

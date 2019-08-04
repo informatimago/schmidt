@@ -11,11 +11,11 @@ import UIKit
 class BankWindow: DesktopWindow {
 
     var bank:Bank?
-    
+
     init(frame:CGRect,name:String,bank:Bank){
         super.init(frame:frame,name:name)
         self.bank=bank
-        
+
         // Add subviews for programs
         var irect=CGRect(x:10,y:30,width:frame.size.width-20,height:20)
         var i=1
@@ -25,7 +25,7 @@ class BankWindow: DesktopWindow {
             i+=1
         }
     }
-    
+
     required init?(coder:NSCoder){
         super.init(coder:coder)
     }

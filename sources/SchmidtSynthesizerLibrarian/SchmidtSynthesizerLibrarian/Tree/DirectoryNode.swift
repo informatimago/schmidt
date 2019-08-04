@@ -8,7 +8,6 @@
 
 import UIKit
 
-
 func typeLetter(_ instance:NamedObject) -> String {
     if(instance is Directory<Program>)  {return "DP"}
     if(instance is Directory<Bank>)     {return "DB"}

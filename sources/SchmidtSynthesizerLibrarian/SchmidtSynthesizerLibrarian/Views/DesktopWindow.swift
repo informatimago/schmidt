@@ -9,9 +9,9 @@
 import UIKit
 
 class DesktopWindow: DesktopElement {
-    
+
     var contents:UIView?
-    
+
     override init(frame:CGRect,name:String){
         super.init(frame:frame,name:name)
     }
@@ -24,7 +24,7 @@ class DesktopWindow: DesktopElement {
         drawWindowFrame()
         super.draw(rect) // draw contents
     }
-    
+
     func drawWindowFrame(){
         let color:UIColor=UIColor.black
         let path:UIBezierPath=UIBezierPath(rect:bounds)
@@ -32,5 +32,5 @@ class DesktopWindow: DesktopElement {
         path.stroke()
         name.draw(in:bounds)
     }
-    
+
 }

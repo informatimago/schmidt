@@ -9,9 +9,9 @@
 import UIKit
 
 class DesktopIcon: DesktopElement {
-    
+
     var icon:UIImage?
-    
+
     init(frame:CGRect,name:String,icon:UIImage){
         self.icon=icon
         super.init(frame:frame,name:name)
@@ -20,7 +20,7 @@ class DesktopIcon: DesktopElement {
     required init?(coder:NSCoder){
         super.init(coder:coder)
     }
-    
+
     override func draw(_ rect: CGRect) {
         icon?.draw(at:frame.origin)
         name.draw(in:frame)

@@ -9,10 +9,11 @@
 import UIKit
 
 class NamedObject: NSObject {
-  
+
     var name="Unnamed"
-    
+
     required init(name:String){
+        super.init()
         self.name=name
     }
 }
