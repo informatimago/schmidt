@@ -12,7 +12,7 @@ class Program: NamedObject {
 
     var data:NSData?
     var category:Category?
-    
+
     required init(name:String){
         super.init(name:name)
     }

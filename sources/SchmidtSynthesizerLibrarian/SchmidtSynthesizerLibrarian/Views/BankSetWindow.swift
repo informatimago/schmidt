@@ -11,7 +11,7 @@ import UIKit
 class BankSetWindow: DesktopWindow {
 
     var set:BankSet?
-    
+
     init(frame:CGRect,name:String,set:BankSet){
         super.init(frame:frame,name:name)
         self.set=set

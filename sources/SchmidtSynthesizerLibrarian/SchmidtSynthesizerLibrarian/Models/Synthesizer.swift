@@ -9,7 +9,7 @@
 import UIKit
 
 class Synthesizer: NamedObject {
-    
+
     required init(name:String){
         super.init(name:name)
     }

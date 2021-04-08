@@ -76,11 +76,13 @@ class DesktopView: UIView,DropTarget {
         isDropDestination=false
         element.frame=CGRect(origin:pointAdd(element.frame.origin,pointMinus(to,from)),
                              size:element.frame.size)
+        element.isHidden=false
         setNeedsDisplay() }
 
     func cancelDrop(element:DesktopElement,from:CGPoint){
         print("cancelDrop element:\(element) from:\(from)")
         isDropDestination=false
+        element.isHidden=false
         setNeedsDisplay() }
 
     // Drag-and-Drop:
@@ -99,6 +101,7 @@ class DesktopView: UIView,DropTarget {
         originalFrame=element.superview!.convert(element.frame,to:self)
         currentElement=element
         currentImageView=element.imageView()
+        element.isHidden=true
         addSubview(currentImageView!)
         setNeedsDisplay() }
 
@@ -134,11 +137,11 @@ class DesktopView: UIView,DropTarget {
             let element=view.hitTest(touchLocation,with:event)
             print("DesktopView touchesBegan element = \(String(describing: element))")
             if let element = element as? DesktopElement {
-                startDragging(element:element ,fromLocation:convert(touchLocation,from:view)) }}}
+                startDragging(element: element, fromLocation: convert(touchLocation,from:view)) }}}
 
     func updateTarget(touchLocation:CGPoint,with event:UIEvent?,update:(DropTarget,CGPoint)->Void){
         var newTarget=hitTest(touchLocation,with:event) as? DropTarget
-        if newTarget == nil {
+        if (newTarget == nil) || (currentElement == newTarget as? DesktopElement) {
             newTarget=self }
         let new=newTarget as! UIView
         if currentTarget != nil {

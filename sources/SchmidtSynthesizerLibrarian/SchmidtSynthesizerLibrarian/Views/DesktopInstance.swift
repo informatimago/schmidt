@@ -46,14 +46,14 @@ class DesktopInstance: DesktopElement {
             icon:(UIImage(contentsOfFile:"schmidt_detail_01")!)));
     }
 
-    
+
 /*
 
                                      completeDrop                       startDrop
 
      file -> directory               move             (option)copy
 
-     file      -> desktop            alias
+     file      -> desktop            alias
      directory -> desktop            alias
 
      program file -> bank file       insert program                     (select program slot in bank file)
@@ -73,7 +73,7 @@ class DesktopInstance: DesktopElement {
      item     -> trash               remove from desktop
 
      category -> program             set program category
-     program -> category             set program category
+     program  -> category            set program category
 
  */
 
