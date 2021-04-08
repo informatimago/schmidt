@@ -45,7 +45,7 @@ class DesktopView: UIView,DropTarget {
 
     func remove(element:DesktopElement){
         element.removeFromSuperview()
-        if let index=elements.index(of:element) {
+        if let index=elements.firstIndex(of:element) {
             elements.remove(at:index) }}
 
     override func draw(_ rect:CGRect){

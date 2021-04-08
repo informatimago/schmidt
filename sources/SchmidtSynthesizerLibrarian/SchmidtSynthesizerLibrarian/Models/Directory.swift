@@ -17,8 +17,8 @@ class Directory<FileType>: DirectoryEntry<FileType>  where FileType:NamedObject 
             var result:[DirectoryEntry<FileType>]=[]
             for subpath in try FileManager.default.contentsOfDirectory(atPath:path){
                 var isDirectory=ObjCBool(false)
-                let exists=FileManager.default.fileExists(atPath:path.appending("/"+subpath),
-                                                          isDirectory: UnsafeMutablePointer<ObjCBool>(&isDirectory))
+                let exists=withUnsafeMutablePointer(to: &isDirectory){ (isDirectoryP:UnsafeMutablePointer<ObjCBool>) -> Bool in
+                    FileManager.default.fileExists(atPath:path.appending("/"+subpath),isDirectory: isDirectoryP)}
                 // print("subpath \(subpath) exists? \(exists)")
                 if exists {
                     if isDirectory.boolValue {

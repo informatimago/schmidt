@@ -78,7 +78,7 @@ class Desktop: NSObject {
     }
 
     func remove(element:NamedObject){
-        if let index=elements.index(of:element) {
+        if let index=elements.firstIndex(of:element) {
             elements.remove(at:index)
         }
     }
