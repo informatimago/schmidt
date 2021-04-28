@@ -1,0 +1,5 @@
+* TODO [/] Implement Schmidt Synthezier MIDI Librarian
+** TODO [#A] Implement midi loop to receive NRPN from the synthesizer.
+** TODO [#A] Update a program with the NRPN data received.
+** TODO [#A] Send one NRPN for edited parameter.
+** TODO [#A] Send a bunch of NRPN for all the parameters of a program.

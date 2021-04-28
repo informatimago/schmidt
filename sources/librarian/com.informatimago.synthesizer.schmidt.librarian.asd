@@ -11,12 +11,13 @@
 ;;;;AUTHORS
 ;;;;    <PJB> Pascal J. Bourguignon <pjb@informatimago.com>
 ;;;;MODIFICATIONS
+;;;;    2021-04-29 <PJB> Added midi-application stuff.
 ;;;;    2018-01-14 <PJB> Created.
 ;;;;BUGS
 ;;;;LEGAL
 ;;;;    AGPL3
 ;;;;
-;;;;    Copyright Pascal J. Bourguignon 2018 - 2018
+;;;;    Copyright Pascal J. Bourguignon 2018 - 2021
 ;;;;
 ;;;;    This program is free software: you can redistribute it and/or modify
 ;;;;    it under the terms of the GNU Affero General Public License as published by
@@ -37,8 +38,9 @@
 (asdf:defsystem "com.informatimago.synthesizer.schmidt.librarian"
   :description "Librarian for the Schmidt Synthesizer."
   :author "Pascal J. Bourguignon"
-  :version "1.0.0"
+  :version "1.1.0"
   :license "AGPL3"
+  #+asdf-unicode :encoding #+asdf-unicode :utf-8
   :depends-on ("cffi"
                "midi"
                "trivial-timers"
@@ -48,7 +50,17 @@
                "com.informatimago.common-lisp.interactive")
   :components ((:file "packages")
                (:file "schmidt"   :depends-on ("packages"))
-               (:file "librarian" :depends-on ("packages" "schmidt")))
-  #+asdf-unicode :encoding #+asdf-unicode :utf-8)
+               (:file "librarian" :depends-on ("packages" "schmidt"))
+
+               (:file "midi-application")
+               (:file "synthesizer")
+               (:file "schmidt-synthesizer"
+                :depends-on ("synthesizer"
+                             "schmidt"))
+               (:file "librarian-application"
+                :depends-on ("midi-application"
+                             "synthesizer"
+                             "schmidt-synthesizer"
+                             "librarian"))))
 
 ;;;; THE END ;;;;
