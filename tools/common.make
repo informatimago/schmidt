@@ -33,7 +33,7 @@ PLANTUML_OPTIONS ?= -DPLANTUML_LIMIT_SIZE=8192  -Djava.awt.headless=true -Dapple
 HELPFMT          ?= "$(shell basename $(MAKE)) %-20s \# %s\n"
 STYLESHEETS_DIR = /usr/share/xml/docbook/stylesheet/nwalsh
 
-.PHONY:: view clean clean-pdf clean-pdfs checkout-pdf checkout-pdfs documents
+.PHONY:: view help clean clean-pdf clean-pdfs checkout-pdf checkout-pdfs documents pdfs
 
 view:$(PDFS)
 	@if [ $(PDF_VIEWER) = open ] ; then \
