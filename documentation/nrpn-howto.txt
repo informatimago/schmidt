@@ -1,0 +1,353 @@
+https://www.elektronauts.com/t/nrpn-tutorial-how-to/46669
+
+Elektronauts
+Log In
+NRPN tutorial / How to
+The Lounge
+General Discussion
+1 / 8
+ 
+ 
+Olaf_Wolkenhauer
+1 
+Nov '17
+NRPN tutorial / How to
+
+Controlling synth parameters via CC Midi messages is well explained in
+many places. When one of my synth had a parameter that is controlled
+with NRPN, I struggled, even with the help of Google. Having spend on
+this several hours, I want to share with you what I learned.
+
+My goal is to cc automate the Filter Envelope Depth of my synth
+(Hypersynth Xenophone) from my sequencer (Squarp Pyramid). The
+hardware does not really matter here, the question is general,
+although there are details of the hardware, that make a difference.
+
+From the user manual EnvD is controlled by NRPN 9, with a range of
+0-1000. The synth manufacturer tells me on his website that the
+maximum resolution in NRPN mode is 12 bit.
+
+Turning the EnvD knob on the synth changes the values between -50 and
++50. (I want to modulate it between -30 and 0, or thereabouts).
+
+If supported by your synth, NRPN is going beyond conventional MIDI CC
+modulation, allowing finer resolutions (beyond values in the range of
+0-127). To this end more than one item of controller data need to be
+send.
+
+First, with CC99 one sends information about the Most Significant Byte
+(MSB), followed by CC98 sending the Least Significant Byte (LSB). With
+the combination of these two values, one can control up to
+128x128=16384 parameters.
+
+Most confusion arises from getting the MSB and LSB values right. This
+has to do with the fact that one actually needs to understand hex
+code. The challenge is thus to explain this without conversion of hex
+code :slight_smile:
+
+Taken together, the MSB and LSB messages specify the parameter # that
+I want to control (in my case “9”). This then requires further
+information about the values I want this parameter to take.
+
+CC06 (data entry MSB) send the value of the parameter (“coarse”) and
+CC38 (data entry LSB) may be used to send fine adjustments of the
+values of the parameter that we want to control. Then there is also
+CC96 (data inc) and CC97 (data dec) that could come into play.
+
+On my sequencer I use the first step of a sequence to send a value for
+CC99 (SB), on step 2 a value for CC98 (LSB) and on step 3 and further
+value(s) for CC06 (the parameter value).
+
+The first step is thus to determine the CC99 value for the MSB:
+
+Parameter # = 9 in my examples, thus 9 / 128 = 0.0070, from which we
+keep 0 as MSB.  For the LSB (CC98), we calculate 9 - MSB*128 = 9
+
+To take another example, if the parameter # is 1570, then
+1570/128=12.265625, from which we keep 12 as the MSB. 1570-MSB*128=34,
+which gives us 34 as the LSB.
+
+So, while I got all that right, it seems, the challenge is to get the
+data entry MSB and LSB correct, that is, the CC06 and CC38 values,
+which together determine the value of the parameter (here Filter
+EnvD).
+
+Struggling with this, I contacted the person who develops the
+Hypersynth Xenophone. It seems that one advantage of such boutique
+synths, is that the developers respond extremely fast. I expected
+several days, or no response at all but got and answer while I wrote
+this note.
+
+Now, his answer is that if you transfer one byte “CC06” only a portion
+of the range will be changed in a quantised way. So you must configure
+your system/device to transfer two bytes. He then gave a few examples:
+
+ENV depth = -50.0 >> value = 0
+NRPN MSB: CC99 = 0
+NRPN LSB: CC98 = 9
+Data Entry MSB: CC6 = 0
+Data Entry LSB: CC38 = 0
+
+ENV depth = -30.0 >> value = 199 *
+NRPN MSB: CC99 = 0
+NRPN LSB: CC98 = 9
+Data Entry MSB: CC6 = 1
+Data Entry LSB: CC38 = 71
+
+ENV depth = 0.0 >> value = 500 *
+NRPN MSB: CC99 = 0
+NRPN LSB: CC98 = 9
+Data Entry MSB: CC6 = 3
+Data Entry LSB: CC38 = 116
+
+ENV depth = 1000.0 value = 1000
+NRPN MSB: CC99 = 0
+NRPN LSB: CC98 = 9
+Data Entry MSB: CC6 = 7
+Data Entry LSB: CC38 = 104
+
+Anyone seeing a pattern? I didn’t. My synth shows on the display
+values from -50 to +50, my nominal value is -22 and I want to modulate
+it from -30 to about 0. How can I set the CC6 and CC38 values for
+this?
+
+First I need to translate the scale -50 to +50 into a scale from 0 to
+1000. Plotting this on a x-y plane, I have a line with the equation
+y=10 x + 500, where x is the value of the knob in the synth display
+(what I put into the equation) and y is the NRPN value. For a value of
+-30, I get a NPRN value of 200. The question is now how to turn this
+number into values for CC6 and CC38?
+
+Lets dive deeper into NRPN messages, consisting of four CC
+packets. E.g.
+
+B0 63 04
+B0 62 3C
+B0 06 01
+B0 26 23
+
+The “B” are the first 4 bits, standing for Control Change (CC),
+followed by “0” which here is the MIDI channel 1. Each control change
+message has two bytes of data following it. The first byte determines
+the CC# we are changing and the second byte tells us the value that we
+are changing to.
+
+Now, the numbers above are in hex form. If you add “0x” in front of
+them and put this into Google, it can convert it for you. Vice versa
+converting to hex, you can remove the “0x” in front to have the
+message. So, “63” is in fact “CC 0x63”.
+
+The “63 04” then reads “Set CC99 to 4”. CC98 is then ox62 in hex, CC06
+is 0x06 in hex and CC38 is 0x26 in hex. CC06 (“coarse control” or data
+entry MSB) and CC38 (“fine control” or data entry LSB) are what we
+need to focus on.
+
+Say, I want a value of 199 for my parameter, in binary format this is
+0b11000111. Splitting this up, the last seven bits give me the LSB for
+CC38, 0b1000111=71. For LSB CC06 we have “1” or “0b1” to be more
+precise, which gives CC06=1. As we will learn below, this corresponds
+to a knob value of my synth on its display of -30.1.
+
+Taking another example from above, a parameter value of 500 is in
+binary code 0b111110100. Converting the last seven bits, 0b1110100,
+gives 116 for LSB CC38. What remains is “0b11” which is in decimal “3”
+for our data entry MSB (CC06).
+
+Returning to my original quest, I want to know what a knob value of
+-30 on the synth display corresponds to in terms of CC6 and CC38
+values. Translating the -50 to +50 “x scale” into the 0 to 1000 NRPN
+“y scale”, I have -30 * 10 + 500 = 200. Typing “200 to binary” into
+Google gives me “0b11001000”. The last seven bits are
+“0b1001000”. Typing “0b1001000 to decimal” into Google gives me 72 for
+the LSB or CC38=72 and “0b1” is 1 for the MSB or CC06=1.
+
+For a EnvD value of 0, this corresponds to a value of 500 on the NRPN
+scale. “500” in decimal is equal to 0b111110100 in binary. Taking the
+last seven bits, 1110100 gives me CC38=116 (data entry LSB) and 0b11
+or CC6=3 (data entry MSB).
+
+Since I want to modulate my EnvD parameter between -30 and 0, I choose
+on my sequencer values for CC06 values between 1 and 3, and for CC38
+values between 72 and 116.
+
+I can now create a table and then programme my sequencer to automate
+the filter envelope depth:
+
+-30: CC99 = 0, CC98 = 9, CC6=1, CC38=72
+-22: CC99 = 0, CC98 = 9, CC6=2, CC38=23
+-20: CC99 = 0, CC98 = 9, CC6=2, CC38=44
+-10: CC99 = 0, CC98 = 9, CC6=3, CC38=16
+0: CC99 = 0, CC98 = 9, CC6=3, CC38=116
+
+… where the CC99 and CC98 values were calculated already above. The
+way I enter these on the sequencer is that I choose a step (e.g. 19),
+send on that step the CC99 value, on the next step the CC98 value and
+on the third step the two values for CC6 and CC38.
+
+Uff, that was difficult and time consuming. I therefore hope this is
+useful and a time saver for others.
+
+Best
+
+Olaf
+
+17
+
+
+NRPN MSB (send with Akai MPD32) doesnt seem to work
+9
+Hydrasynth from ASM (Ashun Sound Machines)
+6
+Control SRC slot on Digitakt
+2
+HyperSynth Xenophone ANALOG MONO
+2
+
+created
+Nov '17
+last reply
+Nov '20
+7
+replies
+7.2k
+views
+3
+users
+29
+likes
+4
+links
+33
+
+Olaf_Wolkenhauer
+Nov '17
+
+Afterthought and tip. The above procedure isn’t trivial. I enjoyed
+learning it but maybe the most important lesson is the following. If a
+synth has lots of MIDI controllable elements, with high resolution,
+and thus using NRPN in addition to standard MIDI CC, then it is most
+important to check out whether your synth has a modulation matrix. (My
+Xenophone has one). If there is a mod matrix, the top tip is that
+instead of modulating your NRPN parameter (e.g. ENV-depth) directly,
+you can create a Mod patch in mod matrix. For example with Source
+“Mod-Wheel” and Target “ENV-Depth”, or MIDI-EXP >> ENV-Depth. In this
+case automating Mod wheel (CC1) or MIDI-EXP (CC11) is a lot easier
+than to automate a NRPN based parameter! Now we know why a mod matrix
+can be an important criteria in judging a synth :slight_smile:
+
+5
+
+
+3 YEARS LATER
+
+Eamoex
+Nov '20
+
+Hi, sorry for necro-ing this post, but it has been incredibly useful
+to me. For some strange reason, NRPN is made horribly obscure
+everywhere you find data about it. This is the first occurence of a
+clear and hands-on explanation I find, so thank you Olaf!
+
+Question: at the very end of your exposé, you mention the fact you
+send two values on the third step. Is it a special requirement of your
+particular synth? And how do you do that? Use two tracks of the
+sequencer just for these two bytes? And I’m guessing the two bytes
+must to be sent consecutively (not together at same time), do they
+not? It’s not clear to me how to sort this part out.
+
+
+
+
+KaOsphere
+Nov '20
+@Eamoex
+
+To adress value outside of the classic cc ranges, you need two bytes.
+Not all parameters requires these steps. For example switches usually
+don’t need the 4th value whereas a filter would requires it for
+precision.
+
+So, to summarize :
+
+CC#99 (MSB) followed by CC#98 (LSB) adress the parameter then send
+CC#6 ( MSB ) followed by CC#38 ( LSB ) if needed.
+
+Parameters need to be sent successively and not simultaneously. How
+you send them is only relevant to your gear. And each manufacturer
+basically adress nrpn the way he wants/can, so how things are
+implemented greatly differ from one another in my experience.
+
+Hope this helps.
+
+1 Reply3
+
+
+
+Eamoex
+3 
+Nov '20
+@KaOsphere
+
+It does help, thanks. One more question though: are NRPN controller numbers (CC#99, CC#98, CC#6, CC#38) a strictly observed standard, or can manufacturers also choose to
+make their gear receive NRPN format messages from different CC
+numbers?
+
+EDIT: I got the fact that there is a “coarse” and “fine” value (the
+two data bytes) (which BTW is a wrong concept since the two bytes
+really represent a single number), but my question was more about
+whether these two bytes need to be sent simultaneously, which Olaf’s
+post seemed to suggest. And which I couldn’t wrap my head around.
+
+EDIT2: And I think it’s important not to confuse people with “coarse”
+and “fine”, because you gain a great deal of understanding if you get
+that each CC only has 7 useful bits to work with, and the idea behind
+NRPN is to use the available bits of two CC controllers instead of
+one, to access a larger range of values (= a larger maximum
+number). The 14 bits are just that: 14 bits. It’s just that they are
+split between two controllers — but it is only so because of the
+limitation of the standard.
+
+EDIT3: And, of course, there are 2 14-bit numbers in an NRPN message
+(counting all the 28 bits from the 4 CC controllers):
+
+one for the value itself (CC#6, CC#38) one for the “NRPN controller
+ID” (CC#99, CC#98) Which means that manufacturers can define 16’384
+unique NRPN controllers, where each can have 16’384 unique values!
+
+1 Reply
+
+
+Olaf_Wolkenhauer
+
+KaOsphere
+Nov '20
+
+Thanks for helping out. I have not dealt with this for a long time
+:slight_smile:
+
+
+
+
+KaOsphere
+
+Eamoex
+Nov '20
+
+NRPN are standardized AFAIK so CC#99,98,6 & 38 are the way to go !
+:smiley:
+
+3
+
+
+
+Eamoex
+Nov '20
+
+Noice. Thanks a lot @Olaf_Wolkenhauer and @KaOsphere ! :ok_hand:
+
+1
+
+
+Reply
+ 
+Share
