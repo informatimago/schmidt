@@ -435,11 +435,42 @@ reverse-engineered.
 
 
 
-;; The *PARAMETER* list contains specification of the NPRN MIDI
-;; messages that are sent and received for each parameter of the
-;; Schmidt Synthesizer control panel, along with the encoding of the
-;; parameter (as 9-bit word, as 8-bit byte, or as bit fields on 8-bit
-;; bytes).
+#|
+
+The *PARAMETERS* list contains specifications of the NPRN MIDI
+messages that are sent and received for each parameter of the
+Schmidt Synthesizer control panel, along with the encoding of the
+parameter (as 9-bit word, as 8-bit byte, or as bit fields on 8-bit
+bytes).
+
+A specification can specify one or more parameters; it corresponds to
+a single NRPN which can encode the value of a potentiometer or one or
+more switches.
+
+
+| Specification slot | Description                                               |
+|--------------------+-----------------------------------------------------------|
+| :restriction       | sexp, indicates what module the parameters apply to.      |
+|                    |                                                           |
+| :parameter         | Name of the parameter or group of parameters.             |
+|                    |                                                           |
+| :nrpn              | MIDI Non-Registered Parameter Number;                     |
+|                    | Is also the index of the parameter in the program vector. |
+|                    |                                                           |
+| :direction         | S = send only, R = receive only, S/R = send and receive   |
+|                    |                                                           |
+| :type              | SWITCH/M = switch and menu values                         |
+|                    | M = menu                                                  |
+|                    | POT = potentiometer = continuous range parameter          |
+|                    | SWITCH = switch                                           |
+|                    |                                                           |
+| :data-format       | Symbol indicating the data format                         |
+|                    | (use of bits in the parameter)                            |
+|                    |                                                           |
+| :explanation       | Details of the mapping of the bits in                     |
+|                    | the parameter to switches or multi-switch values.         |
+
+|#
 
 (defparameter *parameters*
   '(
@@ -496,7 +527,7 @@ reverse-engineered.
      :type M
      :data-format byte
      :explanation ((byte "Unisono Tune"
-                    ((range 0 255)))))
+                         ((range 0 255)))))
 
     (:restriction (OSZ 1234)
      :parameter "Single Fine Tune"
@@ -1456,7 +1487,7 @@ reverse-engineered.
      :parameter "VCF12 LFO-Sync-Mode"
      :nrpn 31
      :direction S/R
-     :type m
+     :type M
      :data-format BBBBAAAA
      :explanation ((BBBB "VCF2-Sync Mode"
                     ((#b0000 "Intern (LFO Time Pot.)")
@@ -2731,7 +2762,6 @@ reverse-engineered.
     ))
 
 
-
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 (defmacro define-plist-readers (name &rest indicators)
@@ -2746,11 +2776,74 @@ reverse-engineered.
 (define-plist-readers specification
   restriction parameter nrpn direction type data-format explanation)
 
+(define-plist-readers parameter
+  name type values direction)
+
 (defun find-parameter-specification (restriction name &optional (parameters *parameters*))
-  (find-if (lambda (specification)
-             (and (equalp restriction (specification-restriction specification))
-                  (equalp name        (specification-parameter specification))))
-           parameters))
+  "Return a specified parameter specification or a list of matching
+parameter specification.
+
+If RESTRICTION and NAME are given, then return the single parameter
+specification matching these RESTRICTION and NAME.
+
+If RESTRICTION or NAME are NIL, then return a list of parameter
+specifications matching the other parameter, or all of them if both
+are null.
+"
+  (if (and restriction name)
+      (find-if (lambda (specification)
+                 (and (equalp restriction (specification-restriction specification))
+                      (equalp name        (specification-parameter specification))))
+               parameters)
+      (remove-if-not (lambda (specification)
+                       (and (or (null restriction)
+                                (equalp restriction (specification-restriction specification)))
+                            (or (null name)
+                                (equalp name        (specification-parameter specification)))))
+                     parameters)))
+
+(defun list-all-parameter-specifications ()
+  (copy-tree *parameters*))
+
+(defun list-all-parameter-restrictions ()
+  (remove-duplicates
+   (mapcar (lambda (specification)
+             (copy-list (specification-restriction specification)))
+           *parameters*)
+   :test (function equal)))
+
+(defun list-all-parameters (&optional (parameters *parameters*))
+  (mapcan (lambda (specification)
+            (ecase (specification-type specification)
+              ((pot)
+               (mapcar (lambda (explanation)
+                         (list :name (list (specification-restriction specification)
+                                           (specification-parameter specification)
+                                           (second explanation))
+                               :type       'pot
+                               :values     (third explanation)
+                               :direction  (specification-direction specification)))
+                       (specification-explanation specification)))
+              ((switch m switch/m)
+               (mapcar (lambda (explanation)
+                         (list :name (list (specification-restriction specification)
+                                           (specification-parameter specification)
+                                           (second explanation))
+                               :type       'switch
+                               :values     (if (eq 'range (caar (third explanation)))
+                                               (third explanation)
+                                               (mapcar (function second) (third explanation)))
+                               :direction  (specification-direction specification)))
+                       (specification-explanation specification)))))
+          parameters))
+
+(defun list-all-parameter-names ()
+  (mapcar (function parameter-name) (list-all-parameters)))
+
+#|
+(map nil 'print (list-all-parameter-names))
+(list-all-parameter-restrictions)
+|#
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
@@ -2867,10 +2960,10 @@ reverse-engineered.
     (list preset-specific-colors led-color screen-color)))
 
 (defun program-parameter (program specification)
-  (aref program (specification-nprn specification)))
+  (aref program (specification-nrpn specification)))
 
 (defun (setf program-parameter) (new-value program specification)
-  (setf (aref program (specification-nprn specification)) new-value))
+  (setf (aref program (specification-nrpn specification)) new-value))
 
 (defun program-field (program restriction parameter field)
   (let ((value (decode-switch program (find-parameter-specification restriction parameter))))
@@ -2963,7 +3056,7 @@ reverse-engineered.
           (declare (ignore nrpn direction type))
           (unless (equal last-restriction restriction)
             (setf last-restriction restriction)
-            (format t "~S~%" restriction))
+            (format t "~A~%" restriction))
           (format t "    ~32A: ~A ~A~%" parameter
                   (case data-format
                     (byte      (decode-pot-byte program specification))
