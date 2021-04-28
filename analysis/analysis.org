@@ -1,0 +1,164 @@
+# -*- mode:org;coding:utf-8 -*-
+
+#+AUTHOR: Pascal J. Bourguignon
+#+EMAIL: pjb@informatimago.com
+#+DATE: 28 April 2021
+#+TITLE: Analysis of the MIDI Librarian for the Schmidt Synthesizer
+
+* Prologue                                                         :noexport:
+
+#+LATEX_HEADER: \usepackage[english]{babel}
+#+LATEX_HEADER: \usepackage[autolanguage]{numprint} % Must be loaded *after* babel.
+#+LATEX_HEADER: \usepackage{rotating}
+#+LATEX_HEADER: \usepackage{float}
+#+LATEX_HEADER: \usepackage{fancyhdr}
+#+LATEX_HEADER: \usepackage[margin=0.75in]{geometry}
+
+# LATEX_HEADER: \usepackage{indentfirst}
+# LATEX_HEADER: \setlength{\parindent}{0pt}
+#+LATEX_HEADER: \usepackage{parskip}
+
+#+LATEX_HEADER: \usepackage{tikz}
+#+LATEX_HEADER: \usetikzlibrary{positioning, fit, calc, shapes, arrows}
+#+LATEX_HEADER: \usepackage[underline=false]{pgf-umlsd}
+#+LATEX_HEADER: \usepackage{lastpage}
+#+LATEX_HEADER: \pagestyle{fancyplain}
+#+LATEX_HEADER: \pagenumbering{arabic}
+#+LATEX_HEADER: \lhead{\small{MIDI Librarian}}
+#+LATEX_HEADER: \chead{}
+#+LATEX_HEADER: \rhead{\small{Specifications of the MIDI Librarian for the Schmidt Synthesizer}}
+#+LATEX_HEADER: \lfoot{}
+#+LATEX_HEADER: \cfoot{\tiny{\copyright{} Pascal J. Bourguignon}}
+#+LATEX_HEADER: \rfoot{\small{Page \thepage \hspace{1pt} de \pageref{LastPage}}}
+
+
+* Introduction
+
+This document analyses a MIDI Librarian for the Schmidt Synthesizer.
+
+** Structure of this document
+
+Paragraphs starting with "[Annnn]" and ending with "¶" are tracable
+specification elements.  They may be extracted automatically to feed
+a tracing database.  They may be duplicated (same [Annnn]  number) for
+legibility of the text.
+
+Note: within the brackets, there may be several tag numbers separated
+with dots, representing a hierachical dependency path.  A tag number may
+have several dependents ("parents") in the graph: the same
+specification items is reused in the specification of the parent item.
+
+Only the last tag number identifies the specification item (paragraph).
+
+Tag numbers starting with "S" refer the *specification* document.
+Tag numbers starting with "A" refer to the *analysis* document.
+
+The [Snnnn] numbers have some structure:
+
+| L1... | visualization      |
+| L2... | editing            |
+| L3... | management         |
+| L4... | sharing            |
+| L5... | Synthesizer / MIDI |
+| L6... | User Interface     |
+| L7... | Cloud features     |
+|-------+--------------------|
+| L.1.. | BankSet            |
+| L.2.. | Bank               |
+| L.3.. | Program            |
+| L.4.. | Directory          |
+| L.5.. | Synthesizer        |
+| L.6.. | Categories         |
+| L.7.. | MIDI               |
+
+
+# Ce document se compose de sections explicatives, et de sections plus
+# formelles, dont l'intitulé est composé de mot séparés par des points
+# en =police non-proportionnelle=.  Ces sections peuvent être extraites
+# automatiquement du source du document pour la traçabilité des
+# exigences.
+
+** Versions of this document
+
+| Version | Date       | Modification | Author             |
+|---------+------------+--------------+--------------------|
+|   0.0.1 | 2021/04/28 | Created.     | Pascal Bourguignon |
+|---------+------------+--------------+--------------------|
+|         |            |              |                    |
+|---------+------------+--------------+--------------------|
+
+#+LATEX: \newpage
+* Analysis of the MIDI Librarian
+** Object Model
+
+#+CAPTION: Object Model
+#+NAME:   fig:object-model
+#+ATTR_LATEX: :width 11cm
+#+begin_sidewaysfigure
+[[file:object-diagram.png]]
+#+end_sidewaysfigure
+
+#+LATEX: \newpage
+** Functionalities
+
+*** [S1000.A1000] Display Current Program Parameters ¶
+
+[A1000.A1001] When the synthesizer is connected, there must be a
+current Program, a current Bank, and current BankSet, to receive the
+updates from NPRN messages.¶
+
+[A1000.A1002] Selecting a current program should make a working copy
+of the program data, since the user may edit it with the control
+panel, but not save it.¶
+
+[A1002.A1020] Synthesizer has a current BankSet (with Banks and
+Programs), and a current Bank/Program index, and a current working
+Program.¶
+
+[S1110.A1011] Upon reception of a program change event:
+
+    - update the current Bank/Program index of the Synthesizer;
+      
+    - copy the parameters of the indicated current Bank/Program index
+      of the Synthesizer into the current working Program of the
+      Synthesizer;
+
+    - query the parameters of the current program from the
+      Synthesizer.
+
+    - If possible and upon reception of the parameters, update the
+      current working Program. 
+
+    - If not possible, then the current working Program parameters
+      already have parameters obtained from the local current Program
+      of the Synthesizer.
+¶
+
+[S1120.A1013] display the program parameters. ¶
+
+TBD see how to represent the program parameters graphically, showing
+notably the setting of the knobs, which is not reflected on the
+physical dead knobs.  This display of the preset settings should be
+graphical (eg. envelops) and calibrated (for times and periods), to
+aid visualising the sound that would be generated. ¶
+  
+  
+*** [S2000.A2000] Editing
+
+- [S2000] *editing*: some preset editing is provided, but we don't
+  want to replace the physical button and knob editing that is the
+  strong point of a control panel such as the one of the *Schmidt
+  Synthesizer*.  On the other hand, preset renaming, changing or
+  copying parameters globally to a group of presets, applying editing
+  macros to one or multiple presets, for sophisticated editing, are
+  features that should be provided. ¶
+
+* Epilogue                                                         :noexport:
+
+# not-eval: (set-input-method 'latin-1-prefix)
+
+
+# Local Variables:
+# eval: (auto-fill-mode 1)
+# End:
+
