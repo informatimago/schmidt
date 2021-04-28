@@ -1,9 +1,24 @@
 # -*- mode:makefile-gmake; coding:utf-8; indent-tabs-mode:t -*-
 
-PDFS= specifications.pdf
-all:documents
-documents:$(PDFS)
+NAME=specfications
+PDFS=$(NAME).pdf
+all:documents \
+	specifications-todo.org
+
+documents pdfs :$(PDFS)
 	open $(PDFS)
+
+.PHONY:: documents pdfs
+
+$(NAME)-todo.org $(NAME)-todo.sha256:$(NAME).org
+	@ name=$(NAME) ;\
+      ( ( [ -r $${name}-todo.org -a -r $${name}-todo.sha256 ] \
+	      && [ "$$(sha256sum $${name}-todo.org)" = "$$(cat $${name}-todo.sha256)" ] ) \
+	   || [ ! -r $${name}-todo.org -o ! -r $${name}-todo.sha256 ] ) \
+	&& ( printf '// Regenerating %s\n' "$${name}-todo.org" ;\
+	     ../tools/extract-trace-items --todo $${name}.org  > $${name}-todo.org \
+	     && sha256sum $${name}-todo.org > $${name}-todo.sha256 ) \
+	|| ( printf '!! %s has been modified. I will not override it!\n' "$${name}-todo.org" ; exit 1 ; )
 
 # include ../tools/common.make
 
@@ -16,7 +31,7 @@ documents:$(PDFS)
 		--kill
 
 clean::
-	- rm -f specifications.tex missfont.log
+	- rm -f $(NAME).tex missfont.log ./--version.lock
 
 
 .PHONY::  questions tbd

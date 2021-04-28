@@ -5,13 +5,19 @@
 #+DATE: 09 September 2018
 #+TITLE: Specifications of the MIDI Librarian for the Schmidt Synthesizer
 
+* Prologue                                                         :noexport:
+
 #+LATEX_HEADER: \usepackage[english]{babel}
 #+LATEX_HEADER: \usepackage[autolanguage]{numprint} % Must be loaded *after* babel.
 #+LATEX_HEADER: \usepackage{rotating}
 #+LATEX_HEADER: \usepackage{float}
 #+LATEX_HEADER: \usepackage{fancyhdr}
 #+LATEX_HEADER: \usepackage[margin=0.75in]{geometry}
-#+LATEX_HEADER: \usepackage{indentfirst}
+
+# LATEX_HEADER: \usepackage{indentfirst}
+# LATEX_HEADER: \setlength{\parindent}{0pt}
+#+LATEX_HEADER: \usepackage{parskip}
+
 #+LATEX_HEADER: \usepackage{tikz}
 #+LATEX_HEADER: \usetikzlibrary{positioning, fit, calc, shapes, arrows}
 #+LATEX_HEADER: \usepackage[underline=false]{pgf-umlsd}
@@ -25,6 +31,59 @@
 #+LATEX_HEADER: \cfoot{\tiny{\copyright{} Pascal J. Bourguignon}}
 #+LATEX_HEADER: \rfoot{\small{Page \thepage \hspace{1pt} de \pageref{LastPage}}}
 
+
+* Introduction
+
+This document specifies a MIDI Librarian for the Schmidt Synthesizer.
+
+** Structure of this document
+
+Paragraphs starting with "[Snnnn]" and ending with "¶" are tracable
+specification elements.  They may be extracted automatically to feed
+a tracing database.  They may be duplicated (same [Snnnn]  number) for
+legibility of the text.
+
+Note: within the brackets, there may be several S-numbers separated
+with dots, representing a hierachical dependency path.  A S-number may
+have several dependents ("parents") in the graph: the same
+specification items is reused in the specification of the parent item.
+
+Only the last S-number identifies the specification item (paragraph).
+
+
+These [Snnnn] numbers have some structure:
+
+| S1... | visualization      |
+| S2... | editing            |
+| S3... | management         |
+| S4... | sharing            |
+| S5... | Synthesizer / MIDI |
+| S6... | User Interface     |
+| S7... | Cloud features     |
+|-------+--------------------|
+| S.1.. | BankSet            |
+| S.2.. | Bank               |
+| S.3.. | Program            |
+| S.4.. | Directory          |
+| S.5.. | Synthesizer        |
+| S.6.. | Categories         |
+| S.7.. | MIDI               |
+
+
+# Ce document se compose de sections explicatives, et de sections plus
+# formelles, dont l'intitulé est composé de mot séparés par des points
+# en =police non-proportionnelle=.  Ces sections peuvent être extraites
+# automatiquement du source du document pour la traçabilité des
+# exigences.
+
+** Versions of this document
+
+| Version | Date       | Modification                  | Author             |
+|---------+------------+-------------------------------+--------------------|
+|   0.0.1 | 2018/09/19 | Création.                     | Pascal Bourguignon |
+|---------+------------+-------------------------------+--------------------|
+|   0.0.2 | 2021/04/28 | Added Specification Item Tags | Pascal Bourguignon |
+|---------+------------+-------------------------------+--------------------|
 
 #+LATEX: \newpage
 * Specifications of the MIDI Librarian
@@ -58,30 +117,30 @@ and sets off-line.
 The purpose of the *MIDI Librarian* is to help editing and managing
 presets and banks of presets for the *Schmidt Synthesizer*.
 
-- *visualization*: when a preset is selected on the synthesizer, it should be
-  displayed on the tablet screen, showing notably the setting of the
-  knobs, which is not reflected on the physical dead knobs.  This
-  display of the preset settings should be graphical (eg. envelops)
-  and calibrated (for times and periods), to aid visualising the sound
-  that would be generated.
+- [S1000] *visualization*: when a preset is selected on the
+  synthesizer, it should be displayed on the tablet screen, showing
+  notably the setting of the knobs, which is not reflected on the
+  physical dead knobs.  This display of the preset settings should be
+  graphical (eg. envelops) and calibrated (for times and periods), to
+  aid visualising the sound that would be generated. ¶
 
-- *editing*: some preset editing is provided, but we don't want to replace
-  the physical button and knob editing that is the strong point of a
-  control panel such as the one of the *Schmidt Synthesizer*.   On the
-  other hand, preset renaming, changing or copying parameters globally
-  to a group of presets, applying editing macros to one or multiple
-  presets, for sophisticated editing, are features that should be
-  provided.
+- [S2000] *editing*: some preset editing is provided, but we don't
+  want to replace the physical button and knob editing that is the
+  strong point of a control panel such as the one of the *Schmidt
+  Synthesizer*.  On the other hand, preset renaming, changing or
+  copying parameters globally to a group of presets, applying editing
+  macros to one or multiple presets, for sophisticated editing, are
+  features that should be provided. ¶
 
-- *management*: presets are organized in banks on the synthesizer.
-  We want to be able to easily save, copy and move presets among
-  banks, and to save, copy and move banks.
+- [S3000] *management*: presets are organized in banks on the
+  synthesizer.  We want to be able to easily save, copy and move
+  presets among banks, and to save, copy and move banks. ¶
 
-- *sharing*: presets and banks of presets can be stored on the cloud,
-  and can be shared amongst users of the *Schmidt Synthesizer*.  (No
-  sale/buying is envisionned since the number of *Schmidt Synthesizer*
-  is limited, selling presets for them doesn't offer a big enough
-  market).
+- [S4000] *sharing*: presets and banks of presets can be stored on the
+  cloud, and can be shared amongst users of the *Schmidt Synthesizer*.
+  (No sale/buying is envisionned since the number of *Schmidt
+  Synthesizer* is limited, selling presets for them doesn't offer a
+  big enough market). ¶
 
 *** Categories
 
@@ -90,25 +149,39 @@ predefined set of colors (0…63).  *Categories* are lists of 64 names.
 Each *BankSet* has it own list of *Categories*, initialized with the
 default list.
 
+[S3600] *Categories* are lists of 64 names, corresponding to the
+        predefined set of colors (0…63). ¶
 
-- Edit the list of default categories:
+[S3601] the predefined set of colors is specified in the =Schmidt.clr=
+        color palette (approximatively: it's built manually with the
+        color picker on a serie of photographs of the pitch wheel). ¶
 
-   - select the default list of categories.
+[S3602] there is a default category-list that is used to initialize
+        or reset the category-list of BankSet. ¶
 
-   - select a category in the default list.
-
-   - edit its name.
+[S3603] each BankSet has its own category-list. ¶
 
 
-- Edit the list of categories of a BankSet:
+- [S3610] Edit the list of default categories: ¶
 
-   - select a BankSet.
+   - [S3610.S3604] select the default list of categories. ¶
 
-   - select the list of categories.
+   - [S3610.S3607] select a category in the selected list of
+     categories. ¶
 
-   - select a category in the default list.
+   - [S3610.S3608] edit the category name. ¶
 
-   - edit its name.
+
+- [S3620] Edit the list of categories of a BankSet: ¶
+
+   - [S3620.S3200] select a BankSet. ¶
+
+   - [S3620.S3606] select the list of categories of the BankSet. ¶
+
+   - [S3620.S3607] select a category in the selected list of
+     categories. ¶
+
+   - [S3620.S3608] edit the category name. ¶
 
 *** General
 
@@ -120,30 +193,41 @@ Therefore we will provide the basic functionality of sending and
 receiving banks.  Sending a BankSet will involve sending the 16 banks with
 manual synchronization.
 
-- Configure MIDI: select the MIDI bus and the Send and Receive MIDI Channels.
+- [S5700] Configure MIDI: select the MIDI bus and the Send and Receive
+  MIDI Channels. ¶
 
-- Listen for Sysex messages to automatically initiate the reception of
-  banks.  When received a bank Sysex, store it in a new Bank, and
-  store the bank in a new BankSet.  The banks are numbered, so we can fill
-  the BankSet. A new BankSet is created if a bank of the same kind and number
-  is sent again.  The bank and sets are automatically given a default
-  name containing a time stamp.
+- [S5720] Listen for Sysex messages to automatically initiate the
+  reception of banks. ¶
+
+  [S5720.S5201] When received a bank Sysex, store it in a new Bank,
+  and store the bank in a new BankSet. ¶
+
+  [S5720.S5202] The banks received in the Sysex are numbered, so we
+  can fill the BankSet. ¶
+
+  [S5720.S5203] A new BankSet is created if a bank of the same kind
+  and number is received again. ¶
+
+  [S5720.S5204] The bank and sets are automatically given a default
+  name containing a time stamp. ¶
 
 
 - search and select for programs upon various criteria:
 
-  + name (regexp),
+  + [S3210] search and select for programs by name (regexp), ¶
 
-  + parameter values or ranges, (eg. all programs with: =Group1.VCF1 on=
-    =and= =VCF1.InputA.Level>100=)
+  + [S3220] search and select for programs parameter values or ranges,
+    (eg. all programs with: =Group1.VCF1 on= =and=
+    =VCF1.InputA.Level>100=) ¶
 
-- batch set parameters to programs.  This can be represented as an
-  icon on the desktop, and dragging programs from banks to that icon
-  would modify the program.  Eg. to set the performance parameters
-  (after-touch, modulation wheel, X/Y joystick), or the category
-  (colors).
+- [S3300] batch set parameters to programs. ¶
 
-- sort programs in banks according to criteria:
+  [S3301] These operations can be represented as icons on the desktop,
+  and dragging programs from banks to that icon would modify the
+  program.  Eg. to set the performance parameters (after-touch,
+  modulation wheel, X/Y joystick), or the category (colors). ¶
+
+- [S3400] sort programs in banks according to criteria:
 
   + name
 
@@ -151,120 +235,126 @@ manual synchronization.
 
   + parameters (eg. sort upon =VCF1.Cutoff=, =VCF2.Cutoff=, =DF1.Cutoff=,
     =DF2.Cutoff=, or sort upon =VCA.Attack=, =VCA.Decay=, etc).
+ ¶
 
+- [S3390] generate random programs. ¶
 
-- generate random programs.
-
-- convert programs from one synthesizer to the other (direct mapping of parameters).
+- [S3500] convert programs from one synthesizer to the other (direct
+  mapping of parameters). ¶
 
 *** Synthesizer Program Visualization
 
-Listen for Bank Change/Program Change messages.  Upon receiving a Bank
-Change/Program Change:
+[S1100] Listen for Bank Change/Program Change messages. ¶
 
-- if possible query the synthesizer for the current program parameters
-  if not, assume the parameters from the corresponding program in the
-  saved BankSet dump.
+- [S1100.S1110] Upon receiving a Bank Change/Program Change: if
+  possible query the synthesizer for the current program parameters if
+  not, assume the parameters from the corresponding program in the
+  saved BankSet dump. ¶
 
-- display the current program parameters.
+- [S1100.S1120] Upon receiving a Bank Change/Program Change: change
+  the program and display the parameters of the new current program. ¶
 
-- Listen for NPRN messages to automatically update the current
-  program, and update its display.
+- [S1100.S1130] Listen for NPRN messages to automatically update the
+  current program, and update its display. ¶
 
 *** Bank
 
-- Send a Bank:
+- [S2220] Send a Bank: ¶
 
-  - select a Bank,
+  - [S2220.S3201] select a Bank, ¶
 
-  - activate the sending process (click on the send button).
+  - [S2220.S2221] activate the sending process (click on the send
+    button). ¶
 
 *** BankSet
 
-- Send a BankSet:
+- [S2110] Send a BankSet: ¶
 
-  - select a BankSet,
+  - [S3100] select a BankSet, ¶
 
-  - activate the sending process (click on the send button): this will
-    send each bank in the set in turn, waiting for user confirmation
-    between the sending of two banks (so the user may save the bank on
-    the Schmidt synthesizer, in the right place).
+  - [S2111] activate the sending process (click on the send button):
+    this will send each bank in the set in turn, waiting for user
+    confirmation between the sending of two banks (so the user may
+    save the bank on the Schmidt synthesizer, in the right place). ¶
 
 
+[S3901] BankSets and Banks are stored each in their own hierarchical
+directory tree. ¶
 
-BankSets and Banks are stored each in their own hierarchical directory
-tree.  Programs are usually stored in banks, but they can also be
-stored stand-alone in their own hierarchical directory tree.
+[S3902] Programs are usually stored in banks, but they can also be
+stored stand-alone in their own hierarchical directory tree. ¶
 
 *** Manipulation of a Directory Tree
 
-- create directory
-- rename directory
-- move directories and items in the tree
-- delete an empty directory
-- delete recursively a filled directory (!)
-- create an item in a directory
-- delete an item from a directory
-- rename an item from a directory
-- select one or more items in the directory tree (for further manipulations, like opening, etc).
+- [S3431] create directory ¶
+- [S3432] rename directory ¶
+- [S3433] move directories and items in the tree ¶
+- [S3434] delete an empty directory ¶
+- [S3435] delete recursively a filled directory (!) ¶
+- [S3436] create an item in a directory ¶
+- [S3437] delete an item from a directory ¶
+- [S3438] rename an item from a directory ¶
+- [S3439] select one or more items in the directory tree (for further
+  manipulations, like opening, etc). ¶
 
 *** Manipulation of Banks
 
-- open a bank : the list of programs in the bank is shown.
+- [S3231] open a bank : the list of programs in the bank is shown. ¶
 
-- close an opened bank.
+- [S3232] close an opened bank. ¶
 
-Banks can be selected from the bank directory tree (from any "open"
-directory), from the desktop, or from open BankSets.
+[S3233] Banks can be selected from the bank directory tree (from any
+"open" directory), from the desktop, or from open BankSets. ¶
 
-- move (or make copies) from one to eight selected banks, to the
-  directory tree, the desktop or to an existing open set.
+- [S3234] move (or make copies) from one to eight selected banks, to
+  the directory tree, the desktop or to an existing open set. ¶
 
-- create a new set and fill it with (copies of) the selected banks.
+- [S3135] create a new set and fill it with (copies of) the selected
+  banks. ¶
 
-- send from one to eight selected banks to a Schmidt synthesizer
-  (represented as an icon on the desktop).
+- [S3721] send from one to eight selected banks to a Schmidt
+  synthesizer (represented as an icon on the desktop). ¶
 
 *** Manipulation of BankSets
 
-- open a set :  the list of banks in the set is shown.
+- [S3131] open a set :  the list of banks in the set is shown. ¶
 
-- close an opened set.
+- [S3132] close an opened set. ¶
 
-BankSets can be selected from the set directory tree (from any "open"
-directory), or from the desktop.
+[S3133] BankSets can be selected from the set directory tree (from any "open"
+directory), or from the desktop. ¶
 
-- move (or make copies) of the selected sets to the directory tree or
-  the desktop.
+- [S3134] move (or make copies) of the selected sets to the directory tree or
+  the desktop. ¶
 
-- send one selected set to a Schmidt synthesizer
-  (represented as an icon on the desktop).
+- [S3711] send one selected set to a Schmidt synthesizer
+  (represented as an icon on the desktop). ¶
 
 *** Manipulation of Programs
 
-- open a program : shows the parameters of the program.
-- close an opened program.
-- rename a program
-- set the category/color of selected programs.
+- [S3331] open a program : shows the parameters of the program. ¶
+- [S3332] close an opened program. ¶
+- [S3338] rename a program ¶
+- [S3339] set the category/color of selected programs. ¶
 
-Programs can be selected from the program directory tree (from any "open"
-directory), from the desktop, or from an open bank.
+[S3334] Programs can be selected from the program directory tree (from
+any "open" directory), from the desktop, or from an open bank. ¶
 
-- move (or make copies) of the selected programs to the directory
-  tree, the desktop, or an open bank.
+- [S3333] move (or make copies) of the selected programs to the
+  directory tree, the desktop, or an open bank. ¶
 
-- send one selected program to a Schmidt synthesizer (currently, this
-  only configures the current program of the synthesizer sending NPRN
-  messages).
+- [S3731] send one selected program to a Schmidt synthesizer
+  (currently, this only configures the current program of the
+  synthesizer sending NPRN messages). ¶
 
 *** Manipulation of the Synthesizer
 
-- opening the Synthesizer icon will show the current program
-  parameters, updated as PC, BC and NPRN messages are received.
+- [S3730] opening the Synthesizer icon will show the current program
+  parameters, updated as PC, BC and NPRN messages are received. ¶
 
 ** User Interface
 
-We show a Desktop with "icons", "strips" and "windows".
+[S6001] We show a Desktop with "icons", "strips" and "windows". ¶
 
 - icon:
 
@@ -278,10 +368,13 @@ We show a Desktop with "icons", "strips" and "windows".
 
     rectangular area containing further user interface elements.
 
-We use icons to represent connected synthesizers.
-We use strips to represent categories, directories, programs, banks and banksets.
+[S6002] We use icons to represent connected synthesizers. ¶
 
-Some desktop elements are "hard wired" representing static (root) elements:
+[S6003] We use strips to represent categories, directories, programs,
+banks and banksets. ¶
+
+[S6004] Some desktop elements are "hard wired" representing static
+(root) elements:
 
 - the default categories list.
 - the saved program directory.
@@ -289,14 +382,24 @@ Some desktop elements are "hard wired" representing static (root) elements:
 - the saved bankset directory.
 - the connected synthesizer.
 
-Those elements cannot be removed from the desktop by the user (the
-synthesizer can be disconneted, and then its icon disappear, but it's
-not done directly by the user).  They can be moved and arranged by the
-user as she wishes.
+Those "hard wired" elements cannot be removed from the desktop by the
+user.
+¶
 
-The saved programs, banks, and banksets can be moved on the desktop.
-In that case, the strip on the desktop is but an alias of the element;
-the element is still visible in its original place.
+[S6004.S5710] When the synthesizer is disconneted, its icon disappear
+(automatically; it's not done directly by the user).  When the
+synthesizer is connected, its icon appears on the desktop. ¶
+
+
+[S6004.S6005] The desktop elements can be moved and arranged by the
+user as she wishes. The positions are persistent. ¶
+
+[S6004.S6006] The saved programs, banks, and banksets can be moved on
+the desktop.  In that case, the strip on the desktop is but an alias
+of the element; the element is still visible in its original place. ¶
+
+[S6007] Semantics of dragging desktop elements over other desktop
+elements.
 
 | drag \ over | categories | program     | bank           | bankset        | synthesizer    |
 |-------------+------------+-------------+----------------+----------------+----------------|
@@ -306,15 +409,26 @@ the element is still visible in its original place.
 | bank        | No         | No          | No             | Store          | Send(SysEx)    |
 | bankset     | No         | No          | No             | No             | Send(SysEx)(2) |
 | synthesizer | No         | No          | No             | No             | No             |
+¶
 
 ** Cloud
 
 *** User Account Creation
 
-The user can create a user account (nickname, email, password) on the *Cloud*, and connect to it.
-Then, in addition to loading and saving to local directories, it will be possible to save and load to cloud directories.
-One directory on the cloud is a public directory that is readable by any other user.
-The root cloud directory will show a list of public directories, one for each users.
+[S7001] The user can create a user account (nickname, email, password) on the
+*Cloud*, and connect to it. ¶
+
+[S7002] When connected to the *Cloud*, in addition to loading and
+saving to local directories, it will be possible to save and load to
+cloud directories. ¶
+
+[S7003] One directory on the cloud is a public directory that is
+readable by any other user. ¶
+
+[S7004] The root cloud directory will show a list of public
+directories, one for each users. It is not expected to be too many
+users (on the order of 1000 maximum), so browsing users can be simple
+(eg. alphabetical list, like a phone directory). ¶
 
 #+BEGIN_EXAMPLE
 
@@ -336,4 +450,14 @@ The root cloud directory will show a list of public directories, one for each us
 /local/my-concert/part2
 
 #+END_EXAMPLE
+
+
+* Epilogue                                                         :noexport:
+
+# not-eval: (set-input-method 'latin-1-prefix)
+
+
+# Local Variables:
+# eval: (auto-fill-mode 1)
+# End:
 
