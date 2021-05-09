@@ -1,4 +1,4 @@
-#!/usr/local/bin/clisp  -norc -q -ansi -E utf-8 
+#!/usr/local/bin/clisp  -norc -q -ansi -E utf-8
 ;; -*- mode:lisp;coding:utf-8 -*-
 ;; #!/usr/local/bin/clisp  -norc -q -ansi -E utf-8  -on-error debug
 
@@ -196,6 +196,11 @@ EXAMPLES:       (split-string '(1 2 0 3 4 5 0 6 7 8 0 9) '(0))
           :key (lambda (items) (item-code (first items))))))
 
 (defun reconcile-items (item-list)
+  "
+When there are more than one paragraph with the same tag, we need to
+see if they're the same or if they're different, to decide on whether
+we must concatenate them or just remove the duplicate.
+"
   (let ((items (make-hash-table :test (function equal))))
     (dolist (item-descs item-list)
       (let ((item (if (rest item-descs)
