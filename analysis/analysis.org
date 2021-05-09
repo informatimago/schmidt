@@ -118,7 +118,7 @@ Program.¶
 [S1110.A1011] Upon reception of a program change event:
 
     - update the current Bank/Program index of the Synthesizer;
-      
+
     - copy the parameters of the indicated current Bank/Program index
       of the Synthesizer into the current working Program of the
       Synthesizer;
@@ -127,7 +127,7 @@ Program.¶
       Synthesizer.
 
     - If possible and upon reception of the parameters, update the
-      current working Program. 
+      current working Program.
 
     - If not possible, then the current working Program parameters
       already have parameters obtained from the local current Program
@@ -141,8 +141,91 @@ notably the setting of the knobs, which is not reflected on the
 physical dead knobs.  This display of the preset settings should be
 graphical (eg. envelops) and calibrated (for times and periods), to
 aid visualising the sound that would be generated. ¶
-  
-  
+
+
+The Schmidt Synthesizer doesn't take command sysex message like
+eg. the Korg synthesizers.
+
+The only MIDI messages that are sent or received by the Schmidt
+Synthesizer are:
+
+
+|  CC# | Send/Receive | Explanation         | Comment                            |
+|------+--------------+---------------------+------------------------------------|
+|      |              |                     | <l>                                |
+| 0/32 | S/R          | Bank-Select MSB/LSB | Single/Multi: MSB=0, LSB=0..7      |
+| 1/33 | S/R          | Mod-Wheel MSB/LSB   | LSB only sent when  Snd-CC14Bit:On |
+| 6/38 | S/R          | Data-Entry MSB/LSB  | See NRPN                           |
+| 7/39 | S/R          | Volumen MSB/LSB     | LSB only sent when  Snd-CC14Bit:On |
+|   64 | S/R          | Sustain             |                                    |
+|   66 | S/R          | Sostenuto           |                                    |
+|   98 | S/R          | NRPN LSB            | See NRPN                           |
+|   99 | S/R          | NRPN MSB            | See NRPN                           |
+|  102 | S/R          | Joystick X-Position | 0..127                             |
+|  103 | S/R          | Joystick Y-Position | 0..127                             |
+|  104 | S/R          | Pedal Ext1          | 0..127                             |
+|  105 | S/R          | Pedal Ext2          | 0..127                             |
+|  106 | S/R          | Pedal Ext3          | 0..127                             |
+|  107 | R            | LED-Color           | 0..63                              |
+|  108 | R            | Display-Color       | 0..63                              |
+|  109 | R            | LED+Display-Color   | 0..63                              |
+|  121 | R            | Reset Controller    | Single-Mode only                   |
+|  122 | R            | Local Control       |                                    |
+|  123 | R            | All Notes Off       |                                    |
+
+NRPN MSB=127 & LSB=127 > subsequent Data-Entry are ignored.
+
+
+In addition, the Schmidt Synthesizer may receive or send single or
+multi preset banks, but user intervention on the synthesizer is
+required to initiate the transfer of a bank, or store the received
+presets into a bank.
+
+#+BEGIN_QUOTE
+The Schmidt Synthesizer is always ready to receive SysEx data,
+respectively Single preset banks and Multi preset banks. If the
+Schmidt Synthesizer recognize incoming SysEx Data, it temporarily
+saves them into a memory bfufer an dasks if and where the data should
+be saved permanently.
+
+To receive Single preset banks, Single mode has to be
+enabled.
+
+To receive Multi preset banks, Multi mode has to be enabled.
+
+Otherwise the SysEx data is ignored.
+
+If the Schmidt Synthesizer recive suitable SysEx data, the LCD show a
+progress bar.  The user may select Exit to cancel.
+
+As soon as teh data reception is complete, the screen propose the user
+to store the received bank.
+The user can use the Bank up/Bank down buttons to select the target
+present bank, and the Enter button to confirm, or the Exit button to
+cancel.
+#+END_QUOTE
+
+#+BEGIN_QUOTE
+The Send MIDI Dump let the user send banks.  Depending on the mode
+Single or Multi, a Single or a Multi preset bank can be sent.
+
+The user selects the bank with the Bank up/Bank down butons, then
+initiates the transfer with the Enter button, or cancel with the Exit
+button.
+
+Once the transfer is completed, the user may send again, or exit.
+#+END_QUOTE
+
+There is no way to command saving an edited program with MIDI
+messages.  But thru the use of the CC and NPRN messages, we can
+maintain the mirroring of the current program between the synthesizer
+and the librarian (assuming we started with the same parameter,
+obtained by the prior transfer of the bank, and the selection of the
+program with the Program Change MIDI message (in either direction).
+
+
+
+
 *** [S2000.A2000] Editing
 
 - [S2000] *editing*: some preset editing is provided, but we don't
