@@ -47,11 +47,17 @@
            "WRITE-STRING-TO-SYSEX"
            "WRITE-INTEGER-TO-SYSEX"
            "WRITE-PCM-SAMPLE-TO-SYSEX"
+           "RECEIVE-SYSEX-MESSAGE"
+           "SCHMIDT-SYNTHESIZER"
            "SYSEX-BUFFER"))
 (in-package "COM.INFORMATIMAGO.SYNTHESIZER.SCHMIDT-SYNTHESIZER")
 
 (deftype midi-data        () '(integer 0 127))
 (deftype channel          () '(integer 0 15))
+(deftype bank-number      () '(integer 0 7))
+(deftype program-number   () '(integer 0 127))
+;; (deftype parameter-offset () '(integer 0 63))
+;; (deftype parameter-value  () '(integer 0 63))
 
 
 (defconstant +sysex+                             #xf0)
@@ -115,5 +121,136 @@
 (defmethod update-parameter ((parameter parameter) value)
   )
 
+
+
+
+(defun device-id (channel device-id)
+  (print `(device-id ,channel ,device-id)))
+(defun received-data-dump (channel device-id parameters)
+  (print `(data-dump ,channel ,device-id ,parameters)))
+(defun write-completed-status (channel device-id)
+  (print `(write-completed-status ,channel ,device-id)))
+(defun write-error-status     (channel device-id)
+  (print `(write-error-status ,channel ,device-id)))
+
+(defun parse-system-exclusive-message (bytes)
+  (let ((s 0)
+        channel device-id)
+    (flet ((eat (code)
+             (if (= code (aref bytes s))
+                 (incf s)
+                 (progn
+                   (cerror "Skip until expected ~2*~2,'0X byte is found."
+                           "Unexpected byte in sysex at position ~D, got ~2,'0X, expected ~2,'0X."
+                           s (aref bytes s) code)
+                   (loop :while (and (< s (length bytes))
+                                     (/= code (aref bytes s)))
+                         :do (incf s))))))
+      (warn "~S not implemented yet" parse-system-exclusive-message)
+      ;; (eat +sysex+)
+      ;; (unless (= +korg-id+ (aref bytes s))
+      ;;   (return-from parse-system-exclusive-message nil))
+      ;; (eat +korg-id+)
+      ;; (setf channel (ldb (byte 4 0) (aref bytes s)))
+      ;; (let ((format (ldb (byte 4 4) (aref bytes s))))
+      ;;   (case format
+      ;;     ((#.+device-id+)
+      ;;      (incf s)
+      ;;      (setf device-id (aref bytes s))
+      ;;      (unless (= +korg-dw-8000+ device-id)
+      ;;        (return-from parse-system-exclusive-message nil))
+      ;;      (incf s)
+      ;;      (if (= +eox+ (aref bytes s))
+      ;;          (progn
+      ;;            (eat +eox+)
+      ;;            (device-id channel device-id))
+      ;;          (case (aref bytes s)
+      ;;            ((#.+program-parameter-dump+)
+      ;;             (incf s)
+      ;;             (let ((parameters (loop
+      ;;                                 :with parameters := '()
+      ;;                                 :while (and (< s (- (length bytes) 2))
+      ;;                                             (< (aref bytes s) 128)
+      ;;                                             (< (aref bytes (1+ s)) 128))
+      ;;                                 :for p := (aref bytes s)
+      ;;                                 :for v := (aref bytes (1+ s))
+      ;;                                 :for parameter := (find-parameter p)
+      ;;                                 ;; :do (if parameter
+      ;;                                 ;;         (print (list p '/ (parameter-name parameter) (parameter-min parameter) '<= v '<= (parameter-max parameter)))
+      ;;                                 ;;         (print `(unknown parameter ,p value ,v)))
+      ;;                                 :do (if parameter
+      ;;                                         (if (<= (parameter-min parameter) v (parameter-max parameter))
+      ;;                                             (push (list (parameter-offset parameter) v) parameters)
+      ;;                                             (progn
+      ;;                                               (cerror "Set parameter ~@1*~A to minimum value ~D"
+      ;;                                                       "Value ~D of parameter ~A is out of expected range [~D,~D] in data dump."
+      ;;                                                       v
+      ;;                                                       (parameter-name parameter)
+      ;;                                                       (parameter-min parameter)
+      ;;                                                       (parameter-max parameter))
+      ;;                                               (push (list (parameter-offset parameter) (parameter-min parameter)) parameters)))
+      ;;                                         (cerror "Ignore unknown parameter ~D"
+      ;;                                                 "Unknown parameter offset ~D in data dump." p))
+      ;;                                     (incf s 2)
+      ;;                                 :finally (return parameters))))
+      ;;               (eat +eox+)
+      ;;               (received-data-dump channel device-id parameters)))
+      ;;            ((#.+write-completed-status+)
+      ;;             (write-completed-status channel device-id))
+      ;;            ((#.+write-error-status+)
+      ;;             (write-error-status     channel device-id))
+      ;;            (otherwise
+      ;;             (error "Unexpected sysex from DW-8000/EX-8000.")))))
+      ;; 
+      ;;     (otherwise
+      ;;      (error "Unexpected format code in sysex at position ~D, got ~1,'0X."
+      ;;             s format))))
+      )))
+
+
+(defmacro sysex (&body expressions)
+  (let ((i -1)
+        (vvar (gensym)))
+    `(let ((,vvar (make-array ,(+ 2 (length expressions)) :element-type '(unsigned-byte 8))))
+       (setf (aref ,vvar ,(incf i)) +sysex+)
+       (setf ,@(mapcan (lambda (e) `((aref ,vvar ,(incf i)) ,e))
+                       expressions))
+       (setf (aref ,vvar ,(incf i)) +eox+)
+       ,vvar)))
+
+
+(defmethod receive-sysex-message ((synthesizer schmidt-synthesizer) message)
+  ;; (cancel-timeout synthesizer)
+  (let ((parsed (handler-bind ((error (lambda (err)
+                                        (let ((restart (find-restart 'continue err)))
+                                          (when restart
+                                            (format *error-output* "~&RS: ~A -- continued.~%" err)
+                                            (invoke-restart restart))))))
+                  (parse-system-exclusive-message (message-data message)))))
+    (print parsed)
+    ;; let's ignore the channel.
+    (case (first parsed)
+      ((device-id)
+       (let ((device-id (third parsed)))
+         (unless (eql device-id +KORG-DW-8000+)
+           (bad-device-id synthesizer device-id)))
+       (case (synthesizer-state synthesizer)
+         ((nil :expecting-device-id) (enter-idle-state synthesizer))))
+      ((data-dump)
+       ;;- fill the current-program with the received parameters.
+       (assert (eql 3 (third parsed)))
+       (setf (program-values (synthesizer-current-program synthesizer)) (fourth parsed))
+       (case (synthesizer-state synthesizer)
+         ((nil :expecting-data-dump) (enter-idle-state synthesizer))))
+      ((write-error-status)
+       (write-error synthesizer)
+       (case (synthesizer-state synthesizer)
+         ((nil :expecting-write-status) (enter-idle-state synthesizer))))
+      ((write-completed-status)
+       (case (synthesizer-state synthesizer)
+         ((nil :expecting-write-status) (enter-idle-state synthesizer))))
+      (otherwise
+       (case (synthesizer-state synthesizer)
+         ((nil)  (enter-idle-state synthesizer)))))))
 
 ;;;; THE END ;;;;
